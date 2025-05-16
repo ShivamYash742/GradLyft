@@ -1,12 +1,14 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const pathname = usePathname();
 
   // Check if user is logged in on initial load
   useEffect(() => {
@@ -31,6 +33,29 @@ export function AuthProvider({ children }) {
 
     checkAuthStatus();
   }, []);
+
+  // Track page views
+  useEffect(() => {
+    if (pathname && user) {
+      // Record page view
+      const trackPageView = async () => {
+        try {
+          await fetch('/api/track', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              page: pathname,
+              action: 'PAGE_VIEW',
+            }),
+          });
+        } catch (error) {
+          console.error('Failed to track page view:', error);
+        }
+      };
+      
+      trackPageView();
+    }
+  }, [pathname, user]);
 
   const login = async (email, password) => {
     try {

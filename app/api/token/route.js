@@ -57,6 +57,24 @@ export async function POST(req) {
       path: "/"
     });
 
+    // Record login session for admin tracking
+    const ipAddress = req.headers.get("x-forwarded-for") || 
+                      req.headers.get("x-real-ip") || 
+                      "unknown";
+    const userAgent = req.headers.get("user-agent") || "unknown";
+    
+    await prisma.userSession.create({
+      data: {
+        userId: user.id,
+        page: "/login",
+        action: "USER_LOGIN",
+        ipAddress,
+        userAgent,
+        startedAt: new Date(),
+        duration: 0 // Just recording the login event, not tracking duration
+      }
+    });
+
     // Return user info (excluding password)
     const { password: _, ...userInfo } = user;
     
