@@ -1,23 +1,42 @@
 'use client';
 
-import { createContext, useContext, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 
-const ThemeContext = createContext({
-  theme: 'light',
-});
+const ThemeContext = createContext();
 
-export const useTheme = () => useContext(ThemeContext);
+export function useTheme() {
+  return useContext(ThemeContext);
+}
 
 export default function ThemeProvider({ children }) {
-  // Set light theme when component mounts
+  const [theme, setTheme] = useState('light');
+
   useEffect(() => {
-    document.documentElement.classList.add('light');
-    document.documentElement.classList.remove('dark');
-    localStorage.setItem('theme', 'light');
+    // Check for user's preferred theme
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme) {
+      setTheme(savedTheme);
+    } else if (prefersDark) {
+      setTheme('dark');
+    }
   }, []);
 
+  useEffect(() => {
+    // Update theme in localStorage and document
+    localStorage.setItem('theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+  };
+
   const value = {
-    theme: 'light',
+    theme,
+    toggleTheme,
+    isDark: theme === 'dark'
   };
 
   return (

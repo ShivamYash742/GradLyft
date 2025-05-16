@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { User, Mail, Lock, Eye, EyeOff, Briefcase, GraduationCap, CheckCircle } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -18,6 +19,7 @@ export default function Register() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [step, setStep] = useState(1);
+  const router = useRouter();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -67,19 +69,64 @@ export default function Register() {
     
     setIsSubmitting(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      console.log('Registration with:', formData);
-      setIsSubmitting(false);
-      
-      // For demo - email already in use
-      if (formData.email === 'existing@example.com') {
-        setError('Email is already registered');
-      } else {
-        // In a real app, you would create the account and redirect here
-        window.location.href = '/login';
+    try {
+      // Prepare data based on user type
+      const userData = {
+        email: formData.email,
+        password: formData.password,
+        role: formData.userType === 'student' ? 'STUDENT' : 'EMPLOYER'
+      };
+
+      // Add profile data
+      if (formData.userType === 'student') {
+        userData.student = {
+          name: formData.name,
+          college: "Not specified", // These are required fields but we don't collect them in the UI
+          degree: "Not specified", // You might want to add these fields to your form
+          year: 2023, // Using numeric value instead of string
+          interests: "Not specified"
+        };
+      } else { // employer
+        userData.employer = {
+          name: formData.name,
+          company: "Not specified", // These are required fields
+          designation: "Not specified"
+        };
       }
-    }, 1500);
+
+      console.log('Submitting registration data:', userData);
+
+      const response = await fetch('/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData)
+      });
+
+      const data = await response.json();
+      console.log('Registration response:', data);
+      
+      if (!response.ok) {
+        const errorMessage = data.details 
+          ? `${data.message}: ${data.details}`
+          : data.message || 'Registration failed';
+        throw new Error(errorMessage);
+      }
+
+      if (data.success) {
+        // Redirect to login page on success
+        router.push('/login?registered=true');
+      } else {
+        const errorMessage = data.details 
+          ? `${data.message}: ${data.details}`
+          : data.message || 'Registration failed. Please try again.';
+        setError(errorMessage);
+      }
+    } catch (err) {
+      console.error('Registration error:', err);
+      setError(err.message || 'Registration failed. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

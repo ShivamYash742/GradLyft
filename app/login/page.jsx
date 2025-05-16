@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Mail, Lock, Eye, EyeOff, Smile } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -10,26 +12,28 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const { login } = useAuth();
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setIsSubmitting(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      // For demo - navigate to dashboard after "login"
-      console.log('Login attempt with:', { email });
-      setIsSubmitting(false);
+    try {
+      const result = await login(email, password);
       
-      // For demo - show error for specific email
-      if (email === 'error@example.com') {
-        setError('Invalid email or password');
+      if (result.success) {
+        router.push('/profile/dashboard');
       } else {
-        // In a real app, you would authenticate and redirect here
-        window.location.href = '/';
+        setError(result.error || 'Invalid email or password');
       }
-    }, 1500);
+    } catch (err) {
+      setError('An unexpected error occurred. Please try again.');
+      console.error('Login error:', err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

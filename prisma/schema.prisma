@@ -1,0 +1,139 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  STUDENT
+  EMPLOYER
+  ADMIN
+}
+
+enum JobStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum Mode {
+  ONLINE
+  OFFLINE
+}
+
+model User {
+  id        String           @id @default(cuid())
+  email     String           @unique
+  password  String
+  role      Role
+  student   StudentProfile?
+  employer  EmployerProfile?
+  createdAt DateTime         @default(now())
+  sessions  UserSession[]
+}
+
+model StudentProfile {
+  id                 String              @id @default(cuid())
+  userId             String              @unique
+  user               User                @relation(fields: [userId], references: [id])
+  name               String
+  college            String
+  degree             String
+  year               Int
+  interests          String
+  cvUrl              String?
+  bookmarks          Bookmark[]
+  eventRegistrations EventRegistration[]
+}
+
+model EmployerProfile {
+  id          String @id @default(cuid())
+  userId      String @unique
+  user        User   @relation(fields: [userId], references: [id])
+  name        String
+  company     String
+  designation String
+  jobs        Job[]
+}
+
+model Job {
+  id          String          @id @default(cuid())
+  title       String
+  description String
+  type        String
+  duration    String
+  location    String
+  stipend     String
+  skills      String
+  applyMethod String
+  status      JobStatus       @default(PENDING)
+  employerId  String
+  employer    EmployerProfile @relation(fields: [employerId], references: [id])
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  bookmarks   Bookmark[]
+}
+
+model Bookmark {
+  id        String         @id @default(cuid())
+  studentId String
+  jobId     String
+  student   StudentProfile @relation(fields: [studentId], references: [id])
+  job       Job            @relation(fields: [jobId], references: [id])
+}
+
+model Event {
+  id            String              @id @default(cuid())
+  title         String
+  date          DateTime
+  time          String
+  mode          Mode
+  description   String
+  registrations EventRegistration[]
+}
+
+model EventRegistration {
+  id        String         @id @default(cuid())
+  studentId String
+  eventId   String
+  student   StudentProfile @relation(fields: [studentId], references: [id])
+  event     Event          @relation(fields: [eventId], references: [id])
+}
+
+model UpskillingResource {
+  id       String   @id @default(cuid())
+  title    String
+  category Category
+  type     FileType
+  fileUrl  String
+}
+
+model UserSession {
+  id        String    @id @default(cuid())
+  userId    String?
+  page      String
+  action    String
+  startedAt DateTime  @default(now())
+  endedAt   DateTime?
+  duration  Int? // seconds
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime  @default(now())
+
+  user User? @relation(fields: [userId], references: [id])
+}
+
+enum Category {
+  Resume
+  GDs
+  Emailing
+  SpokenEnglish
+}
+
+enum FileType {
+  PDF
+  Video
+}

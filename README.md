@@ -1,36 +1,125 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Gradlyft
+
+This is a [Next.js](https://nextjs.org) project with integrated backend and frontend for the Gradlyft application.
 
 ## Getting Started
 
-First, run the development server:
+### 1. Set Up PostgreSQL Database
+
+Make sure PostgreSQL is installed and running.
+
+Create a new database:
+
+```bash
+createdb -U postgres gradlyft_db
+```
+
+> If `createdb` doesn't work, create the database manually via pgAdmin or psql.
+
+### 2. Configure Environment Variables
+
+Create a `.env` file in the root directory with:
+
+```env
+DATABASE_URL="postgresql://postgres:<your_password>@localhost:5432/gradlyft_db"
+NEXTAUTH_SECRET="your_super_secret_string"   # openssl rand -base64 32
+```
+
+- Replace `<your_password>` with your actual PostgreSQL password.
+- To create your NEXTAUTH_SECRET, use this command: `openssl rand -base64 32`
+
+### 3. Install Dependencies
+
+```bash
+npm install
+```
+
+### 4. Prisma Setup
+
+```bash
+npx prisma format
+npx prisma generate
+npx prisma migrate dev --name init
+```
+
+### 5. Run the Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## API Endpoints
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Signup
 
-## Learn More
+```
+POST /api/signup
+```
 
-To learn more about Next.js, take a look at the following resources:
+Sample payloads:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Admin**
+```json
+{
+  "email": "admin@gradlyft.com",
+  "password": "admin123",
+  "role": "ADMIN",
+  "employer": { "name": "Admin", "company": "Gradlyft", "designation": "CTO" }
+}
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Employer**
+```json
+{
+  "email": "employer@gradlyft.com",
+  "password": "employer123",
+  "role": "EMPLOYER",
+  "employer": { "name": "John Doe", "company": "Acme", "designation": "Manager" }
+}
+```
 
-## Deploy on Vercel
+**Student**
+```json
+{
+  "email": "student@gradlyft.com",
+  "password": "student123",
+  "role": "STUDENT",
+  "student": {
+    "name": "Jane Student",
+    "college": "ABC University",
+    "degree": "B.Tech",
+    "year": 2025,
+    "interests": "AI, Web Dev",
+    "cvUrl": "https://example.com/cv.pdf"
+  }
+}
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Login (Token-Based)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+POST /api/token
+```
+
+Payload:
+```json
+{
+  "email": "employer@gradlyft.com",
+  "password": "employer123"
+}
+```
+
+## Database Tools
+
+- **Reset DB**:
+```bash
+npx prisma migrate reset
+```
+
+- **Prisma Studio (GUI)**:
+```bash
+npx prisma studio
+```
+Accessible at http://localhost:5555
