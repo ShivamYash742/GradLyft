@@ -73,7 +73,7 @@ export default function ContactPage() {
   return (
     <main className="pt-16 pb-24">
       {/* Hero Section */}
-      <section className="bg-hero-gradient dark:bg-cool-gradient py-16 md:py-20">
+      <section className="gradient-primary py-16 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight drop-shadow-md text-on-gradient">Contact Us</h1>
           <p className="text-xl max-w-3xl mx-auto opacity-90 drop-shadow text-on-gradient">
@@ -83,11 +83,11 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Information */}
-      <section className="py-16 bg-section-light dark:bg-section-dark">
+      <section className="py-16 bg-section-light">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8">
             <div className="card p-8 rounded-xl flex flex-col items-center text-center transform hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-              <div className="w-14 h-14 bg-hero-gradient dark:bg-cool-gradient rounded-full flex items-center justify-center mb-4 shadow-md">
+              <div className="w-14 h-14 gradient-primary rounded-full flex items-center justify-center mb-4 shadow-md">
                 <Mail className="text-white" size={24} />
               </div>
               <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">Email Us</h3>
@@ -100,7 +100,7 @@ export default function ContactPage() {
             </div>
             
             <div className="card p-8 rounded-xl flex flex-col items-center text-center transform hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-              <div className="w-14 h-14 bg-hero-gradient dark:bg-cool-gradient rounded-full flex items-center justify-center mb-4 shadow-md">
+              <div className="w-14 h-14 gradient-primary rounded-full flex items-center justify-center mb-4 shadow-md">
                 <Phone className="text-white" size={24} />
               </div>
               <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">Call Us</h3>
@@ -113,7 +113,7 @@ export default function ContactPage() {
             </div>
             
             <div className="card p-8 rounded-xl flex flex-col items-center text-center transform hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-              <div className="w-14 h-14 bg-hero-gradient dark:bg-cool-gradient rounded-full flex items-center justify-center mb-4 shadow-md">
+              <div className="w-14 h-14 gradient-primary rounded-full flex items-center justify-center mb-4 shadow-md">
                 <MapPin className="text-white" size={24} />
               </div>
               <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">Visit Us</h3>
@@ -130,11 +130,11 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Form & Map */}
-      <section className="py-16 bg-section-dark dark:bg-section-light">
+      <section className="py-16 bg-section-dark">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12">
             <div>
-              <h2 className="text-3xl font-bold mb-6 text-brand-pink dark:text-gradient-primary">Send Us a Message</h2>
+              <h2 className="text-3xl font-bold mb-6 text-[var(--primary-start)]">Send Us a Message</h2>
               
               {submitMessage && (
                 <div className={`p-4 mb-6 rounded-md ${submitMessage.type === 'success' ? 'bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 border border-green-200' : 'bg-gradient-to-r from-red-50 to-rose-50 text-red-700 border border-red-200'}`}>
@@ -254,9 +254,9 @@ export default function ContactPage() {
                 <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-6">Our Office Locations</h3>
                 
                 <div className="mb-8">
-                  <h4 className="text-lg font-semibold text-brand-pink dark:text-[var(--primary-start)] mb-3">Headquarters</h4>
+                  <h4 className="text-lg font-semibold text-[var(--primary-start)] mb-3">Headquarters</h4>
                   <div className="flex items-start">
-                    <div className="w-10 h-10 bg-hero-gradient dark:bg-cool-gradient rounded-full flex items-center justify-center mr-3 shadow-sm">
+                    <div className="w-10 h-10 gradient-primary rounded-full flex items-center justify-center mr-3 shadow-sm">
                       <MapPin className="text-white" size={18} />
                     </div>
                     <div>
@@ -268,9 +268,9 @@ export default function ContactPage() {
                 </div>
                 
                 <div className="mb-8">
-                  <h4 className="text-lg font-semibold text-brand-pink dark:text-[var(--primary-start)] mb-3">Regional Office</h4>
+                  <h4 className="text-lg font-semibold text-[var(--primary-start)] mb-3">Regional Office</h4>
                   <div className="flex items-start">
-                    <div className="w-10 h-10 bg-hero-gradient dark:bg-cool-gradient rounded-full flex items-center justify-center mr-3 shadow-sm">
+                    <div className="w-10 h-10 gradient-primary rounded-full flex items-center justify-center mr-3 shadow-sm">
                       <MapPin className="text-white" size={18} />
                     </div>
                     <div>
@@ -281,10 +281,10 @@ export default function ContactPage() {
                   </div>
                 </div>
                 
-                <h4 className="text-lg font-semibold text-brand-pink dark:text-[var(--primary-start)] mb-3">Office Hours</h4>
+                <h4 className="text-lg font-semibold text-[var(--primary-start)] mb-3">Office Hours</h4>
                 <div className="space-y-4">
                   <div className="flex items-start">
-                    <div className="w-10 h-10 bg-hero-gradient dark:bg-cool-gradient rounded-full flex items-center justify-center mr-3 shadow-sm">
+                    <div className="w-10 h-10 gradient-primary rounded-full flex items-center justify-center mr-3 shadow-sm">
                       <Clock className="text-white" size={18} />
                     </div>
                     <div>
@@ -293,7 +293,7 @@ export default function ContactPage() {
                     </div>
                   </div>
                   <div className="flex items-start">
-                    <div className="w-10 h-10 bg-hero-gradient dark:bg-cool-gradient rounded-full flex items-center justify-center mr-3 shadow-sm">
+                    <div className="w-10 h-10 gradient-primary rounded-full flex items-center justify-center mr-3 shadow-sm">
                       <Clock className="text-white" size={18} />
                     </div>
                     <div>
@@ -302,7 +302,7 @@ export default function ContactPage() {
                     </div>
                   </div>
                   <div className="flex items-start">
-                    <div className="w-10 h-10 bg-hero-gradient dark:bg-cool-gradient rounded-full flex items-center justify-center mr-3 shadow-sm">
+                    <div className="w-10 h-10 gradient-primary rounded-full flex items-center justify-center mr-3 shadow-sm">
                       <Clock className="text-white" size={18} />
                     </div>
                     <div>
@@ -318,14 +318,14 @@ export default function ContactPage() {
       </section>
 
       {/* FAQs Section */}
-      <section className="py-16 bg-section-light dark:bg-section-dark">
+      <section className="py-16 bg-section-light">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold mb-12 text-center text-brand-pink dark:text-gradient-primary">Frequently Asked Questions</h2>
+          <h2 className="text-3xl font-bold mb-12 text-center text-gradient-primary">Frequently Asked Questions</h2>
           
           <div className="grid md:grid-cols-2 gap-8">
             {FAQs.map((faq, index) => (
               <div key={index} className="card p-6 rounded-xl hover:shadow-lg transition-shadow duration-300">
-                <h3 className="text-xl font-bold text-brand-pink dark:text-[var(--primary-start)] mb-3">{faq.question}</h3>
+                <h3 className="text-xl font-bold text-[var(--primary-start)] mb-3">{faq.question}</h3>
                 <p className="text-[var(--text-secondary)]">{faq.answer}</p>
               </div>
             ))}

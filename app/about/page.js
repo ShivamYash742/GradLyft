@@ -4,7 +4,7 @@ export default function AboutPage() {
   return (
     <main className="pt-16 pb-24">
       {/* Hero Section */}
-      <section className="bg-hero-gradient py-16 md:py-20">
+      <section className="gradient-primary py-16 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight drop-shadow-md text-on-gradient">About GradLyft</h1>
           <p className="text-xl max-w-3xl mx-auto opacity-90 drop-shadow text-on-gradient">
@@ -14,11 +14,11 @@ export default function AboutPage() {
       </section>
 
       {/* Our Story Section */}
-      <section className="py-16 bg-section-light dark:bg-section-dark">
+      <section className="py-16 bg-section-light">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold mb-6 text-brand-pink dark:text-gradient-primary">Our Story</h2>
+              <h2 className="text-3xl font-bold mb-6 text-[var(--primary-start)]">Our Story</h2>
               <p className="text-lg text-[var(--text-secondary)] mb-6">
                 GradLyft was founded in 2020 with a simple mission: to bridge the gap between education and employment. 
                 We recognized that many talented students struggled to find the right opportunities after graduation, 
@@ -36,26 +36,26 @@ export default function AboutPage() {
             </div>
             <div className="card rounded-xl p-8 h-full shadow-lg">
               <div className="mb-8">
-                <h3 className="text-xl font-bold text-brand-pink dark:text-[var(--primary-start)] mb-3">Our Mission</h3>
+                <h3 className="text-xl font-bold text-[var(--primary-start)] mb-3">Our Mission</h3>
                 <p className="text-[var(--text-secondary)]">
                   To empower students and recent graduates by providing them with the resources, connections, 
                   and opportunities they need to launch successful careers.
                 </p>
               </div>
               <div className="mb-8">
-                <h3 className="text-xl font-bold text-brand-pink dark:text-[var(--primary-start)] mb-3">Our Vision</h3>
+                <h3 className="text-xl font-bold text-[var(--primary-start)] mb-3">Our Vision</h3>
                 <p className="text-[var(--text-secondary)]">
                   A world where every student has equal access to career opportunities, regardless of their 
                   background or location, and where potential is recognized and fostered.
                 </p>
               </div>
               <div>
-                <h3 className="text-xl font-bold text-brand-pink dark:text-[var(--primary-start)] mb-3">Our Values</h3>
+                <h3 className="text-xl font-bold text-[var(--primary-start)] mb-3">Our Values</h3>
                 <ul className="text-[var(--text-secondary)] space-y-2">
-                  <li className="flex items-center"><span className="h-2 w-2 rounded-full bg-hero-gradient dark:bg-cool-gradient mr-2"></span> Accessibility: Making opportunities available to all</li>
-                  <li className="flex items-center"><span className="h-2 w-2 rounded-full bg-hero-gradient dark:bg-cool-gradient mr-2"></span> Innovation: Constantly improving our platform</li>
-                  <li className="flex items-center"><span className="h-2 w-2 rounded-full bg-hero-gradient dark:bg-cool-gradient mr-2"></span> Diversity: Celebrating different backgrounds and perspectives</li>
-                  <li className="flex items-center"><span className="h-2 w-2 rounded-full bg-hero-gradient dark:bg-cool-gradient mr-2"></span> Integrity: Building trust through transparency</li>
+                  <li className="flex items-center"><span className="h-2 w-2 rounded-full gradient-primary mr-2"></span> Accessibility: Making opportunities available to all</li>
+                  <li className="flex items-center"><span className="h-2 w-2 rounded-full gradient-primary mr-2"></span> Innovation: Constantly improving our platform</li>
+                  <li className="flex items-center"><span className="h-2 w-2 rounded-full gradient-primary mr-2"></span> Diversity: Celebrating different backgrounds and perspectives</li>
+                  <li className="flex items-center"><span className="h-2 w-2 rounded-full gradient-primary mr-2"></span> Integrity: Building trust through transparency</li>
                 </ul>
               </div>
             </div>
@@ -64,10 +64,10 @@ export default function AboutPage() {
       </section>
 
       {/* Team Section */}
-      <section className="py-16 bg-section-dark dark:bg-section-light">
+      <section className="py-16 bg-section-dark">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4 text-brand-pink dark:text-gradient-primary">Meet Our Team</h2>
+            <h2 className="text-3xl font-bold mb-4 text-gradient-primary">Meet Our Team</h2>
             <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto">
               The passionate individuals behind GradLyft who are dedicated to creating opportunities for students worldwide.
             </p>
@@ -75,10 +75,10 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-3 gap-8">
             {/* Team Member 1 */}
             <div className="card rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
-              <div className="h-64 bg-hero-gradient dark:bg-cool-gradient"></div>
+              <div className="h-64 gradient-primary"></div>
               <div className="p-6">
                 <h3 className="text-xl font-bold text-[var(--text-primary)] mb-1">Rahul Sharma</h3>
-                <p className="text-brand-pink dark:text-[var(--primary-start)] mb-4">Founder & CEO</p>
+                <p className="text-[var(--primary-start)] mb-4">Founder & CEO</p>
                 <p className="text-[var(--text-secondary)] mb-4">
                   Former education technology executive with a passion for connecting students with opportunities.
                 </p>
@@ -101,10 +101,10 @@ export default function AboutPage() {
             
             {/* Team Member 2 */}
             <div className="card rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
-              <div className="h-64 bg-hero-gradient dark:bg-cool-gradient"></div>
+              <div className="h-64 gradient-primary"></div>
               <div className="p-6">
                 <h3 className="text-xl font-bold text-[var(--text-primary)] mb-1">Priya Patel</h3>
-                <p className="text-brand-pink dark:text-[var(--primary-start)] mb-4">CTO</p>
+                <p className="text-[var(--primary-start)] mb-4">CTO</p>
                 <p className="text-[var(--text-secondary)] mb-4">
                   Tech leader with expertise in building platforms that connect people and opportunities.
                 </p>
@@ -127,10 +127,10 @@ export default function AboutPage() {
             
             {/* Team Member 3 */}
             <div className="card rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
-              <div className="h-64 bg-hero-gradient dark:bg-cool-gradient"></div>
+              <div className="h-64 gradient-primary"></div>
               <div className="p-6">
                 <h3 className="text-xl font-bold text-[var(--text-primary)] mb-1">Alex Johnson</h3>
-                <p className="text-brand-pink dark:text-[var(--primary-start)] mb-4">Head of Partnerships</p>
+                <p className="text-[var(--primary-start)] mb-4">Head of Partnerships</p>
                 <p className="text-[var(--text-secondary)] mb-4">
                   Former university career advisor with strong connections to employers and educational institutions.
                 </p>
@@ -157,13 +157,13 @@ export default function AboutPage() {
       {/* Join Us Section */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-hero-gradient dark:bg-cool-gradient rounded-2xl p-8 md:p-12 text-center shadow-xl">
+          <div className="gradient-primary rounded-2xl p-8 md:p-12 text-center shadow-xl">
             <h2 className="text-3xl font-bold mb-6 drop-shadow-md text-on-gradient">Join Our Growing Team</h2>
             <p className="text-xl mb-8 max-w-3xl mx-auto opacity-90 text-on-gradient">
               We're always looking for talented individuals who are passionate about empowering students 
               and creating opportunities for the next generation.
             </p>
-            <Link href="/contact" className="bg-white text-brand-pink dark:text-brand-purple px-8 py-4 rounded-md font-medium hover:bg-gray-100 transition duration-300 inline-block shadow-md hover:shadow-lg transform hover:-translate-y-1">
+            <Link href="/contact" className="bg-white text-[var(--primary-start)] px-8 py-4 rounded-md font-medium hover:bg-gray-100 transition duration-300 inline-block shadow-md hover:shadow-lg transform hover:-translate-y-1">
               Get in Touch
             </Link>
           </div>
@@ -171,26 +171,26 @@ export default function AboutPage() {
       </section>
 
       {/* Partners Section */}
-      <section className="py-16 bg-section-light dark:bg-section-dark">
+      <section className="py-16 bg-section-light">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-brand-pink dark:text-gradient-primary">Our Partners</h2>
+            <h2 className="text-3xl font-bold mb-4 text-gradient-primary">Our Partners</h2>
             <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto">
               We work with leading universities and companies to create opportunities for students.
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
             <div className="h-24 card rounded-lg flex items-center justify-center transform hover:scale-105 transition-transform">
-              <div className="text-xl font-bold text-brand-pink dark:text-gradient-primary">University 1</div>
+              <div className="text-xl font-bold text-[var(--primary-start)]">University 1</div>
             </div>
             <div className="h-24 card rounded-lg flex items-center justify-center transform hover:scale-105 transition-transform">
-              <div className="text-xl font-bold text-brand-pink dark:text-gradient-primary">Company 1</div>
+              <div className="text-xl font-bold text-[var(--primary-start)]">Company 1</div>
             </div>
             <div className="h-24 card rounded-lg flex items-center justify-center transform hover:scale-105 transition-transform">
-              <div className="text-xl font-bold text-brand-pink dark:text-gradient-primary">Organization</div>
+              <div className="text-xl font-bold text-[var(--primary-start)]">Organization</div>
             </div>
             <div className="h-24 card rounded-lg flex items-center justify-center transform hover:scale-105 transition-transform">
-              <div className="text-xl font-bold text-brand-pink dark:text-gradient-primary">Foundation</div>
+              <div className="text-xl font-bold text-[var(--primary-start)]">Foundation</div>
             </div>
           </div>
         </div>

@@ -1,13 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useTheme } from './ThemeProvider';
 
 const Footer = () => {
-  const { theme } = useTheme();
-  
   return (
-    <footer className={`${theme === 'light' ? 'bg-section-dark' : 'bg-[#121212]'} text-white py-12`}>
+    <footer className="bg-section-dark text-white py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>

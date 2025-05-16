@@ -1,19 +1,82 @@
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Award, Users, Briefcase, Calendar, ChevronRight, Star } from 'lucide-react';
+import { ArrowRight, Award, Users, Briefcase, Calendar, ChevronRight, Star, GraduationCap, Building, BookOpen, MoreHorizontal, Video, Smile } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
+  // Feature grid color shuffle
+  const [colorOrder, setColorOrder] = useState([0, 1, 2, 3]);
+  const [hovered, setHovered] = useState(null);
+  const colorPalettes = [
+    'bg-blue-100',      // Events
+    'bg-purple-100',    // Webinars
+    'bg-yellow-100',    // Hackathons
+    'bg-pink-100'       // More
+  ];
+  useEffect(() => {
+    const shuffleColors = () => {
+      const newOrder = [...colorOrder];
+      for (let i = newOrder.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newOrder[i], newOrder[j]] = [newOrder[j], newOrder[i]];
+      }
+      setColorOrder(newOrder);
+    };
+    shuffleColors();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const featureItems = [
+    {
+      id: 'events',
+      title: 'Events',
+      description: 'Explore All Events',
+      icon: <Calendar size={24} />,
+      href: '/events',
+      character: '/characters/events.png',
+      explanation: 'Find and join exciting events to boost your career and network with professionals.'
+    },
+    {
+      id: 'webinars',
+      title: 'Webinars',
+      description: 'Join Live Webinars',
+      icon: <span className="flex items-center gap-1"><Video size={22} /><Smile size={20} /></span>,
+      href: '/webinars',
+      character: '/characters/webinars.png',
+      explanation: 'Attend live webinars hosted by industry experts and enhance your knowledge.'
+    },
+    {
+      id: 'hackathons',
+      title: 'Hackathons',
+      description: 'Compete & Win',
+      icon: <Award size={24} />,
+      href: '/hackathons',
+      character: '/characters/hackathons.png',
+      explanation: 'Participate in hackathons, solve real-world problems, and win amazing prizes!'
+    },
+    {
+      id: 'more',
+      title: 'More',
+      description: 'Discover More',
+      icon: <MoreHorizontal size={24} />,
+      href: '/more',
+      character: '/characters/more.png',
+      explanation: 'Explore more opportunities and resources to help you grow.'
+    }
+  ];
+
   return (
     <main className="overflow-hidden">
       {/* Hero Section */}
       <section className="gradient-primary text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 flex flex-col md:flex-row items-center">
+          {/* Left: Hero Text */}
           <div className="md:w-1/2 mb-10 md:mb-0 animate-fade-in">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight drop-shadow-md">
-              Empowering Students for Successful Careers
+              Unlock Your Career
             </h1>
             <p className="text-lg md:text-xl mb-8 opacity-90 drop-shadow">
-              Connect with top universities, employers, and participate in events that will shape your future.
+              Explore opportunities from across the globe to grow, showcase skills, gain CV points & get hired by your dream company.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/register" className="bg-white text-[var(--primary-end)] px-6 py-3 rounded-md font-medium hover:bg-gray-100 transition-all duration-300 inline-block shadow-md hover:shadow-lg transform hover:-translate-y-1">
@@ -24,42 +87,49 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <div className="md:w-1/2 md:pl-10 animate-slide-up">
-            <div className="relative h-[400px] w-full rounded-lg overflow-hidden shadow-2xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary-start)]/40 to-[var(--primary-end)]/40 z-10 rounded-lg"></div>
-              <div className="absolute inset-0 flex items-center justify-center z-20">
-                <div className="bg-white/95 backdrop-blur-sm p-8 rounded-xl shadow-xl max-w-sm w-full dark:bg-[var(--card-bg)]/95 dark:text-[var(--text-primary)]">
-                  <h3 className="text-[var(--primary-end)] font-bold text-lg mb-4 dark:text-[var(--primary-start)]">Join thousands of students</h3>
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[var(--primary-start)]/20 to-[var(--primary-end)]/20 flex items-center justify-center shadow-sm">
-                      <Users size={16} className="text-[var(--primary-end)] dark:text-[var(--primary-start)]" />
+          {/* Right: Feature Grid */}
+          <div className="md:w-1/2 md:pl-10 animate-slide-up w-full">
+            <div className="grid grid-cols-2 gap-4 w-full">
+              {featureItems.map((item, index) => (
+                <div
+                  key={item.id}
+                  className="relative"
+                  onMouseEnter={() => setHovered(item.id)}
+                  onMouseLeave={() => setHovered(null)}
+                  onFocus={() => setHovered(item.id)}
+                  onBlur={() => setHovered(null)}
+                >
+                  <Link 
+                    href={item.href}
+                    className="group relative block focus:outline-none"
+                  >
+                    <div className={`p-4 rounded-xl ${colorPalettes[colorOrder[index]]} flex flex-col h-[120px] md:h-[130px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer`}>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-semibold text-gray-800 text-lg md:text-xl">{item.title}</span>
+                      </div>
+                      <p className="text-xs md:text-sm text-gray-700 flex-1">{item.description}</p>
+                      <div className="mt-auto flex justify-end">
+                        {item.icon}
+                      </div>
                     </div>
-                    <span className="text-[var(--text-secondary)]">Connect with peers</span>
-                  </div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[var(--primary-start)]/20 to-[var(--primary-end)]/20 flex items-center justify-center shadow-sm">
-                      <Briefcase size={16} className="text-[var(--primary-end)] dark:text-[var(--primary-start)]" />
-                    </div>
-                    <span className="text-[var(--text-secondary)]">Land your dream job</span>
-                  </div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[var(--primary-start)]/20 to-[var(--primary-end)]/20 flex items-center justify-center shadow-sm">
-                      <Award size={16} className="text-[var(--primary-end)] dark:text-[var(--primary-start)]" />
-                    </div>
-                    <span className="text-[var(--text-secondary)]">Showcase your skills</span>
-                  </div>
-                  <Link href="/register" className="text-[var(--link-color)] font-medium flex items-center mt-4 group hover:text-[var(--link-hover)]">
-                    Create an account <ChevronRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
                   </Link>
+                  {/* Character Popup */}
+                  {hovered === item.id && (
+                    <div className="absolute z-50 left-full top-1/2 -translate-y-1/2 ml-4 w-64 bg-white text-gray-800 rounded-xl shadow-2xl p-4 flex flex-col items-center animate-fade-in border border-gray-100">
+                      <Image src={item.character} alt={item.title + ' character'} width={80} height={80} className="mb-2 rounded-full bg-gray-100" />
+                      <div className="font-bold mb-1 text-base text-center">{item.title}</div>
+                      <div className="text-sm text-center">{item.explanation}</div>
+                    </div>
+                  )}
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-section-light dark:bg-section-dark">
+      <section className="py-16 bg-section-light">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div className="p-6 card rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
@@ -83,7 +153,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-section-light dark:bg-section-dark">
+      <section className="py-20 bg-section-light">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient-primary">Opportunities That Await You</h2>
@@ -136,7 +206,7 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-section-dark dark:bg-section-light">
+      <section className="py-20 bg-section-dark">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient-primary">What Our Users Say</h2>

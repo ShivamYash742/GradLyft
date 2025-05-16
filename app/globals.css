@@ -4,17 +4,18 @@
   --background: #ffffff;
   --foreground: #171717;
   
-  /* Light mode theme colors */
-  --primary-gradient: linear-gradient(135deg, #FF6F61, #FFD166);
+  /* Theme colors */
+  --primary-gradient: linear-gradient(90deg, hsla(214, 100%, 50%, 1) 0%, hsla(300, 100%, 75%, 1) 70%, hsla(0, 100%, 77%, 1) 100%);
   --secondary-gradient: linear-gradient(135deg, #2B2D42, #8D99AE);
   
   /* Button colors */
-  --button-gradient: linear-gradient(135deg, #FF6F61, #FFD166);
-  --button-hover-gradient: linear-gradient(135deg, #FF5A4C, #FFCA40);
+  --button-gradient: linear-gradient(90deg, hsla(214, 100%, 50%, 1) 0%, hsla(300, 100%, 75%, 1) 70%, hsla(0, 100%, 77%, 1) 100%);
+  --button-hover-gradient: linear-gradient(90deg, hsla(214, 100%, 45%, 1) 0%, hsla(300, 100%, 70%, 1) 70%, hsla(0, 100%, 72%, 1) 100%);
   
   /* Theme colors */
-  --primary-start: #FF6F61;
-  --primary-end: #FFD166;
+  --primary-start: hsla(214, 100%, 50%, 1);
+  --primary-mid: hsla(300, 100%, 75%, 1);
+  --primary-end: hsla(0, 100%, 77%, 1);
   --secondary-start: #2B2D42;
   --secondary-end: #8D99AE;
   
@@ -29,42 +30,8 @@
   --text-primary: #171717;
   --text-secondary: #4b5563;
   --text-muted: #6b7280;
-  --link-color: #FF6F61;
-  --link-hover: #FFD166;
-  --text-on-gradient: #3a3a3a;
-}
-
-.dark {
-  --background: #121212;
-  --foreground: #ededed;
-  
-  /* Dark mode theme colors */
-  --primary-gradient: linear-gradient(135deg, #3A0CA3, #F72585);
-  --secondary-gradient: linear-gradient(135deg, #1F1C2C, #4A4466);
-  
-  /* Button colors */
-  --button-gradient: linear-gradient(135deg, #3A0CA3, #F72585);
-  --button-hover-gradient: linear-gradient(135deg, #2E0982, #E91A76);
-  
-  /* Theme colors */
-  --primary-start: #3A0CA3;
-  --primary-end: #F72585;
-  --secondary-start: #1F1C2C;
-  --secondary-end: #4A4466;
-  
-  /* Section colors */
-  --section-light: #1a1a1a;
-  --section-dark: #121212;
-  --card-bg: #1f1f1f;
-  --card-border: #2a2a2a;
-  --card-shadow: rgba(0, 0, 0, 0.3);
-  
-  /* Text colors */
-  --text-primary: #ededed;
-  --text-secondary: #a3a3a3;
-  --text-muted: #737373;
-  --link-color: #F72585;
-  --link-hover: #3A0CA3;
+  --link-color: hsla(214, 100%, 50%, 1);
+  --link-hover: hsla(300, 100%, 75%, 1);
   --text-on-gradient: #ffffff;
 }
 
@@ -73,42 +40,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not(.light) {
-    --background: #121212;
-    --foreground: #ededed;
-    
-    /* Dark mode theme colors */
-    --primary-gradient: linear-gradient(135deg, #3A0CA3, #F72585);
-    --secondary-gradient: linear-gradient(135deg, #1F1C2C, #4A4466);
-    
-    /* Button colors */
-    --button-gradient: linear-gradient(135deg, #3A0CA3, #F72585);
-    --button-hover-gradient: linear-gradient(135deg, #2E0982, #E91A76);
-    
-    /* Theme colors */
-    --primary-start: #3A0CA3;
-    --primary-end: #F72585;
-    --secondary-start: #1F1C2C;
-    --secondary-end: #4A4466;
-    
-    /* Section colors */
-    --section-light: #1a1a1a;
-    --section-dark: #121212;
-    --card-bg: #1f1f1f;
-    --card-border: #2a2a2a;
-    --card-shadow: rgba(0, 0, 0, 0.3);
-    
-    /* Text colors */
-    --text-primary: #ededed;
-    --text-secondary: #a3a3a3;
-    --text-muted: #737373;
-    --link-color: #F72585;
-    --link-hover: #3A0CA3;
-    --text-on-gradient: #ffffff;
-  }
 }
 
 body {
@@ -147,11 +78,6 @@ body {
 /* Text on gradient backgrounds */
 .text-on-gradient {
   color: var(--text-on-gradient);
-}
-
-/* Light mode specific adjustment for gradient backgrounds */
-:root:not(.dark) .bg-hero-gradient {
-  background: linear-gradient(135deg, rgba(255, 111, 97, 0.85), rgba(255, 209, 102, 0.85));
 }
 
 /* Theme-aware utility classes */

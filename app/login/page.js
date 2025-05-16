@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, Smile } from 'lucide-react';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -198,28 +198,13 @@ export default function Login() {
                   </div>
                 </form>
               </div>
-              
-              {/* Illustration - Right Side */}
-              <div className="hidden md:block md:w-1/2 bg-hero-gradient dark:bg-cool-gradient p-12">
-                <div className="h-full flex flex-col justify-center items-center text-on-gradient">
-                  <div className="mb-8">
-                    <svg className="w-64 h-64" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M250 400C338.366 400 410 328.366 410 240C410 151.634 338.366 80 250 80C161.634 80 90 151.634 90 240C90 328.366 161.634 400 250 400Z" fill="currentColor" fillOpacity="0.1" />
-                      <path d="M150 230C150 215.67 155.273 202.18 164.645 192.32C174.016 182.46 186.848 177 200.5 177C214.152 177 226.984 182.46 236.355 192.32C245.727 202.18 251 215.67 251 230L200.5 230L150 230Z" fill="currentColor" fillOpacity="0.2" />
-                      <path d="M350 230C350 215.67 344.727 202.18 335.355 192.32C325.984 182.46 313.152 177 299.5 177C285.848 177 273.016 182.46 263.645 192.32C254.273 202.18 249 215.67 249 230L299.5 230L350 230Z" fill="currentColor" fillOpacity="0.2" />
-                      <path d="M250 330C250 290 270 280 280 270H220C230 280 250 290 250 330Z" fill="currentColor" fillOpacity="0.2" />
-                      <path d="M110 170C110 142.386 132.386 120 160 120" stroke="currentColor" strokeWidth="10" strokeLinecap="round" />
-                      <path d="M390 170C390 142.386 367.614 120 340 120" stroke="currentColor" strokeWidth="10" strokeLinecap="round" />
-                      <path d="M250 400V460" stroke="currentColor" strokeWidth="10" strokeLinecap="round" />
-                      <path d="M180 390L160 450" stroke="currentColor" strokeWidth="10" strokeLinecap="round" />
-                      <path d="M320 390L340 450" stroke="currentColor" strokeWidth="10" strokeLinecap="round" />
-                    </svg>
-                  </div>
-                  <h3 className="text-2xl font-bold mb-4">Welcome Back!</h3>
-                  <p className="text-center max-w-xs">
-                    Sign in to access your personalized dashboard and continue your journey with GradLyft.
-                  </p>
-                </div>
+              {/* Welcome Back - Right Side */}
+              <div className="hidden md:flex w-1/2 flex-col items-center justify-center gradient-primary text-white p-10">
+                <Smile size={48} className="mb-6" />
+                <h2 className="text-3xl font-bold mb-4 drop-shadow">Welcome Back!</h2>
+                <p className="text-lg opacity-90 text-center max-w-xs mb-4 drop-shadow">
+                  We're glad to see you again. Sign in to access your account and continue your journey with GradLyft.
+                </p>
               </div>
             </div>
           </div>

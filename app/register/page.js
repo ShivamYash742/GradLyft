@@ -100,7 +100,7 @@ export default function Register() {
           <div className="card rounded-xl shadow-xl overflow-hidden">
             <div className="flex flex-col md:flex-row">
               {/* Illustration - Left Side */}
-              <div className="hidden md:block md:w-1/2 bg-hero-gradient dark:bg-cool-gradient p-12">
+              <div className="hidden md:block md:w-1/2 bg-gradient-to-br from-[var(--primary-start)] via-[var(--primary-mid)] to-[var(--primary-end)] p-12">
                 <div className="h-full flex flex-col justify-center items-center text-on-gradient">
                   <div className="mb-8">
                     <svg className="w-64 h-64" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
