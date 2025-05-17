@@ -1,5 +1,5 @@
 import { prisma } from "../../../utils/db";
-import { getServerSession } from "../../auth/[...nextauth]/route";
+import { getServerSession } from "../../auth/auth-utils";
 
 // PUT - Update an existing skill
 export async function PUT(req, { params }) {

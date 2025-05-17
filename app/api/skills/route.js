@@ -1,5 +1,5 @@
 import { prisma } from "../../utils/db";
-import { getServerSession } from "../auth/[...nextauth]/route";
+import { getServerSession } from "../auth/auth-utils";
 
 // GET - Retrieve student skills
 export async function GET(req) {
