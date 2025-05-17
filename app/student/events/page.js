@@ -115,7 +115,7 @@ export default function StudentEvents() {
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <div>
-          <Link href="/student/dashboard" className="text-blue-600 hover:text-blue-800 flex items-center mb-2 text-sm">
+          <Link href="/profile/dashboard" className="text-blue-600 hover:text-blue-800 flex items-center mb-2 text-sm">
             <ChevronLeft className="h-4 w-4 mr-1" /> Back to Dashboard
           </Link>
           <h1 className="text-3xl font-bold text-gray-800">Events & Workshops</h1>

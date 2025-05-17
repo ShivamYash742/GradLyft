@@ -1,13 +1,23 @@
 'use client';
 
-import { Users, Briefcase, GraduationCap, Award, Globe, Heart, Sparkles, Trophy, ArrowRight, ChevronDown } from 'lucide-react';
+import { Users, Briefcase, GraduationCap, Award, Globe, Heart, Sparkles, Trophy, ArrowRight, ChevronDown, Coffee, Music, Sunset, CloudSun } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function AboutPage() {
   const [expandedValue, setExpandedValue] = useState(null);
   const [hoveredMember, setHoveredMember] = useState(null);
+  const [scrollY, setScrollY] = useState(0);
+
+  // Parallax scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const stats = [
     { label: 'Universities', value: '120+', icon: <GraduationCap className="w-5 h-5" /> },
@@ -20,38 +30,38 @@ export default function AboutPage() {
     {
       title: 'Student Success',
       description: 'We believe in empowering students to reach their full potential through meaningful career opportunities.',
-      icon: <GraduationCap className="w-6 h-6 text-[var(--primary-start)]" />,
+      icon: <GraduationCap className="w-6 h-6 text-teal-500" />,
       extendedInfo: 'Our platform is designed from the ground up to help students showcase their skills and connect with employers who value their unique talents.'
     },
     {
       title: 'Innovation',
       description: 'We constantly evolve our platform and services to stay ahead of the changing needs of the job market.',
-      icon: <Award className="w-6 h-6 text-[var(--primary-start)]" />,
+      icon: <Award className="w-6 h-6 text-teal-500" />,
       extendedInfo: 'From AI-powered matching to real-time analytics, we leverage cutting-edge technology to create the best experience for our users.'
     },
     {
-      title: 'Inclusivity',
-      description: 'We\'re committed to creating equal opportunities for all students, regardless of background or circumstances.',
-      icon: <Heart className="w-6 h-6 text-[var(--primary-start)]" />,
-      extendedInfo: 'We actively work to eliminate bias and ensure that talent and potential are the only factors that matter in career advancement.'
+      title: 'Balance',
+      description: 'We promote work-life harmony and believe career growth should complement personal wellbeing.',
+      icon: <Sunset className="w-6 h-6 text-teal-500" />,
+      extendedInfo: 'We champion opportunities that value both professional achievement and personal fulfillment, creating paths to sustainable success.'
     },
     {
-      title: 'Partnership',
-      description: 'We forge meaningful relationships between students, universities, and employers to create sustainable success.',
-      icon: <Users className="w-6 h-6 text-[var(--primary-start)]" />,
-      extendedInfo: 'Our three-sided marketplace creates value for all participants, fostering a community where everyone benefits from collaboration.'
+      title: 'Community',
+      description: 'We build meaningful connections between students, universities, and employers that foster collective growth.',
+      icon: <Users className="w-6 h-6 text-teal-500" />,
+      extendedInfo: 'Our ecosystem thrives on collaboration and mutual support, creating a space where everyone feels valued and empowered.'
     },
     {
       title: 'Quality',
       description: 'We strive for excellence in everything we do, from our platform technology to our customer service.',
-      icon: <Briefcase className="w-6 h-6 text-[var(--primary-start)]" />,
-      extendedInfo: 'Quality isn\'t just a value - it\'s our standard. We continuously gather feedback and make improvements to exceed expectations.'
+      icon: <Coffee className="w-6 h-6 text-teal-500" />,
+      extendedInfo: 'We take time to perfect our craft, prioritizing thoughtful design and attention to detail in every aspect of our service.'
     },
     {
       title: 'Global Impact',
       description: 'We seek to transform career development and talent acquisition on a global scale.',
-      icon: <Globe className="w-6 h-6 text-[var(--primary-start)]" />,
-      extendedInfo: 'With users from over 50 countries, we\'re building a worldwide network that transcends geographical boundaries to connect talent with opportunity.'
+      icon: <Globe className="w-6 h-6 text-teal-500" />,
+      extendedInfo: 'With users from over 50 countries, we"re building a worldwide network that transcends geographical boundaries to connect talent with opportunity.'
     }
   ];
 
@@ -87,75 +97,82 @@ export default function AboutPage() {
   ];
 
   return (
-    <main className="bg-[var(--section-light)] overflow-hidden">
-      {/* Floating Achievement Button */}
+    <main className="bg-gradient-to-b from-blue-50 to-teal-50 overflow-hidden">
+      {/* Floating Join Button with gentler animation */}
       <Link 
         href="/register"
-        className="fixed right-8 bottom-8 z-40 bg-gradient-to-r from-orange-500 to-red-500 p-4 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 flex items-center gap-2 pulse-glow"
+        className="fixed right-8 bottom-8 z-40 bg-gradient-to-r from-teal-400 to-blue-500 p-4 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-500 flex items-center gap-2"
       >
-        <span className="text-white font-bold">Join Us</span>
+        <span className="text-white font-medium">Join Us</span>
         <ArrowRight className="w-5 h-5 text-white" />
       </Link>
       
-      <section className="py-16 bg-gradient-to-b from-[var(--primary-subtle)] to-[var(--section-light)] relative emoji-bg">
-        {/* Animated sparkles */}
-        <div className="absolute top-12 right-32 animate-pulse">
-          <Sparkles className="w-6 h-6 text-[var(--primary-start)]" />
-        </div>
-        <div className="absolute bottom-20 left-24 animate-pulse delay-1000">
-          <Sparkles className="w-4 h-4 text-[var(--primary-mid)]" />
+      {/* Hero Section with Parallax Effect */}
+      <section className="py-24 relative overflow-hidden bg-gradient-to-b from-teal-50 to-blue-50">
+        {/* Floating elements */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
+          <div className="absolute top-1/4 left-1/5 w-64 h-64 bg-teal-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+          <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+          <div className="absolute bottom-1/4 right-1/3 w-80 h-80 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
         </div>
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative inline-block mx-auto">
-            <h1 className="text-4xl font-bold text-center text-[var(--text-primary)]">
-              About <span className="text-gradient-primary">GradLyft</span>
+        <div 
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
+          style={{ transform: `translateY(${scrollY * 0.1}px)` }}
+        >
+          <div className="text-center max-w-3xl mx-auto">
+            <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-500 to-blue-600">
+              About GradLyft
             </h1>
-            <div className="absolute -top-2 -right-6">
-              <div className="animate-bounce-in">
-                <div className="fun-badge">
-                  Est. 2021
-                </div>
+            <p className="mt-6 text-xl text-slate-700 leading-relaxed">
+              We're creating a more mindful approach to career connections, where talent meets opportunity in harmony.
+            </p>
+            <div className="mt-8 flex justify-center space-x-4">
+              <div className="inline-flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full text-sm border border-teal-100 shadow-sm">
+                <CloudSun className="w-5 h-5 text-teal-500" />
+                <span className="text-slate-700">Est. 2021</span>
+              </div>
+              <div className="inline-flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full text-sm border border-teal-100 shadow-sm">
+                <Music className="w-5 h-5 text-blue-500" />
+                <span className="text-slate-700">Balanced Growth</span>
               </div>
             </div>
           </div>
-          <p className="mt-4 text-center text-[var(--text-secondary)] max-w-3xl mx-auto">
-            We're on a mission to transform how students connect with meaningful career opportunities and how employers discover exceptional talent.
-          </p>
         </div>
       </section>
 
-      <section className="py-16">
+      {/* Our Story Section */}
+      <section className="py-24 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="lg:flex lg:items-center lg:gap-16">
-            <div className="lg:w-1/2">
-              <div className="relative">
-                <h2 className="text-3xl font-bold text-[var(--text-primary)] mb-6">Our Story</h2>
-                <div className="absolute -left-8 top-1/2 w-3 h-full bg-gradient-to-b from-[var(--primary-start)] to-[var(--primary-end)] rounded-full"></div>
+            <div className="lg:w-1/2 relative">
+              <div className="mb-8">
+                <h2 className="text-3xl font-bold text-slate-800 mb-6">Our Story</h2>
+                <div className="absolute -left-4 top-0 w-1 h-full bg-gradient-to-b from-teal-400 to-blue-500 rounded-full"></div>
               </div>
-              <div className="space-y-4 text-[var(--text-secondary)]">
+              <div className="space-y-5 text-slate-600 leading-relaxed">
                 <p>
-                  GradLyft was born from a simple observation: despite the abundance of talented graduates and employers seeking fresh talent, making meaningful connections between them remained unnecessarily difficult.
+                  GradLyft was born from a simple observation: despite the abundance of talented graduates and employers seeking fresh talent, making meaningful connections between them remained unnecessarily stressful.
                 </p>
                 <p>
                   Founded in 2021 by Sarah Johnson and Michael Chen, GradLyft began as a small pilot program at three universities. Our platform quickly gained traction as students found jobs they loved and employers discovered exceptional candidates they might have otherwise missed.
                 </p>
                 <p>
-                  Today, GradLyft serves hundreds of universities and thousands of employers worldwide, but our mission remains the same: to empower students in their career journeys and help organizations find their next generation of leaders.
+                  Today, GradLyft serves hundreds of universities and thousands of employers worldwide, but our mission remains the same: to empower students in their career journeys and help organizations find their next generation of leaders, all while promoting balance and well-being.
                 </p>
               </div>
               
-              <div className="mt-6 inline-flex items-center bg-[var(--primary-subtle)] px-4 py-3 rounded-full text-sm border border-[var(--primary-start)]/20">
+              <div className="mt-8 inline-flex items-center bg-white/70 backdrop-blur-sm px-5 py-3 rounded-xl text-sm border border-teal-100 shadow-sm">
                 <div className="relative mr-3">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[var(--primary-start)] to-[var(--primary-end)] flex items-center justify-center text-white">
-                    <Trophy className="w-4 h-4" />
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-teal-400 to-blue-500 flex items-center justify-center text-white">
+                    <Trophy className="w-5 h-5" />
                   </div>
                 </div>
-                <span className="text-[var(--text-primary)] font-medium">Named Top EdTech Startup of 2023</span>
+                <span className="text-slate-700 font-medium">Named Top EdTech Startup of 2023</span>
               </div>
             </div>
-            <div className="mt-10 lg:mt-0 lg:w-1/2">
-              <div className="aspect-video rounded-xl overflow-hidden shadow-xl transform hover:scale-[1.02] transition-all duration-300">
+            <div className="mt-12 lg:mt-0 lg:w-1/2">
+              <div className="aspect-video rounded-2xl overflow-hidden shadow-xl transform hover:scale-[1.02] transition-all duration-700">
                 <Image 
                   src="/R.png"
                   alt="GradLyft Team"
@@ -164,7 +181,7 @@ export default function AboutPage() {
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
-                  <div className="p-4 text-white">
+                  <div className="p-6 text-white">
                     <p className="font-medium">Our founding team at launch day</p>
                   </div>
                 </div>
@@ -174,48 +191,61 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-[var(--section-dark)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-16 text-gradient-primary">By The Numbers 🔥</h2>
+      {/* Stats Section */}
+      <section className="py-24 bg-gradient-to-r from-teal-700 to-blue-700 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <svg className="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+                <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" strokeWidth="0.5"/>
+              </pattern>
+            </defs>
+            <rect width="100" height="100" fill="url(#grid)" />
+          </svg>
+        </div>
+      
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <h2 className="text-3xl font-bold mb-16 text-white">Our Journey in Numbers</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
-              <div key={index} className="card p-6 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 float">
-                <div className="flex items-center justify-center mb-2">
-                  <div className="w-12 h-12 rounded-full bg-[var(--primary-subtle)] flex items-center justify-center">
+              <div key={index} className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl hover:shadow-lg transition-all duration-500 transform hover:-translate-y-2 border border-white/20">
+                <div className="flex items-center justify-center mb-4">
+                  <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center">
                     {stat.icon}
                   </div>
                 </div>
-                <p className="text-4xl font-bold text-gradient-primary">{stat.value}</p>
-                <p className="text-[var(--text-secondary)] mt-2">{stat.label}</p>
+                <p className="text-4xl font-bold text-white mb-2">{stat.value}</p>
+                <p className="text-teal-100">{stat.label}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-16">
+      {/* Core Values Section */}
+      <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold mb-12 text-center text-gradient-primary">Our Core Values</h2>
+          <h2 className="text-3xl font-bold mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-teal-500 to-blue-600">Our Core Values</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {values.map((value, index) => (
               <div 
                 key={index} 
-                className={`card p-6 rounded-xl hover:shadow-lg transition-all duration-300 ${expandedValue === index ? 'ring-2 ring-[var(--primary-start)]' : ''}`}
+                className={`bg-gradient-to-br ${expandedValue === index ? 'from-teal-50 to-blue-50' : 'from-gray-50 to-white'} p-8 rounded-2xl hover:shadow-lg transition-all duration-500 ${expandedValue === index ? 'ring-2 ring-teal-300' : ''}`}
                 onClick={() => setExpandedValue(expandedValue === index ? null : index)}
               >
                 <div className="flex items-start">
-                  <div className="mr-4 p-3 rounded-lg bg-[var(--primary-subtle)]">
+                  <div className="mr-5 p-3 rounded-xl bg-white shadow-sm">
                     {value.icon}
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-[var(--text-primary)] flex items-center">
+                    <h3 className="text-xl font-bold text-slate-800 flex items-center">
                       {value.title}
-                      <ChevronDown className={`ml-2 w-4 h-4 transition-transform ${expandedValue === index ? 'rotate-180' : ''}`} />
+                      <ChevronDown className={`ml-2 w-4 h-4 transition-transform duration-300 ${expandedValue === index ? 'rotate-180' : ''}`} />
                     </h3>
-                    <p className="text-[var(--text-secondary)] mt-2">{value.description}</p>
+                    <p className="text-slate-600 mt-2">{value.description}</p>
                     
                     {expandedValue === index && (
-                      <div className="mt-4 text-sm bg-[var(--primary-subtle)]/50 p-3 rounded-lg animate-fade-in">
+                      <div className="mt-4 text-sm bg-white p-4 rounded-xl animate-fade-in shadow-inner">
                         {value.extendedInfo}
                       </div>
                     )}
@@ -227,19 +257,20 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-[var(--section-dark)]">
+      {/* Team Section */}
+      <section className="py-24 bg-gradient-to-b from-blue-50 to-teal-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold mb-12 text-center text-gradient-primary">Meet Our Leadership Team</h2>
+          <h2 className="text-3xl font-bold mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-teal-500 to-blue-600">Meet Our Leadership Team</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {teamMembers.map((member, index) => (
               <div 
                 key={index} 
-                className="card p-6 rounded-xl text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative"
+                className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl text-center hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 relative border border-teal-100"
                 onMouseEnter={() => setHoveredMember(index)}
                 onMouseLeave={() => setHoveredMember(null)}
               >
                 <div className="relative">
-                  <div className="w-28 h-28 mx-auto rounded-full overflow-hidden bg-[var(--card-bg)] mb-4 relative ring-4 ring-[var(--primary-subtle)]">
+                  <div className="w-32 h-32 mx-auto rounded-full overflow-hidden bg-gradient-to-br from-teal-50 to-blue-50 mb-6 relative ring-4 ring-white shadow-md">
                     <Image 
                       src={member.image} 
                       alt={member.name}
@@ -248,27 +279,27 @@ export default function AboutPage() {
                     />
                   </div>
                   
-                  {/* Fun fact badge with fixed positioning and opacity transition */}
+                  {/* Fun fact indicator */}
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 h-6">
                     <div 
-                      className={`bg-gradient-to-r from-yellow-400 to-orange-400 text-black px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap transition-opacity duration-200 ${
-                        hoveredMember === index ? 'opacity-100' : 'opacity-0'
+                      className={`bg-gradient-to-r from-amber-300 to-amber-400 text-amber-900 px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-300 ${
+                        hoveredMember === index ? 'opacity-100 transform-none' : 'opacity-0 transform -translate-y-2'
                       }`}
                     >
-                      Fun Fact!
+                      Fun Fact
                     </div>
                   </div>
                 </div>
                 
-                <h3 className="text-xl font-bold text-[var(--text-primary)]">{member.name}</h3>
-                <p className="text-[var(--primary-start)] mb-2">{member.role}</p>
-                <p className="text-sm text-[var(--text-secondary)]">{member.bio}</p>
+                <h3 className="text-xl font-bold text-slate-800">{member.name}</h3>
+                <p className="text-teal-600 mb-3">{member.role}</p>
+                <p className="text-sm text-slate-600 leading-relaxed">{member.bio}</p>
                 
-                {/* Fixed height container with opacity transition for fun fact */}
-                <div className="h-16 mt-4 flex items-center justify-center overflow-hidden">
+                {/* Fixed height container with smooth transition for fun fact */}
+                <div className="h-20 mt-6 flex items-center justify-center overflow-hidden">
                   <div 
-                    className={`bg-[var(--primary-subtle)]/50 p-3 rounded-lg text-xs w-full transition-all duration-200 ${
-                      hoveredMember === index ? 'opacity-100 transform-none' : 'opacity-0 transform translate-y-2'
+                    className={`bg-blue-50 border border-blue-100 p-4 rounded-xl text-sm w-full transition-all duration-300 ${
+                      hoveredMember === index ? 'opacity-100 transform-none' : 'opacity-0 transform translate-y-4'
                     }`}
                   >
                     "{member.funFact}"
@@ -280,63 +311,77 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-gradient-to-r from-[var(--primary-start)] to-[var(--primary-end)] text-white relative overflow-hidden">
-        {/* Animated particles */}
-        <div className="absolute inset-0">
-          <div className="absolute top-12 left-1/4 animate-ping">
-            <div className="w-2 h-2 rounded-full bg-white/40"></div>
-          </div>
-          <div className="absolute top-1/3 left-1/2 animate-ping delay-300">
-            <div className="w-3 h-3 rounded-full bg-white/30"></div>
-          </div>
-          <div className="absolute bottom-1/4 right-1/3 animate-ping delay-700">
-            <div className="w-2 h-2 rounded-full bg-white/50"></div>
-          </div>
-          <div className="absolute bottom-1/2 right-1/4 animate-ping delay-500">
-            <div className="w-4 h-4 rounded-full bg-white/20"></div>
-          </div>
+      {/* Call to Action Section */}
+      <section className="py-24 bg-gradient-to-r from-teal-500 to-blue-600 text-white relative overflow-hidden">
+        {/* Gentle wave pattern */}
+        <div className="absolute inset-0 z-0 opacity-10">
+          <svg className="absolute inset-0 h-full w-full" xmlns="http://www.w3.org/2000/svg" 
+               viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path fill="white" fillOpacity="1" 
+                  d="M0,128L48,144C96,160,192,192,288,197.3C384,203,480,181,576,160C672,139,768,117,864,122.7C960,128,1056,160,1152,165.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
+            </path>
+          </svg>
         </div>
       
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <div className="inline-block mb-6 relative">
+          <div className="inline-block mb-8 relative">
             <h2 className="text-3xl font-bold">
-              Join Our Journey 🚀
+              Join Our Journey
             </h2>
-            <div className="absolute -top-6 -right-6 animate-bounce">
-              <Sparkles className="w-6 h-6 text-yellow-300" />
+            <div className="absolute -top-6 -right-6 animate-pulse">
+              <Sparkles className="w-6 h-6 text-yellow-200" />
             </div>
           </div>
-          <p className="max-w-3xl mx-auto mb-8">
+          <p className="max-w-3xl mx-auto mb-10 text-lg text-blue-50 leading-relaxed">
             Whether you're a student starting your career journey, a university looking to improve student outcomes, 
             or an employer seeking exceptional talent, we invite you to be part of the GradLyft community.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-5">
             <Link 
               href="/contact" 
-              className="bg-white text-[var(--primary-end)] px-6 py-3 rounded-md hover:bg-gray-100 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 font-medium"
+              className="bg-white text-teal-600 px-8 py-3 rounded-xl hover:bg-blue-50 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 font-medium"
             >
               Contact Us
             </Link>
             <Link 
               href="/register" 
-              className="border border-white text-white px-6 py-3 rounded-md hover:bg-white/10 transition-all duration-300"
+              className="bg-teal-400/30 backdrop-blur-sm border border-white/30 text-white px-8 py-3 rounded-xl hover:bg-white/10 transition-all duration-300"
             >
               Create an Account
             </Link>
           </div>
           
-          {/* FOMO element */}
-          <div className="mt-8 inline-flex items-center bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm">
-            <div className="relative mr-3">
-              <div className="w-8 h-8 rounded-full bg-green-400 flex items-center justify-center text-white">
-                <Users className="w-4 h-4" />
+          {/* Social proof element */}
+          <div className="mt-12 inline-flex items-center bg-white/10 backdrop-blur-sm px-5 py-3 rounded-xl text-sm border border-white/20">
+            <div className="relative mr-4">
+              <div className="w-10 h-10 rounded-full bg-teal-400/30 flex items-center justify-center">
+                <Users className="w-5 h-5 text-white" />
               </div>
-              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-blue-500 rounded-full animate-pulse"></div>
+              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full animate-pulse"></div>
             </div>
-            <span>Over 500 new members joined this week! Don't miss out!</span>
+            <span className="text-blue-50">Join the 500+ new members who found their path this week</span>
           </div>
         </div>
       </section>
+      
+      {/* Add custom styles for animations */}
+      <style jsx global>{`
+        @keyframes blob {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          25% { transform: translate(20px, -30px) scale(1.1); }
+          50% { transform: translate(-20px, 20px) scale(0.9); }
+          75% { transform: translate(30px, 30px) scale(1.05); }
+        }
+        .animate-blob {
+          animation: blob 20s infinite ease-in-out;
+        }
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+      `}</style>
     </main>
   );
 } 

@@ -616,7 +616,7 @@ function ProfileContent() {
   const renderStudentProfile = () => (
     <div className="container mx-auto py-8 px-4 max-w-5xl">
       <div className="flex justify-between items-center mb-6">
-        <Link href="/student/dashboard" className="text-blue-600 hover:text-blue-800 flex items-center text-sm">
+        <Link href="/profile/dashboard" className="text-blue-600 hover:text-blue-800 flex items-center text-sm">
           <ChevronRight className="h-4 w-4 mr-1 rotate-180" /> Back to Dashboard
         </Link>
       </div>

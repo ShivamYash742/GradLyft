@@ -9,7 +9,7 @@ const Footer = () => {
       links: [
         { name: "Find Jobs", href: "/student/jobs" },
         { name: "Build Profile", href: "/student/profile" },
-        { name: "Track Applications", href: "/student/dashboard" },
+        { name: "Track Applications", href: "/profile/dashboard" },
         { name: "Career Resources", href: "/student/resources" }
       ]
     },
