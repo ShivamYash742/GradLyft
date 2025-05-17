@@ -246,7 +246,7 @@ export default function EventsPage() {
         {savedEvents.length > 0 && (
           <span className="absolute -top-2 -right-2 bg-yellow-400 text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center text-slate-900">
             {savedEvents.length}
-          </span>
+                  </span>
         )}
       </Link>
     
@@ -257,7 +257,7 @@ export default function EventsPage() {
         <div className="absolute bottom-10 left-[30%] animate-pulse delay-1000">
           <Sparkles className="w-5 h-5 text-[var(--youth-yellow)]" />
         </div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="relative">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Upcoming Events 🔥</h1>
@@ -342,7 +342,7 @@ export default function EventsPage() {
             <span className="text-[var(--primary-start)] font-medium">237 students viewing now</span>
           </div>
         </div>
-        
+
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {featuredEvents.map((event, index) => {
             const { isHot, isSaved, daysLeft } = getEventInfo(event);
@@ -519,7 +519,7 @@ export default function EventsPage() {
                 >
                   Contact Our Events Team
                   <ChevronRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
+                  </Link>
               </div>
             </div>
             

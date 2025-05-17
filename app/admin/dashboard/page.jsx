@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../context/AuthContext';
 import { Shield, User, LogOut, Clock, Calendar, Search, Filter, ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
+import Image from 'next/image';
 
 export default function AdminDashboard() {
   const [sessions, setSessions] = useState([]);
@@ -16,6 +17,14 @@ export default function AdminDashboard() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
+  
+  // Analytics summary
+  const [analytics, setAnalytics] = useState({
+    totalSessions: 0,
+    averageDuration: 0,
+    activeUsers: 0,
+    topPages: []
+  });
   
   const router = useRouter();
   const { user, logout } = useAuth();
@@ -31,6 +40,7 @@ export default function AdminDashboard() {
         } else {
           setIsAdmin(true);
           fetchSessions();
+          fetchAnalytics();
         }
       } catch (err) {
         console.error('Admin verification error:', err);
@@ -40,6 +50,23 @@ export default function AdminDashboard() {
 
     verifyAdmin();
   }, [router]);
+
+  const fetchAnalytics = async () => {
+    try {
+      const params = new URLSearchParams();
+      if (startDate) params.append('startDate', startDate);
+      if (endDate) params.append('endDate', endDate);
+      
+      const res = await fetch(`/api/admin/analytics?${params.toString()}`);
+      const data = await res.json();
+      
+      if (data.success) {
+        setAnalytics(data.data);
+      }
+    } catch (err) {
+      console.error('Error fetching analytics:', err);
+    }
+  };
 
   const fetchSessions = async () => {
     setLoading(true);
@@ -80,6 +107,7 @@ export default function AdminDashboard() {
     e.preventDefault();
     setPagination(prev => ({ ...prev, page: 1 })); // Reset to first page
     fetchSessions();
+    fetchAnalytics();
   };
 
   const handleClearFilters = () => {
@@ -88,7 +116,10 @@ export default function AdminDashboard() {
     setEndDate('');
     setPagination(prev => ({ ...prev, page: 1 }));
     // Fetch with cleared filters
-    setTimeout(fetchSessions, 0);
+    setTimeout(() => {
+      fetchSessions();
+      fetchAnalytics();
+    }, 0);
   };
 
   const handleLogout = async () => {
@@ -189,6 +220,66 @@ export default function AdminDashboard() {
               <LogOut className="w-5 h-5 mr-2" />
               <span>Logout</span>
             </button>
+          </div>
+        </div>
+        
+        {/* Analytics Summary */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <div className="bg-white border border-[var(--card-border)] rounded-xl p-5 shadow-md relative">
+            <div className="absolute -top-4 -right-4 w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-md">
+              <Image
+                src="/cute-girl-3d-character-design-cartoon-girl-avatar_432516-5510.avif"
+                alt="Analytics"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <h3 className="text-sm text-[var(--text-secondary)] font-medium mb-1">Total Sessions</h3>
+            <p className="text-2xl font-bold text-[var(--text-primary)]">{analytics.totalSessions.toLocaleString()}</p>
+          </div>
+          
+          <div className="bg-white border border-[var(--card-border)] rounded-xl p-5 shadow-md relative">
+            <div className="absolute -top-4 -right-4 w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-md">
+              <Image
+                src="/3d-cartoon-boy-studying-wearing-glasses_988987-175.avif"
+                alt="Average Time"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <h3 className="text-sm text-[var(--text-secondary)] font-medium mb-1">Average Time on Site</h3>
+            <p className="text-2xl font-bold text-[var(--text-primary)]">{formatDuration(analytics.averageDuration)}</p>
+          </div>
+          
+          <div className="bg-white border border-[var(--card-border)] rounded-xl p-5 shadow-md relative">
+            <div className="absolute -top-4 -right-4 w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-md">
+              <Image
+                src="/small-boy-colorful-background-funny-cartoon-character-school-kid-3d-generative-ai_58409-28549.avif"
+                alt="Active Users"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <h3 className="text-sm text-[var(--text-secondary)] font-medium mb-1">Active Users</h3>
+            <p className="text-2xl font-bold text-[var(--text-primary)]">{analytics.activeUsers.toLocaleString()}</p>
+          </div>
+          
+          <div className="bg-white border border-[var(--card-border)] rounded-xl p-5 shadow-md relative">
+            <div className="absolute -top-4 -right-4 w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-md">
+              <Image
+                src="/emoji-1584282_1280.webp"
+                alt="Most Visited"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <h3 className="text-sm text-[var(--text-secondary)] font-medium mb-1">Most Visited Page</h3>
+            <p className="text-lg font-bold text-[var(--text-primary)] truncate">
+              {analytics.topPages?.[0]?.page || 'N/A'}
+            </p>
+            <p className="text-xs text-[var(--text-muted)]">
+              {analytics.topPages?.[0]?.count ? `${analytics.topPages[0].count} visits` : ''}
+            </p>
           </div>
         </div>
         

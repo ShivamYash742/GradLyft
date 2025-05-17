@@ -163,13 +163,16 @@ export default function Home() {
       <section className="relative gradient-primary text-white overflow-hidden emoji-bg">
         {/* Animated sparkles */}
         <div className="absolute top-12 right-32 animate-pulse">
-          <Sparkles className="w-6 h-6 text-yellow-300" />
+          <Sparkles className="w-8 h-8 text-yellow-300" />
         </div>
         <div className="absolute bottom-20 left-24 animate-pulse delay-1000">
-          <Sparkles className="w-4 h-4 text-pink-300" />
+          <Sparkles className="w-6 h-6 text-pink-300" />
         </div>
         <div className="absolute top-40 left-1/4 animate-pulse delay-500">
-          <Sparkles className="w-5 h-5 text-blue-300" />
+          <Sparkles className="w-7 h-7 text-blue-300" />
+        </div>
+        <div className="absolute top-1/3 right-1/4 animate-pulse delay-700">
+          <Sparkles className="w-5 h-5 text-green-300" />
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 flex flex-col md:flex-row items-center">
@@ -177,10 +180,10 @@ export default function Home() {
           <div className="md:w-1/2 mb-10 md:mb-0 animate-fade-in">
             <div className="relative">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight drop-shadow-md">
-                Level Up Your <span className="text-[var(--youth-yellow)]">Career</span>
+                Level Up Your <span className="text-[var(--youth-yellow)] animate-pulse">Career</span>
               </h1>
               {/* New tag */}
-              <div className="absolute -top-6 -right-6 bg-yellow-400 text-indigo-900 px-3 py-1 rounded-full transform rotate-12 font-bold text-sm shadow-lg">
+              <div className="absolute -top-6 -right-6 bg-yellow-400 text-indigo-900 px-3 py-1 rounded-full transform rotate-12 font-bold text-sm shadow-lg pulse-glow">
                 🔥 Hot Events!
               </div>
             </div>
@@ -188,150 +191,227 @@ export default function Home() {
               Ready to crush it? Find the sickest opportunities, flex your skills, & get hired by your dream company!
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/register" className="bg-white text-[var(--primary-end)] px-6 py-3 rounded-full font-medium hover:bg-gray-100 transition-all duration-300 inline-flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-1">
+              <Link href="/register" className="bg-white text-[var(--primary-end)] px-6 py-3 rounded-full font-medium hover:bg-gray-100 transition-all duration-300 inline-flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-1 pulse-glow">
                 Get Started <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
               <Link href="/about" className="text-white bg-transparent border border-white px-6 py-3 rounded-full font-medium hover:bg-white/10 transition-all duration-300 inline-block text-center">
                 Learn More
               </Link>
             </div>
-            
-            {/* User progress section */}
-            <div className="mt-10 bg-white/10 backdrop-blur-sm p-4 rounded-lg border border-white/20">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="font-bold text-lg flex items-center">
-                  <span>Your Vibe</span>
-                  <div className="ml-2 flex">
-                    <Flame className="w-5 h-5 text-orange-400" />
-                    <span className="ml-1">{streakCount}</span>
-                  </div>
-                </h3>
-                <Link href="/profile" className="text-sm hover:underline">View All</Link>
-              </div>
-              <div className="flex gap-3 mb-3">
-                {achievements.map(achievement => (
-                  <div key={achievement.id} className={`w-10 h-10 flex items-center justify-center rounded-full ${achievement.completed ? 'bg-gradient-to-br from-orange-400 to-red-500 text-white' : 'bg-white/30'}`}>
-                    {achievement.icon}
-                  </div>
-                ))}
-              </div>
-              <div className="text-xs text-white/80">
-                Level up your profile to unlock more achievements! 🏆
-              </div>
-            </div>
           </div>
           {/* Right: Feature Grid */}
           <div className="md:w-1/2 md:pl-10 animate-slide-up w-full">
-            <div className="grid grid-cols-2 gap-4 w-full">
+            <div className="grid grid-cols-2 gap-4 w-full relative">
+              {/* Hot label */}
+              <div className="absolute -top-6 -left-2 z-10">
+                <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg animate-bounce">
+                  Don't miss out!
+                </div>
+              </div>
+              
               {/* Events Card */}
-              <Link href="/events" className="group block focus:outline-none">
-                <div className="p-4 rounded-xl bg-pink-100 flex flex-col h-[130px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="font-semibold text-gray-800 text-xl">Events</span>
+              <Link href="/events" className="group block focus:outline-none transform transition-all duration-300 hover:scale-105">
+                <div className="p-4 rounded-xl bg-gradient-to-br from-pink-100 to-pink-200 flex flex-col h-[130px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer border border-pink-200 relative overflow-hidden">
+                  <div className="absolute right-0 top-0 bottom-0 w-[45%] opacity-80 group-hover:opacity-90 transition-opacity">
+                    <div className="absolute inset-0 bg-gradient-to-br from-transparent to-pink-200/50 z-[1] rounded-lg"></div>
+                    <Image 
+                      src="/download (2).jpeg" 
+                      alt="Events" 
+                      fill 
+                      className="object-cover rounded-lg mix-blend-multiply"
+                    />
                   </div>
-                  <p className="text-sm text-gray-700 flex-1">Explore All Events</p>
-                  <div className="mt-auto flex justify-end">
-                    <Calendar size={24} />
+                  <div className="w-[55%] flex flex-col h-full pr-2">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="font-semibold text-gray-800 text-xl">Events</span>
+                      <div className="ml-auto bg-pink-500/20 p-1 rounded-full">
+                        <Calendar size={16} className="text-pink-600" />
+                      </div>
+                    </div>
+                    <p className="text-sm text-gray-700 flex-1">Explore All Events</p>
+                    <div className="mt-auto">
+                      <span className="text-xs bg-pink-500/20 rounded-full px-2 py-1 text-pink-700">🔥 Popular</span>
+                    </div>
                   </div>
                 </div>
               </Link>
               
               {/* Webinars Card */}
-              <Link href="/webinars" className="group block focus:outline-none">
-                <div className="p-4 rounded-xl bg-yellow-100 flex flex-col h-[130px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="font-semibold text-gray-800 text-xl">Webinars</span>
+              <Link href="/webinars" className="group block focus:outline-none transform transition-all duration-300 hover:scale-105">
+                <div className="p-4 rounded-xl bg-gradient-to-br from-yellow-100 to-yellow-200 flex flex-col h-[130px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer border border-yellow-200 relative overflow-hidden">
+                  <div className="absolute right-0 top-0 bottom-0 w-[45%] opacity-80 group-hover:opacity-90 transition-opacity">
+                    <div className="absolute inset-0 bg-gradient-to-br from-transparent to-yellow-200/50 z-[1] rounded-lg"></div>
+                    <Image 
+                      src="/OIP.jpeg" 
+                      alt="Webinars" 
+                      fill 
+                      className="object-cover rounded-lg mix-blend-multiply"
+                    />
                   </div>
-                  <p className="text-sm text-gray-700 flex-1">Join Live Webinars</p>
-                  <div className="mt-auto flex justify-end">
-                    <Video size={24} />
+                  <div className="w-[55%] flex flex-col h-full pr-2">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="font-semibold text-gray-800 text-xl">Webinars</span>
+                      <div className="ml-auto bg-yellow-500/20 p-1 rounded-full">
+                        <Video size={16} className="text-yellow-600" />
+                      </div>
+                    </div>
+                    <p className="text-sm text-gray-700 flex-1">Join Live Webinars</p>
+                    <div className="mt-auto">
+                      <span className="text-xs bg-yellow-500/20 rounded-full px-2 py-1 text-yellow-700">✨ New</span>
+                    </div>
                   </div>
                 </div>
               </Link>
               
               {/* Hackathons Card */}
-              <Link href="/hackathons" className="group block focus:outline-none">
-                <div className="p-4 rounded-xl bg-blue-100 flex flex-col h-[130px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="font-semibold text-gray-800 text-xl">Hackathons</span>
+              <Link href="/hackathons" className="group block focus:outline-none transform transition-all duration-300 hover:scale-105">
+                <div className="p-4 rounded-xl bg-gradient-to-br from-blue-100 to-blue-200 flex flex-col h-[130px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer border border-blue-200 relative overflow-hidden">
+                  <div className="absolute right-0 top-0 bottom-0 w-[45%] opacity-80 group-hover:opacity-90 transition-opacity">
+                    <div className="absolute inset-0 bg-gradient-to-br from-transparent to-blue-200/50 z-[1] rounded-lg"></div>
+                    <Image 
+                      src="/3d-cartoon-boy-studying-wearing-glasses_988987-175.avif" 
+                      alt="Hackathons" 
+                      fill 
+                      className="object-cover rounded-lg mix-blend-multiply"
+                    />
                   </div>
-                  <p className="text-sm text-gray-700 flex-1">Compete & Win</p>
-                  <div className="mt-auto flex justify-end">
-                    <Award size={24} />
+                  <div className="w-[55%] flex flex-col h-full pr-2">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="font-semibold text-gray-800 text-xl">Hackathons</span>
+                      <div className="ml-auto bg-blue-500/20 p-1 rounded-full">
+                        <Award size={16} className="text-blue-600" />
+                      </div>
+                    </div>
+                    <p className="text-sm text-gray-700 flex-1">Compete & Win</p>
+                    <div className="mt-auto">
+                      <span className="text-xs bg-blue-500/20 rounded-full px-2 py-1 text-blue-700">🏆 Win Prizes</span>
+                    </div>
                   </div>
                 </div>
               </Link>
               
               {/* More Card */}
-              <Link href="/more" className="group block focus:outline-none">
-                <div className="p-4 rounded-xl bg-sky-100 flex flex-col h-[130px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="font-semibold text-gray-800 text-xl">More</span>
+              <Link href="/more" className="group block focus:outline-none transform transition-all duration-300 hover:scale-105">
+                <div className="p-4 rounded-xl bg-gradient-to-br from-sky-100 to-sky-200 flex flex-col h-[130px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer border border-sky-200 relative overflow-hidden">
+                  <div className="absolute right-0 top-0 bottom-0 w-[45%] opacity-80 group-hover:opacity-90 transition-opacity">
+                    <div className="absolute inset-0 bg-gradient-to-br from-transparent to-sky-200/50 z-[1] rounded-lg"></div>
+                    <Image 
+                      src="/small-boy-colorful-background-funny-cartoon-character-school-kid-3d-generative-ai_58409-28549.avif" 
+                      alt="More" 
+                      fill 
+                      className="object-cover rounded-lg mix-blend-multiply"
+                    />
                   </div>
-                  <p className="text-sm text-gray-700 flex-1">Discover More</p>
-                  <div className="mt-auto flex justify-end">
-                    <MoreHorizontal size={24} />
+                  <div className="w-[55%] flex flex-col h-full pr-2">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="font-semibold text-gray-800 text-xl">More</span>
+                      <div className="ml-auto bg-sky-500/20 p-1 rounded-full">
+                        <MoreHorizontal size={16} className="text-sky-600" />
+                      </div>
+                    </div>
+                    <p className="text-sm text-gray-700 flex-1">Discover More</p>
+                    <div className="mt-auto">
+                      <span className="text-xs bg-sky-500/20 rounded-full px-2 py-1 text-sky-700">👀 Explore</span>
+                    </div>
                   </div>
                 </div>
               </Link>
             </div>
-            
-            {/* FOMO Alert section */}
-            <div className="mt-6 bg-white/10 backdrop-blur-sm p-4 rounded-lg border border-white/20">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="font-bold text-lg flex items-center">
-                  <span>🔥 FOMO Alert!</span>
+          </div>
+        </div>
+      </section>
+
+      {/* User Engagement Section - Moved from Hero */}
+      <section className="py-12 bg-gradient-to-r from-indigo-50 to-sky-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Your Vibe Section */}
+            <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-indigo-100">
+              <div className="bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-4">
+                <h3 className="font-bold text-xl text-white flex items-center">
+                  <span>Your Vibe</span>
+                  <div className="ml-2 flex">
+                    <Flame className="w-5 h-5 text-orange-300 animate-pulse" />
+                    <span className="ml-1">{streakCount}</span>
+                  </div>
                 </h3>
-                <Bell className="w-5 h-5 text-yellow-300 animate-pulse" />
               </div>
-              <div className="space-y-2">
-                <Link href="/events" className="flex items-center justify-between p-2 rounded-md hover:bg-white/10 transition-colors">
-                  <div className="flex items-center">
-                    <div className="relative w-8 h-8 mr-2 rounded-full overflow-hidden">
-                      <Image 
-                        src="/yogi-bear3.png" 
-                        alt="Tech Career Fair"
-                        fill
-                        className="object-cover"
-                      />
+              <div className="p-6">
+                <div className="flex gap-3 mb-3">
+                  {achievements.map(achievement => (
+                    <div key={achievement.id} className={`w-12 h-12 flex items-center justify-center rounded-full ${achievement.completed ? 'bg-gradient-to-br from-orange-400 to-red-500 text-white pulse-glow' : 'bg-gray-200 text-gray-400'}`}>
+                      {achievement.icon}
                     </div>
-                    <span>Tech Career Fair</span>
-                  </div>
-                  <div className="flex items-center">
-                    <span className="text-sm mr-2">Today</span>
-                    <Flame className="w-4 h-4 text-orange-400" />
-                  </div>
-                </Link>
-                
-                <Link href="/events" className="flex items-center justify-between p-2 rounded-md hover:bg-white/10 transition-colors">
-                  <div className="flex items-center">
-                    <div className="relative w-8 h-8 mr-2 rounded-full overflow-hidden">
-                      <Image 
-                        src="/R.png" 
-                        alt="Resume Workshop"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <span>Resume Workshop</span>
-                  </div>
-                  <div className="flex items-center">
-                    <span className="text-sm">Tomorrow</span>
-                  </div>
-                </Link>
+                  ))}
+                </div>
+                <div className="text-sm text-gray-600 mt-2">
+                  Level up your profile to unlock more achievements! 🏆
+                </div>
+                <div className="mt-4 pt-4 border-t border-gray-100">
+                  <Link href="/profile" className="text-indigo-600 hover:text-indigo-800 text-sm font-medium flex items-center justify-center">
+                    View All Achievements <ChevronRight className="ml-1 w-4 h-4" />
+                  </Link>
+                </div>
               </div>
-              <div className="mt-3 pt-2 border-t border-white/10 text-xs text-center">
-                <span className="text-[var(--youth-yellow)]">237 students</span> are viewing these events right now!
+            </div>
+            
+            {/* FOMO Alert Section */}
+            <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-indigo-100">
+              <div className="bg-gradient-to-r from-orange-500 to-red-500 px-6 py-4">
+                <h3 className="font-bold text-xl text-white flex items-center">
+                  <span>🔥 FOMO Alert!</span>
+                  <Bell className="w-5 h-5 text-yellow-300 animate-pulse ml-auto" />
+                </h3>
+              </div>
+              <div className="p-6">
+                <div className="space-y-3">
+                  <Link href="/events" className="flex items-center justify-between p-3 rounded-md bg-orange-50 hover:bg-orange-100 transition-colors">
+                    <div className="flex items-center">
+                      <div className="relative w-10 h-10 mr-3 rounded-full overflow-hidden ring-2 ring-orange-300 animate-pulse">
+                        <Image 
+                          src="/yogi-bear3.png" 
+                          alt="Tech Career Fair"
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <div>
+                        <span className="font-medium text-gray-900">Tech Career Fair</span>
+                        <p className="text-xs text-gray-500">Connect with top employers</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center">
+                      <span className="text-sm mr-2 bg-red-500 text-white px-2 py-0.5 rounded-full">Today</span>
+                      <Flame className="w-4 h-4 text-orange-400" />
+                    </div>
+                  </Link>
+                  
+                  <Link href="/events" className="flex items-center justify-between p-3 rounded-md bg-yellow-50 hover:bg-yellow-100 transition-colors">
+                    <div className="flex items-center">
+                      <div className="relative w-10 h-10 mr-3 rounded-full overflow-hidden ring-2 ring-pink-300">
+                        <Image 
+                          src="/cute-girl-3d-character-design-cartoon-girl-avatar_432516-5510.avif" 
+                          alt="Resume Workshop"
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <div>
+                        <span className="font-medium text-gray-900">Resume Workshop</span>
+                        <p className="text-xs text-gray-500">Learn how to stand out</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center">
+                      <span className="text-sm bg-yellow-500 text-white px-2 py-0.5 rounded-full">Tomorrow</span>
+                    </div>
+                  </Link>
+                </div>
+                <div className="mt-4 pt-3 border-t border-gray-100 text-sm text-center">
+                  <span className="text-orange-600 font-bold animate-pulse">237 students</span> are viewing these events right now!
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        
-        {/* Animated wave */}
-        <div className="absolute bottom-0 left-0 right-0">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="w-full">
-            <path fill="#ffffff" fillOpacity="1" d="M0,96L48,112C96,128,192,160,288,154.7C384,149,480,107,576,112C672,117,768,171,864,176C960,181,1056,139,1152,122.7C1248,107,1344,117,1392,122.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-          </svg>
         </div>
       </section>
 
@@ -342,76 +422,86 @@ export default function Home() {
             <h2 className="text-3xl font-bold mb-2 text-gradient-primary">The Hype is Real! 🔥</h2>
             <p className="text-[var(--text-secondary)] max-w-2xl mx-auto">Join the squad and be part of something epic</p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div className="p-6 card rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-[var(--primary-start)]/10 relative overflow-hidden float">
-              <div className="absolute -right-2 -top-2">
-                <div className="fun-badge">Lit! 🔥</div>
-              </div>
-              <div className="w-full h-32 mb-4 relative">
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {/* Universities */}
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center group hover:shadow-lg transition-transform duration-300 hover:-translate-y-1">
+              <div className="w-24 h-24 mx-auto mb-4 relative overflow-hidden rounded-lg">
                 <Image 
                   src="/yogi-bear3.png" 
                   alt="Universities"
                   fill
-                  style={{ objectFit: 'contain' }}
-                  className="p-1"
+                  className="object-contain p-1"
                 />
               </div>
-              <div className="w-12 h-12 gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
-                <GraduationCap className="text-white w-6 h-6" />
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-indigo-100 flex items-center justify-center group-hover:bg-indigo-200 transition-colors">
+                <GraduationCap className="text-indigo-600 w-7 h-7" />
               </div>
-              <h3 className="text-3xl md:text-4xl font-bold text-gradient-primary mb-2">500+</h3>
-              <p className="text-[var(--text-secondary)]">Universities</p>
+              <h3 className="text-3xl font-bold mb-1 text-indigo-600">500+</h3>
+              <p className="text-gray-600">Universities</p>
+              <div className="mt-3">
+                <span className="bg-indigo-100 text-indigo-700 text-xs px-2 py-1 rounded-full group-hover:bg-indigo-200 transition-colors">Lit! 🔥</span>
+              </div>
             </div>
-            <div className="p-6 card rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-[var(--primary-mid)]/10 relative overflow-hidden float">
-              <div className="w-full h-32 mb-4 relative">
+            
+            {/* Students */}
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center group hover:shadow-lg transition-transform duration-300 hover:-translate-y-1">
+              <div className="w-24 h-24 mx-auto mb-4 relative overflow-hidden rounded-lg">
                 <Image 
-                  src="/download.jpeg" 
+                  src="/3d-cartoon-boy-studying-wearing-glasses_988987-175.avif" 
                   alt="Students"
                   fill
-                  style={{ objectFit: 'contain' }}
-                  className="p-1"
+                  className="object-contain p-1"
                 />
               </div>
-              <div className="w-12 h-12 gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
-                <Users className="text-white w-6 h-6" />
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-100 flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+                <Users className="text-blue-600 w-7 h-7" />
               </div>
-              <h3 className="text-3xl md:text-4xl font-bold text-gradient-primary mb-2">2M+</h3>
-              <p className="text-[var(--text-secondary)]">Students</p>
+              <h3 className="text-3xl font-bold mb-1 text-blue-600">2M+</h3>
+              <p className="text-gray-600">Students</p>
+              <div className="mt-3">
+                <span className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full group-hover:bg-blue-200 transition-colors">Growing</span>
+              </div>
             </div>
-            <div className="p-6 card rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-[var(--primary-end)]/10 relative overflow-hidden float">
-              <div className="absolute -right-2 -top-2">
-                <div className="fun-badge">Fire! 🚀</div>
-              </div>
-              <div className="w-full h-32 mb-4 relative">
+            
+            {/* Events */}
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center group hover:shadow-lg transition-transform duration-300 hover:-translate-y-1">
+              <div className="w-24 h-24 mx-auto mb-4 relative overflow-hidden rounded-lg">
                 <Image 
                   src="/download (1).jpeg" 
                   alt="Events"
                   fill
-                  style={{ objectFit: 'contain' }}
-                  className="p-1"
+                  className="object-contain p-1"
                 />
               </div>
-              <div className="w-12 h-12 gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
-                <Calendar className="text-white w-6 h-6" />
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-pink-100 flex items-center justify-center group-hover:bg-pink-200 transition-colors">
+                <Calendar className="text-pink-600 w-7 h-7" />
               </div>
-              <h3 className="text-3xl md:text-4xl font-bold text-gradient-primary mb-2">10K+</h3>
-              <p className="text-[var(--text-secondary)]">Events</p>
+              <h3 className="text-3xl font-bold mb-1 text-pink-600">10K+</h3>
+              <p className="text-gray-600">Events</p>
+              <div className="mt-3">
+                <span className="bg-pink-100 text-pink-700 text-xs px-2 py-1 rounded-full group-hover:bg-pink-200 transition-colors">Fire! 🚀</span>
+              </div>
             </div>
-            <div className="p-6 card rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-[var(--primary-start)]/10 relative overflow-hidden float">
-              <div className="w-full h-32 mb-4 relative">
+            
+            {/* Employers */}
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center group hover:shadow-lg transition-transform duration-300 hover:-translate-y-1">
+              <div className="w-24 h-24 mx-auto mb-4 relative overflow-hidden rounded-lg">
                 <Image 
                   src="/download (2).jpeg" 
                   alt="Employers"
                   fill
-                  style={{ objectFit: 'contain' }}
-                  className="p-1"
+                  className="object-contain p-1"
                 />
               </div>
-              <div className="w-12 h-12 gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
-                <Briefcase className="text-white w-6 h-6" />
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center group-hover:bg-green-200 transition-colors">
+                <Briefcase className="text-green-600 w-7 h-7" />
               </div>
-              <h3 className="text-3xl md:text-4xl font-bold text-gradient-primary mb-2">5K+</h3>
-              <p className="text-[var(--text-secondary)]">Employers</p>
+              <h3 className="text-3xl font-bold mb-1 text-green-600">5K+</h3>
+              <p className="text-gray-600">Employers</p>
+              <div className="mt-3">
+                <span className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full group-hover:bg-green-200 transition-colors">Hiring</span>
+              </div>
             </div>
           </div>
         </div>
@@ -431,26 +521,40 @@ export default function Home() {
             <div className="absolute left-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-r from-[var(--section-dark)] to-transparent"></div>
             <div className="absolute right-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-l from-[var(--section-dark)] to-transparent"></div>
             
-            <div 
-              ref={scrollRef}
-              className="flex items-center gap-12 py-8 overflow-x-scroll no-scrollbar"
-              style={{ scrollBehavior: 'smooth' }}
-            >
-              {/* Double the universities array to create continuous loop effect */}
-              {[...universities, ...universities].map((university, index) => (
-                <div key={index} className="flex-shrink-0 flex flex-col items-center">
-                  <div className="w-32 h-32 relative rounded-full overflow-hidden bg-white p-2 shadow-md">
-                    <Image 
-                      src={university.logo} 
-                      alt={university.name} 
-                      fill
-                      style={{ objectFit: 'contain' }}
-                      className="p-1"
-                    />
+            <div className="slider-track py-8 overflow-hidden">
+              <div className="slide-track flex items-center">
+                {/* First set of universities */}
+                {universities.map((university, index) => (
+                  <div key={`first-${index}`} className="slide flex-shrink-0 flex flex-col items-center mx-6">
+                    <div className="w-32 h-32 relative rounded-full overflow-hidden bg-white p-2 shadow-md">
+                      <Image 
+                        src={university.logo} 
+                        alt={university.name} 
+                        fill
+                        style={{ objectFit: 'contain' }}
+                        className="p-1"
+                      />
+                    </div>
+                    <p className="mt-3 text-sm text-[var(--text-secondary)] font-medium">{university.name}</p>
                   </div>
-                  <p className="mt-3 text-sm text-[var(--text-secondary)] font-medium">{university.name}</p>
-                </div>
-              ))}
+                ))}
+                
+                {/* Duplicate set for seamless looping */}
+                {universities.map((university, index) => (
+                  <div key={`second-${index}`} className="slide flex-shrink-0 flex flex-col items-center mx-6">
+                    <div className="w-32 h-32 relative rounded-full overflow-hidden bg-white p-2 shadow-md">
+                      <Image 
+                        src={university.logo} 
+                        alt={university.name} 
+                        fill
+                        style={{ objectFit: 'contain' }}
+                        className="p-1"
+                      />
+                    </div>
+                    <p className="mt-3 text-sm text-[var(--text-secondary)] font-medium">{university.name}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           
@@ -511,6 +615,16 @@ export default function Home() {
               </div>
               <div className="w-14 h-14 gradient-primary rounded-xl flex items-center justify-center mb-6 shadow-md">
                 <Calendar className="text-white" size={28} />
+              </div>
+              <div className="float-right ml-4 mb-2">
+                <div className="w-16 h-16 relative rounded-full overflow-hidden">
+                  <Image 
+                    src="/small-boy-colorful-background-funny-cartoon-character-school-kid-3d-generative-ai_58409-28549.avif" 
+                    alt="Workshop Participant" 
+                    fill 
+                    className="object-cover"
+                  />
+                </div>
               </div>
               <h3 className="text-xl font-bold text-[var(--text-primary)] mb-3">Workshops & Webinars</h3>
               <p className="text-[var(--text-secondary)] mb-4">
@@ -657,6 +771,43 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Add this style block at the end of your component, right before the final return closing bracket */}
+      <style jsx global>{`
+        /* Perfect animation for university logos */
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(calc(-250px * 10));
+          }
+        }
+        
+        .slider-track {
+          width: 100%;
+          height: auto;
+          margin: auto;
+          overflow: hidden;
+          position: relative;
+        }
+        
+        .slide-track {
+          animation: scroll 40s linear infinite;
+          width: calc(250px * 20);
+        }
+        
+        .slide-track:hover {
+          animation-play-state: paused;
+        }
+        
+        .slide {
+          width: 250px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      `}</style>
     </main>
   );
 }

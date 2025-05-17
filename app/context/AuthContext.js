@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 
 const AuthContext = createContext(null);
@@ -9,6 +9,8 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const pathname = usePathname();
+  const sessionStartTime = useRef(null);
+  const lastPath = useRef(null);
 
   // Check if user is logged in on initial load
   useEffect(() => {
@@ -34,10 +36,59 @@ export function AuthProvider({ children }) {
     checkAuthStatus();
   }, []);
 
-  // Track page views
+  // Record session start time when component mounts
+  useEffect(() => {
+    sessionStartTime.current = Date.now();
+    lastPath.current = pathname;
+
+    // Track session duration on page unload/tab close
+    const handleUnload = () => {
+      if (user && sessionStartTime.current) {
+        const duration = Math.floor((Date.now() - sessionStartTime.current) / 1000);
+        
+        // Use navigator.sendBeacon for reliable data sending during page unload
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon('/api/track', JSON.stringify({
+            page: lastPath.current,
+            action: 'PAGE_EXIT',
+            duration: duration
+          }));
+        }
+      }
+    };
+
+    window.addEventListener('beforeunload', handleUnload);
+    return () => window.removeEventListener('beforeunload', handleUnload);
+  }, [user]);
+
+  // Track page views and time spent on each page
   useEffect(() => {
     if (pathname && user) {
-      // Record page view
+      // If we have a previous path, record the time spent there
+      if (lastPath.current && lastPath.current !== pathname && sessionStartTime.current) {
+        const duration = Math.floor((Date.now() - sessionStartTime.current) / 1000);
+        
+        // Only track if the user spent at least 1 second on the page
+        if (duration >= 1) {
+          fetch('/api/track', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              page: lastPath.current,
+              action: 'PAGE_VIEW',
+              duration: duration
+            }),
+          }).catch(error => {
+            console.error('Failed to track page duration:', error);
+          });
+        }
+      }
+
+      // Reset the timer for the new page
+      sessionStartTime.current = Date.now();
+      lastPath.current = pathname;
+
+      // Record initial page view without duration
       const trackPageView = async () => {
         try {
           await fetch('/api/track', {
@@ -45,7 +96,7 @@ export function AuthProvider({ children }) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               page: pathname,
-              action: 'PAGE_VIEW',
+              action: 'PAGE_LOAD',
             }),
           });
         } catch (error) {
@@ -84,6 +135,22 @@ export function AuthProvider({ children }) {
 
   const logout = async () => {
     try {
+      // Record the final page duration before logout
+      if (user && sessionStartTime.current && lastPath.current) {
+        const duration = Math.floor((Date.now() - sessionStartTime.current) / 1000);
+        if (duration >= 1) {
+          await fetch('/api/track', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              page: lastPath.current,
+              action: 'PAGE_EXIT',
+              duration: duration
+            }),
+          });
+        }
+      }
+      
       await fetch('/api/auth/logout', { method: 'POST' });
       setUser(null);
       return { success: true };

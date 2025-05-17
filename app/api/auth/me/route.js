@@ -4,8 +4,9 @@ import { prisma } from '../../../utils/db';
 
 export async function GET() {
   try {
-    // Get the token from the cookie
-    const token = cookies().get('gradlyft_token')?.value;
+    // Get the token from the cookie - using await to fix the error
+    const cookieStore = await cookies();
+    const token = cookieStore.get('gradlyft_token')?.value;
     
     if (!token) {
       return Response.json({ 
