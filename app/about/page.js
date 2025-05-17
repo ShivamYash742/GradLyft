@@ -1,197 +1,199 @@
+'use client';
+
+import { Users, Briefcase, GraduationCap, Award, Globe, Heart } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function AboutPage() {
+  const stats = [
+    { label: 'Universities', value: '120+' },
+    { label: 'Employers', value: '5,000+' },
+    { label: 'Students', value: '250,000+' },
+    { label: 'Job Placements', value: '40,000+' }
+  ];
+
+  const values = [
+    {
+      title: 'Student Success',
+      description: 'We believe in empowering students to reach their full potential through meaningful career opportunities.',
+      icon: <GraduationCap className="w-6 h-6 text-[var(--primary-start)]" />
+    },
+    {
+      title: 'Innovation',
+      description: 'We constantly evolve our platform and services to stay ahead of the changing needs of the job market.',
+      icon: <Award className="w-6 h-6 text-[var(--primary-start)]" />
+    },
+    {
+      title: 'Inclusivity',
+      description: 'Were committed to creating equal opportunities for all students, regardless of background or circumstances.',
+      icon: <Heart className="w-6 h-6 text-[var(--primary-start)]" />
+    },
+    {
+      title: 'Partnership',
+      description: 'We forge meaningful relationships between students, universities, and employers to create sustainable success.',
+      icon: <Users className="w-6 h-6 text-[var(--primary-start)]" />
+    },
+    {
+      title: 'Quality',
+      description: 'We strive for excellence in everything we do, from our platform technology to our customer service.',
+      icon: <Briefcase className="w-6 h-6 text-[var(--primary-start)]" />
+    },
+    {
+      title: 'Global Impact',
+      description: 'We seek to transform career development and talent acquisition on a global scale.',
+      icon: <Globe className="w-6 h-6 text-[var(--primary-start)]" />
+    }
+  ];
+
+  const teamMembers = [
+    {
+      name: 'Sarah Johnson',
+      role: 'CEO & Co-Founder',
+      bio: 'Former university career services director with 15+ years of experience connecting students with employers.',
+      image: '/download.jpeg'
+    },
+    {
+      name: 'Michael Chen',
+      role: 'CTO & Co-Founder',
+      bio: 'Tech visionary with previous experience at leading recruitment platforms and a passion for AI-powered solutions.',
+      image: '/download (1).jpeg'
+    },
+    {
+      name: 'Priya Patel',
+      role: 'Chief University Officer',
+      bio: 'Expert in higher education partnerships with a background in university administration and student success.',
+      image: '/download (2).jpeg'
+    },
+    {
+      name: 'James Wilson',
+      role: 'Chief Employer Officer',
+      bio: 'Former corporate recruiter who understands the challenges employers face in finding the right talent.',
+      image: '/yogi-bear3.png'
+    }
+  ];
+
   return (
-    <main className="pt-16 pb-24">
-      {/* Hero Section */}
-      <section className="gradient-primary py-16 md:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight drop-shadow-md text-on-gradient">About GradLyft</h1>
-          <p className="text-xl max-w-3xl mx-auto opacity-90 drop-shadow text-on-gradient">
-            Connecting students with opportunities and empowering the next generation of professionals.
+    <main className="bg-[var(--section-light)]">
+      <section className="py-16 bg-gradient-to-b from-[var(--primary-subtle)] to-[var(--section-light)]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-4xl font-bold text-center text-[var(--text-primary)]">
+            About <span className="text-gradient-primary">GradLyft</span>
+          </h1>
+          <p className="mt-4 text-center text-[var(--text-secondary)] max-w-3xl mx-auto">
+            We're on a mission to transform how students connect with meaningful career opportunities and how employers discover exceptional talent.
           </p>
         </div>
       </section>
 
-      {/* Our Story Section */}
-      <section className="py-16 bg-section-light">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl font-bold mb-6 text-[var(--primary-start)]">Our Story</h2>
-              <p className="text-lg text-[var(--text-secondary)] mb-6">
-                GradLyft was founded in 2020 with a simple mission: to bridge the gap between education and employment. 
-                We recognized that many talented students struggled to find the right opportunities after graduation, 
-                while companies were eager to discover fresh talent.
-              </p>
-              <p className="text-lg text-[var(--text-secondary)] mb-6">
-                What began as a small platform for connecting students with employers has grown into a comprehensive 
-                ecosystem that serves students, universities, and organizations alike. Today, GradLyft facilitates 
-                connections between millions of students and thousands of employers worldwide.
-              </p>
-              <p className="text-lg text-[var(--text-secondary)]">
-                Our platform has evolved to include competitions, hackathons, workshops, and networking events—all 
-                designed to help students showcase their skills and connect with potential employers.
-              </p>
-            </div>
-            <div className="card rounded-xl p-8 h-full shadow-lg">
-              <div className="mb-8">
-                <h3 className="text-xl font-bold text-[var(--primary-start)] mb-3">Our Mission</h3>
-                <p className="text-[var(--text-secondary)]">
-                  To empower students and recent graduates by providing them with the resources, connections, 
-                  and opportunities they need to launch successful careers.
-                </p>
-              </div>
-              <div className="mb-8">
-                <h3 className="text-xl font-bold text-[var(--primary-start)] mb-3">Our Vision</h3>
-                <p className="text-[var(--text-secondary)]">
-                  A world where every student has equal access to career opportunities, regardless of their 
-                  background or location, and where potential is recognized and fostered.
-                </p>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-[var(--primary-start)] mb-3">Our Values</h3>
-                <ul className="text-[var(--text-secondary)] space-y-2">
-                  <li className="flex items-center"><span className="h-2 w-2 rounded-full gradient-primary mr-2"></span> Accessibility: Making opportunities available to all</li>
-                  <li className="flex items-center"><span className="h-2 w-2 rounded-full gradient-primary mr-2"></span> Innovation: Constantly improving our platform</li>
-                  <li className="flex items-center"><span className="h-2 w-2 rounded-full gradient-primary mr-2"></span> Diversity: Celebrating different backgrounds and perspectives</li>
-                  <li className="flex items-center"><span className="h-2 w-2 rounded-full gradient-primary mr-2"></span> Integrity: Building trust through transparency</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Team Section */}
-      <section className="py-16 bg-section-dark">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4 text-gradient-primary">Meet Our Team</h2>
-            <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto">
-              The passionate individuals behind GradLyft who are dedicated to creating opportunities for students worldwide.
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Team Member 1 */}
-            <div className="card rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
-              <div className="h-64 gradient-primary"></div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-[var(--text-primary)] mb-1">Rahul Sharma</h3>
-                <p className="text-[var(--primary-start)] mb-4">Founder & CEO</p>
-                <p className="text-[var(--text-secondary)] mb-4">
-                  Former education technology executive with a passion for connecting students with opportunities.
-                </p>
-                <div className="flex space-x-4">
-                  <a href="#" className="text-[var(--text-muted)] hover:text-[var(--link-color)] transition-colors">
-                    <span className="sr-only">LinkedIn</span>
-                    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M6.94 5a2 2 0 11-4-.002 2 2 0 014 .002zM7 8.48H3V21h4V8.48zm6.32 0H9.34V21h3.94v-6.57c0-3.66 4.77-4 4.77 0V21H22v-7.93c0-6.17-7.06-5.94-8.72-2.91l.04-1.68z" />
-                    </svg>
-                  </a>
-                  <a href="#" className="text-[var(--text-muted)] hover:text-[var(--link-color)] transition-colors">
-                    <span className="sr-only">Twitter</span>
-                    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07a4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            </div>
-            
-            {/* Team Member 2 */}
-            <div className="card rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
-              <div className="h-64 gradient-primary"></div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-[var(--text-primary)] mb-1">Priya Patel</h3>
-                <p className="text-[var(--primary-start)] mb-4">CTO</p>
-                <p className="text-[var(--text-secondary)] mb-4">
-                  Tech leader with expertise in building platforms that connect people and opportunities.
-                </p>
-                <div className="flex space-x-4">
-                  <a href="#" className="text-[var(--text-muted)] hover:text-[var(--link-color)] transition-colors">
-                    <span className="sr-only">LinkedIn</span>
-                    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M6.94 5a2 2 0 11-4-.002 2 2 0 014 .002zM7 8.48H3V21h4V8.48zm6.32 0H9.34V21h3.94v-6.57c0-3.66 4.77-4 4.77 0V21H22v-7.93c0-6.17-7.06-5.94-8.72-2.91l.04-1.68z" />
-                    </svg>
-                  </a>
-                  <a href="#" className="text-[var(--text-muted)] hover:text-[var(--link-color)] transition-colors">
-                    <span className="sr-only">Twitter</span>
-                    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07a4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            </div>
-            
-            {/* Team Member 3 */}
-            <div className="card rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
-              <div className="h-64 gradient-primary"></div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-[var(--text-primary)] mb-1">Alex Johnson</h3>
-                <p className="text-[var(--primary-start)] mb-4">Head of Partnerships</p>
-                <p className="text-[var(--text-secondary)] mb-4">
-                  Former university career advisor with strong connections to employers and educational institutions.
-                </p>
-                <div className="flex space-x-4">
-                  <a href="#" className="text-[var(--text-muted)] hover:text-[var(--link-color)] transition-colors">
-                    <span className="sr-only">LinkedIn</span>
-                    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M6.94 5a2 2 0 11-4-.002 2 2 0 014 .002zM7 8.48H3V21h4V8.48zm6.32 0H9.34V21h3.94v-6.57c0-3.66 4.77-4 4.77 0V21H22v-7.93c0-6.17-7.06-5.94-8.72-2.91l.04-1.68z" />
-                    </svg>
-                  </a>
-                  <a href="#" className="text-[var(--text-muted)] hover:text-[var(--link-color)] transition-colors">
-                    <span className="sr-only">Twitter</span>
-                    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07a4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Join Us Section */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="gradient-primary rounded-2xl p-8 md:p-12 text-center shadow-xl">
-            <h2 className="text-3xl font-bold mb-6 drop-shadow-md text-on-gradient">Join Our Growing Team</h2>
-            <p className="text-xl mb-8 max-w-3xl mx-auto opacity-90 text-on-gradient">
-              We're always looking for talented individuals who are passionate about empowering students 
-              and creating opportunities for the next generation.
-            </p>
-            <Link href="/contact" className="bg-white text-[var(--primary-start)] px-8 py-4 rounded-md font-medium hover:bg-gray-100 transition duration-300 inline-block shadow-md hover:shadow-lg transform hover:-translate-y-1">
-              Get in Touch
-            </Link>
+          <div className="lg:flex lg:items-center lg:gap-16">
+            <div className="lg:w-1/2">
+              <h2 className="text-3xl font-bold text-[var(--text-primary)] mb-6">Our Story</h2>
+              <div className="space-y-4 text-[var(--text-secondary)]">
+                <p>
+                  GradLyft was born from a simple observation: despite the abundance of talented graduates and employers seeking fresh talent, making meaningful connections between them remained unnecessarily difficult.
+                </p>
+                <p>
+                  Founded in 2021 by Sarah Johnson and Michael Chen, GradLyft began as a small pilot program at three universities. Our platform quickly gained traction as students found jobs they loved and employers discovered exceptional candidates they might have otherwise missed.
+                </p>
+                <p>
+                  Today, GradLyft serves hundreds of universities and thousands of employers worldwide, but our mission remains the same: to empower students in their career journeys and help organizations find their next generation of leaders.
+                </p>
+              </div>
+            </div>
+            <div className="mt-10 lg:mt-0 lg:w-1/2">
+              <div className="aspect-video rounded-xl overflow-hidden bg-[var(--section-dark)]">
+                {/* This would be an image or video about the company */}
+                <div className="w-full h-full flex items-center justify-center">
+                  <p className="text-[var(--text-muted)]">Company Story Video</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Partners Section */}
-      <section className="py-16 bg-section-light">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-gradient-primary">Our Partners</h2>
-            <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto">
-              We work with leading universities and companies to create opportunities for students.
-            </p>
+      <section className="py-16 bg-[var(--section-dark)]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold mb-16 text-gradient-primary">GradLyft By The Numbers</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <div key={index} className="card p-6 rounded-xl">
+                <p className="text-4xl font-bold text-[var(--primary-start)]">{stat.value}</p>
+                <p className="text-[var(--text-secondary)] mt-2">{stat.label}</p>
+              </div>
+            ))}
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
-            <div className="h-24 card rounded-lg flex items-center justify-center transform hover:scale-105 transition-transform">
-              <div className="text-xl font-bold text-[var(--primary-start)]">University 1</div>
-            </div>
-            <div className="h-24 card rounded-lg flex items-center justify-center transform hover:scale-105 transition-transform">
-              <div className="text-xl font-bold text-[var(--primary-start)]">Company 1</div>
-            </div>
-            <div className="h-24 card rounded-lg flex items-center justify-center transform hover:scale-105 transition-transform">
-              <div className="text-xl font-bold text-[var(--primary-start)]">Organization</div>
-            </div>
-            <div className="h-24 card rounded-lg flex items-center justify-center transform hover:scale-105 transition-transform">
-              <div className="text-xl font-bold text-[var(--primary-start)]">Foundation</div>
-            </div>
+        </div>
+      </section>
+
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold mb-12 text-center text-gradient-primary">Our Core Values</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {values.map((value, index) => (
+              <div key={index} className="card p-6 rounded-xl hover:shadow-lg transition-shadow duration-300">
+                <div className="flex items-start">
+                  <div className="mr-4 p-3 rounded-lg bg-[var(--primary-subtle)]">
+                    {value.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-[var(--text-primary)]">{value.title}</h3>
+                    <p className="text-[var(--text-secondary)] mt-2">{value.description}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-[var(--section-dark)]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold mb-12 text-center text-gradient-primary">Meet Our Leadership Team</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {teamMembers.map((member, index) => (
+              <div key={index} className="card p-6 rounded-xl text-center">
+                <div className="w-24 h-24 mx-auto rounded-full overflow-hidden bg-[var(--card-bg)] mb-4 relative">
+                  <Image 
+                    src={member.image} 
+                    alt={member.name}
+                    fill
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+                <h3 className="text-xl font-bold text-[var(--text-primary)]">{member.name}</h3>
+                <p className="text-[var(--primary-start)] mb-2">{member.role}</p>
+                <p className="text-sm text-[var(--text-secondary)]">{member.bio}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold mb-6 text-gradient-primary">
+            Join Our Journey
+          </h2>
+          <p className="text-[var(--text-secondary)] max-w-3xl mx-auto mb-8">
+            Whether you're a student starting your career journey, a university looking to improve student outcomes, 
+            or an employer seeking exceptional talent, we invite you to be part of the GradLyft community.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link 
+              href="/contact" 
+              className="gradient-button text-white px-6 py-3 rounded-md hover:gradient-button-hover transition shadow-md hover:shadow-lg"
+            >
+              Contact Us
+            </Link>
+            <Link 
+              href="/careers" 
+              className="border border-[var(--primary-start)] text-[var(--primary-start)] px-6 py-3 rounded-md hover:bg-[var(--primary-subtle)] transition"
+            >
+              Careers at GradLyft
+            </Link>
           </div>
         </div>
       </section>

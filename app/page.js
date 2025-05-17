@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Award, Users, Briefcase, Calendar, ChevronRight, Star, GraduationCap, Building, BookOpen, MoreHorizontal, Video, Smile } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function Home() {
   // Feature grid color shuffle
@@ -14,6 +14,23 @@ export default function Home() {
     'bg-yellow-100',    // Hackathons
     'bg-pink-100'       // More
   ];
+  
+  // Universities carousel
+  const universities = [
+    { name: 'Harvard University', logo: '/yogi-bear3.png' },
+    { name: 'Stanford University', logo: '/download.jpeg' },
+    { name: 'MIT', logo: '/download (1).jpeg' },
+    { name: 'Oxford University', logo: '/download (2).jpeg' },
+    { name: 'Cambridge University', logo: '/little-einsteins-cartoon-characters-png-3.png' },
+    { name: 'Yale University', logo: '/R.png' },
+    { name: 'Princeton University', logo: '/download.jpeg' },
+    { name: 'Columbia University', logo: '/download (1).jpeg' },
+    { name: 'UC Berkeley', logo: '/download (2).jpeg' },
+    { name: 'Caltech', logo: '/yogi-bear3.png' },
+  ];
+  
+  const scrollRef = useRef(null);
+  
   useEffect(() => {
     const shuffleColors = () => {
       const newOrder = [...colorOrder];
@@ -26,6 +43,24 @@ export default function Home() {
     shuffleColors();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  
+  useEffect(() => {
+    // Auto scroll for university logos
+    const scrollContainer = scrollRef.current;
+    if (scrollContainer) {
+      const scroll = () => {
+        if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth - scrollContainer.clientWidth) {
+          scrollContainer.scrollLeft = 0;
+        } else {
+          scrollContainer.scrollLeft += 1;
+        }
+      };
+      
+      const timer = setInterval(scroll, 20);
+      return () => clearInterval(timer);
+    }
+  }, []);
+  
   const featureItems = [
     {
       id: 'events',
@@ -148,6 +183,54 @@ export default function Home() {
               <h3 className="text-3xl md:text-4xl font-bold text-gradient-primary mb-2">5K+</h3>
               <p className="text-[var(--text-secondary)]">Employers</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* University Partners Section */}
+      <section className="py-16 bg-section-dark">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient-primary">Trusted by Leading Universities</h2>
+            <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto">
+              Partner with us to connect your students with top employers and opportunities worldwide.
+            </p>
+          </div>
+          
+          <div className="relative overflow-hidden">
+            <div className="absolute left-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-r from-[var(--section-dark)] to-transparent"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-l from-[var(--section-dark)] to-transparent"></div>
+            
+            <div 
+              ref={scrollRef}
+              className="flex items-center gap-12 py-8 overflow-x-scroll no-scrollbar"
+              style={{ scrollBehavior: 'smooth' }}
+            >
+              {/* Double the universities array to create continuous loop effect */}
+              {[...universities, ...universities].map((university, index) => (
+                <div key={index} className="flex-shrink-0 flex flex-col items-center">
+                  <div className="w-32 h-32 relative rounded-full overflow-hidden bg-white p-2 shadow-md">
+                    <Image 
+                      src={university.logo} 
+                      alt={university.name} 
+                      fill
+                      style={{ objectFit: 'contain' }}
+                      className="p-1"
+                    />
+                  </div>
+                  <p className="mt-3 text-sm text-[var(--text-secondary)] font-medium">{university.name}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          <div className="text-center mt-10">
+            <Link 
+              href="/universities/register" 
+              className="inline-flex items-center text-[var(--primary-start)] hover:text-[var(--primary-end)] font-medium"
+            >
+              Become a Partner University <ChevronRight className="ml-1 w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>
