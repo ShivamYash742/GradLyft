@@ -1,9 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, Send, AlertCircle, CheckCircle } from 'lucide-react';
 
+/**
+ * Contact page component
+ * Features a contact form, contact details, and FAQs
+ */
 export default function ContactPage() {
+  // Form state management
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -14,41 +19,107 @@ export default function ContactPage() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState(null);
+  const [formErrors, setFormErrors] = useState({});
 
+  // Handle input field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
+    
+    // Clear validation error when field is edited
+    if (formErrors[name]) {
+      setFormErrors(prev => ({
+        ...prev,
+        [name]: null
+      }));
+    }
   };
 
-  const handleSubmit = (e) => {
+  // Client-side validation
+  const validateForm = () => {
+    const errors = {};
+    
+    if (!formData.name.trim()) {
+      errors.name = 'Name is required';
+    }
+    
+    if (!formData.email.trim()) {
+      errors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      errors.email = 'Valid email address is required';
+    }
+    
+    if (!formData.subject.trim()) {
+      errors.subject = 'Subject is required';
+    }
+    
+    if (!formData.message.trim()) {
+      errors.message = 'Message is required';
+    }
+    
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  // Form submission handler
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate form before submission
+    if (!validateForm()) {
+      return;
+    }
+    
     setIsSubmitting(true);
     
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        setSubmitMessage({
+          type: 'success',
+          text: data.message || 'Thank you for your message! We will get back to you soon.'
+        });
+        
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: '',
+          userType: 'student'
+        });
+      } else {
+        setSubmitMessage({
+          type: 'error',
+          text: data.message || 'There was a problem submitting your form. Please try again.'
+        });
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
       setSubmitMessage({
-        type: 'success',
-        text: 'Thank you for your message! We will get back to you soon.'
+        type: 'error',
+        text: 'There was a problem connecting to our server. Please try again later.'
       });
+    } finally {
+      setIsSubmitting(false);
       
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
-        userType: 'student'
-      });
-      
-      // Clear success message after 5 seconds
+      // Clear success/error message after 5 seconds
       setTimeout(() => {
         setSubmitMessage(null);
       }, 5000);
-    }, 1500);
+    }
   };
 
   const FAQs = [

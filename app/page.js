@@ -1,32 +1,17 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Award, Users, Briefcase, Calendar, ChevronRight, Star, GraduationCap, Building, BookOpen, MoreHorizontal, Video, Smile, Flame, Trophy, Bell, Sparkles } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
+import { ArrowRight, Award, Users, Briefcase, Calendar, ChevronRight, Star, GraduationCap, MoreHorizontal, Video, Smile, Flame, Trophy, Bell, Sparkles } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
-  // Feature grid color shuffle
-  const [colorOrder, setColorOrder] = useState([0, 1, 2, 3]);
-  const [hovered, setHovered] = useState(null);
-  const [streakCount, setStreakCount] = useState(3);
+  const streakCount = 3;
   const [showStreakPopup, setShowStreakPopup] = useState(false);
-  const [achievements, setAchievements] = useState([
+  const achievements = [
     { id: 1, name: 'Profile Star', completed: true, icon: <Star className="text-yellow-400" /> },
     { id: 2, name: 'Event Explorer', completed: true, icon: <Calendar className="text-blue-500" /> },
     { id: 3, name: 'Network Builder', completed: false, icon: <Users className="text-purple-500" /> },
     { id: 4, name: 'Skill Master', completed: false, icon: <Trophy className="text-amber-500" /> },
-  ]);
-  const [upcomingEvents, setUpcomingEvents] = useState([
-    { id: 1, name: 'Tech Career Fair', date: 'Today', hot: true },
-    { id: 2, name: 'Resume Workshop', date: 'Tomorrow', hot: false },
-    { id: 3, name: 'Coding Challenge', date: 'In 3 days', hot: true },
-  ]);
-  
-  const colorPalettes = [
-    'bg-blue-100',      // Events
-    'bg-purple-100',    // Webinars
-    'bg-yellow-100',    // Hackathons
-    'bg-pink-100'       // More
   ];
   
   // Universities carousel
@@ -42,38 +27,6 @@ export default function Home() {
     { name: 'UC Berkeley', logo: '/download (2).jpeg' },
     { name: 'Caltech', logo: '/yogi-bear3.png' },
   ];
-  
-  const scrollRef = useRef(null);
-  
-  useEffect(() => {
-    const shuffleColors = () => {
-      const newOrder = [...colorOrder];
-      for (let i = newOrder.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [newOrder[i], newOrder[j]] = [newOrder[j], newOrder[i]];
-      }
-      setColorOrder(newOrder);
-    };
-    shuffleColors();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  
-  useEffect(() => {
-    // Auto scroll for university logos
-    const scrollContainer = scrollRef.current;
-    if (scrollContainer) {
-      const scroll = () => {
-        if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth - scrollContainer.clientWidth) {
-          scrollContainer.scrollLeft = 0;
-        } else {
-          scrollContainer.scrollLeft += 1;
-        }
-      };
-      
-      const timer = setInterval(scroll, 20);
-      return () => clearInterval(timer);
-    }
-  }, []);
 
   useEffect(() => {
     // Show streak popup after a short delay
@@ -88,45 +41,6 @@ export default function Home() {
     
     return () => clearTimeout(timer);
   }, []);
-  
-  const featureItems = [
-    {
-      id: 'events',
-      title: 'Events',
-      description: 'Explore All Events',
-      icon: <Calendar size={24} />,
-      href: '/events',
-      character: '/download.jpeg',
-      explanation: 'Find and join exciting events to boost your career and network with professionals.'
-    },
-    {
-      id: 'webinars',
-      title: 'Webinars',
-      description: 'Join Live Webinars',
-      icon: <span className="flex items-center gap-1"><Video size={22} /><Smile size={20} /></span>,
-      href: '/webinars',
-      character: '/download (1).jpeg',
-      explanation: 'Attend live webinars hosted by industry experts and enhance your knowledge.'
-    },
-    {
-      id: 'hackathons',
-      title: 'Hackathons',
-      description: 'Compete & Win',
-      icon: <Award size={24} />,
-      href: '/hackathons',
-      character: '/download (2).jpeg',
-      explanation: 'Participate in hackathons, solve real-world problems, and win amazing prizes!'
-    },
-    {
-      id: 'more',
-      title: 'More',
-      description: 'Discover More',
-      icon: <MoreHorizontal size={24} />,
-      href: '/more',
-      character: '/yogi-bear3.png',
-      explanation: 'Explore more opportunities and resources to help you grow.'
-    }
-  ];
 
   return (
     <main className="overflow-hidden">
