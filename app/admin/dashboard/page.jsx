@@ -155,34 +155,47 @@ export default function AdminDashboard() {
   }
 
   return (
-    <main className="pt-16 pb-24 min-h-screen">
+    <main className="pt-16 pb-24 min-h-screen bg-[var(--section-light)] relative emoji-bg">
+      {/* Animated sparkles */}
+      <div className="absolute top-12 right-32 animate-pulse">
+        <Shield className="w-6 h-6 text-[var(--primary-start)]" />
+      </div>
+      <div className="absolute bottom-20 left-24 animate-pulse delay-1000">
+        <Shield className="w-4 h-4 text-[var(--primary-mid)]" />
+      </div>
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header with Admin Badge */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div className="flex items-center">
-            <Shield className="w-8 h-8 text-[var(--primary-start)] mr-3" />
-            <h1 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)]">Admin Dashboard</h1>
+            <div className="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center mr-4 shadow-md">
+              <Shield className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold text-gradient-primary">Admin Dashboard</h1>
+              <p className="text-[var(--text-secondary)]">Manage users and monitor activity</p>
+            </div>
           </div>
           
           <div className="flex items-center gap-4">
-            <div className="flex items-center text-[var(--text-secondary)]">
-              <User className="w-5 h-5 mr-2" />
-              <span>{user?.email || 'Admin'}</span>
+            <div className="flex items-center bg-[var(--primary-start)]/10 px-3 py-2 rounded-full">
+              <User className="w-5 h-5 mr-2 text-[var(--primary-start)]" />
+              <span className="text-[var(--text-secondary)] font-medium">{user?.email || 'Admin'}</span>
             </div>
             <button 
               onClick={handleLogout}
-              className="flex items-center text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
+              className="bg-white text-[var(--primary-end)] border border-[var(--primary-end)]/20 shadow-sm px-4 py-2 rounded-full hover:bg-[var(--primary-end)]/5 transition-colors flex items-center"
             >
-              <LogOut className="w-5 h-5 mr-1" />
+              <LogOut className="w-5 h-5 mr-2" />
               <span>Logout</span>
             </button>
           </div>
         </div>
         
         {/* Filter Section */}
-        <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-lg p-4 mb-6">
-          <h2 className="text-lg font-medium text-[var(--text-primary)] mb-4 flex items-center">
-            <Filter className="w-5 h-5 mr-2" />
+        <div className="bg-white border border-[var(--card-border)] rounded-xl p-6 mb-6 shadow-md">
+          <h2 className="text-lg font-bold text-[var(--text-primary)] mb-4 flex items-center">
+            <Filter className="w-5 h-5 mr-2 text-[var(--primary-start)]" />
             Filter Sessions
           </h2>
           
@@ -196,7 +209,7 @@ export default function AdminDashboard() {
                 type="text"
                 value={userId}
                 onChange={(e) => setUserId(e.target.value)}
-                className="w-full px-4 py-2 rounded-md focus:ring-[var(--primary-start)] focus:border-[var(--primary-start)] shadow-sm bg-[var(--bg-primary)] border border-[var(--card-border)] text-[var(--text-primary)]"
+                className="w-full px-4 py-2 rounded-md focus:ring-[var(--primary-start)] focus:border-[var(--primary-start)] shadow-sm bg-white border border-[var(--card-border)] text-[var(--text-primary)]"
                 placeholder="Filter by user ID"
               />
             </div>
@@ -210,7 +223,7 @@ export default function AdminDashboard() {
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="w-full px-4 py-2 rounded-md focus:ring-[var(--primary-start)] focus:border-[var(--primary-start)] shadow-sm bg-[var(--bg-primary)] border border-[var(--card-border)] text-[var(--text-primary)]"
+                className="w-full px-4 py-2 rounded-md focus:ring-[var(--primary-start)] focus:border-[var(--primary-start)] shadow-sm bg-white border border-[var(--card-border)] text-[var(--text-primary)]"
               />
             </div>
             
@@ -223,7 +236,7 @@ export default function AdminDashboard() {
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="w-full px-4 py-2 rounded-md focus:ring-[var(--primary-start)] focus:border-[var(--primary-start)] shadow-sm bg-[var(--bg-primary)] border border-[var(--card-border)] text-[var(--text-primary)]"
+                className="w-full px-4 py-2 rounded-md focus:ring-[var(--primary-start)] focus:border-[var(--primary-start)] shadow-sm bg-white border border-[var(--card-border)] text-[var(--text-primary)]"
               />
             </div>
             
@@ -231,13 +244,13 @@ export default function AdminDashboard() {
               <button
                 type="button"
                 onClick={handleClearFilters}
-                className="px-4 py-2 border border-[var(--card-border)] text-[var(--text-secondary)] rounded-md hover:bg-[var(--bg-hover)] transition-colors"
+                className="px-4 py-2 border border-[var(--card-border)] text-[var(--text-secondary)] rounded-full hover:bg-[var(--section-dark)] transition-colors"
               >
                 Clear Filters
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 gradient-button text-white rounded-md hover:gradient-button-hover transition-colors"
+                className="px-4 py-2 bg-gradient-to-r from-[var(--primary-start)] to-[var(--primary-end)] text-white rounded-full hover:opacity-90 transition-colors shadow-md"
               >
                 Apply Filters
               </button>
@@ -246,16 +259,19 @@ export default function AdminDashboard() {
         </div>
         
         {/* Sessions Table */}
-        <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-lg overflow-hidden">
-          <div className="flex justify-between items-center p-4 border-b border-[var(--card-border)]">
-            <h2 className="text-lg font-medium text-[var(--text-primary)]">User Sessions</h2>
+        <div className="bg-white border border-[var(--card-border)] rounded-xl overflow-hidden shadow-md">
+          <div className="flex justify-between items-center p-4 border-b border-[var(--card-border)] bg-[var(--primary-start)]/5">
+            <h3 className="font-bold text-[var(--text-primary)] flex items-center">
+              <Clock className="w-5 h-5 mr-2 text-[var(--primary-start)]" />
+              User Sessions
+            </h3>
+            
             <button 
-              onClick={fetchSessions} 
-              className="flex items-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+              onClick={fetchSessions}
+              className="text-[var(--primary-start)] hover:text-[var(--primary-end)] p-2 rounded-full hover:bg-[var(--primary-start)]/10 transition-colors"
               disabled={loading}
             >
-              <RefreshCw className={`w-5 h-5 mr-1 ${loading ? 'animate-spin' : ''}`} />
-              <span>Refresh</span>
+              <RefreshCw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
             </button>
           </div>
           

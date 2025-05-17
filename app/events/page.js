@@ -227,10 +227,10 @@ export default function EventsPage() {
       {/* Event Notification Popup */}
       {showPopup && (
         <div className="fixed bottom-8 right-8 z-50 animate-bounce-in">
-          <div className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 rounded-lg shadow-xl flex items-center gap-3">
+          <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 rounded-lg shadow-xl flex items-center gap-3 pulse-glow">
             <Bell className="w-8 h-8 text-yellow-300 animate-pulse" />
             <div>
-              <p className="font-bold text-lg">New Event Added!</p>
+              <p className="font-bold text-lg">New Event Added! 🔥</p>
               <p className="text-sm">Interview Skills Masterclass - June 12</p>
             </div>
           </div>
@@ -240,7 +240,7 @@ export default function EventsPage() {
       {/* Floating Save Button */}
       <Link 
         href="/profile/saved"
-        className="fixed left-8 bottom-8 z-40 bg-gradient-to-r from-pink-500 to-rose-500 p-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300"
+        className="fixed left-8 bottom-8 z-40 bg-gradient-to-r from-orange-500 to-red-500 p-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 pulse-glow"
       >
         <Heart className={`w-6 h-6 text-white ${savedEvents.length > 0 ? 'fill-white' : ''}`} />
         {savedEvents.length > 0 && (
@@ -250,43 +250,41 @@ export default function EventsPage() {
         )}
       </Link>
     
-      <section className="py-16 bg-gradient-to-b from-[var(--primary-subtle)] to-[var(--section-light)] relative overflow-hidden">
-        {/* Animated elements */}
-        <div className="absolute top-12 right-32 animate-pulse">
-          <Calendar className="w-6 h-6 text-[var(--primary-start)]" />
+      <section className="relative gradient-primary text-white py-16 mb-12 overflow-hidden emoji-bg">
+        <div className="absolute top-8 right-[20%] animate-pulse">
+          <Sparkles className="w-6 h-6 text-yellow-300" />
         </div>
-        <div className="absolute bottom-20 left-24 animate-pulse delay-1000">
-          <Sparkles className="w-5 h-5 text-[var(--primary-mid)]" />
+        <div className="absolute bottom-10 left-[30%] animate-pulse delay-1000">
+          <Sparkles className="w-5 h-5 text-[var(--youth-yellow)]" />
         </div>
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative inline-block mx-auto">
-            <h1 className="text-4xl font-bold text-center text-[var(--text-primary)]">
-              GradLyft <span className="text-gradient-primary">Events</span>
-            </h1>
-            <div className="absolute -top-2 -right-6">
-              <div className="animate-bounce-in">
-                <div className="bg-yellow-400 text-indigo-900 px-3 py-1 rounded-full transform rotate-12 font-bold text-xs shadow-lg">
-                  <span className="animate-pulse">New!</span>
-                </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="relative">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Upcoming Events 🔥</h1>
+            <div className="absolute -top-6 -right-6">
+              <div className="fun-badge">
+                Hot This Week!
               </div>
             </div>
           </div>
-          <p className="mt-4 text-center text-[var(--text-secondary)] max-w-3xl mx-auto">
-            Connect with employers, learn new skills, and expand your professional network with our career-focused events.
+          <p className="text-xl mb-10 max-w-3xl">
+            Discover and join epic events that'll level up your career and connect you with awesome professionals!
           </p>
           
-          <div className="mt-8 max-w-xl mx-auto">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search events by title, description, or location..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full p-4 pl-12 border border-[var(--card-border)] rounded-md bg-[var(--card-bg)] text-[var(--text-primary)] focus:ring-2 focus:ring-[var(--primary-start)] transition-all"
-              />
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[var(--text-muted)]" />
-            </div>
+          <div className="flex gap-4 mb-6 overflow-x-auto no-scrollbar">
+            {categories.map(category => (
+              <button 
+                key={category}
+                onClick={() => setActiveCategory(category)}
+                className={`${
+                  activeCategory === category 
+                    ? 'bg-white text-[var(--primary-end)]' 
+                    : 'bg-white/10 text-white hover:bg-white/20'
+                } px-4 py-2 rounded-full font-medium whitespace-nowrap transition`}
+              >
+                {category === 'all' ? 'All Events' : category.charAt(0).toUpperCase() + category.slice(1)}
+              </button>
+            ))}
           </div>
         </div>
       </section>
@@ -336,108 +334,64 @@ export default function EventsPage() {
         </div>
       </section>
 
-      {searchQuery === '' && activeCategory === 'all' && activeFormat === 'all' && (
-        <section className="py-8">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold mb-8 text-[var(--text-primary)] flex items-center">
-              Featured Events
-              <Star className="ml-2 w-5 h-5 text-yellow-400 fill-yellow-400" />
-            </h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              {featuredEvents.map(event => {
-                const { daysLeft, isHot, isSaved } = getEventInfo(event);
-                
-                return (
-                  <div key={event.id} className="card rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 relative group">
-                    {/* Save button */}
-                    <button 
-                      className="absolute top-4 right-4 z-10 bg-white/80 p-2 rounded-full transition-all duration-300 hover:bg-white"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        toggleSavedEvent(event.id);
-                      }}
-                    >
-                      <Heart className={`w-5 h-5 ${isSaved ? 'text-red-500 fill-red-500' : 'text-gray-400'}`} />
-                    </button>
-                  
-                    <div className="aspect-video bg-[var(--section-dark)] relative">
-                      <Image
-                        src={event.image}
-                        alt={event.title}
-                        fill
-                        style={{ objectFit: 'cover' }}
-                      />
-                      <div className="absolute top-0 left-0 bg-[var(--primary-light)] text-[var(--primary-start)] px-3 py-1 rounded-br-lg capitalize text-sm font-medium">
-                        {event.category}
-                      </div>
-                      <div className="absolute top-0 right-12 bg-[var(--card-bg)] text-[var(--text-secondary)] px-3 py-1 rounded-bl-lg text-sm">
-                        {event.format}
-                      </div>
-                      
-                      {/* Countdown overlay */}
-                      {daysLeft <= 14 && (
-                        <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-lg text-sm flex items-center">
-                          <Clock className="w-4 h-4 mr-1" />
-                          {daysLeft === 0 ? 'Today!' : daysLeft === 1 ? 'Tomorrow!' : `${daysLeft} days left`}
-                        </div>
-                      )}
-                      
-                      {/* Hot event indicator */}
-                      {isHot && (
-                        <div className="absolute bottom-4 right-4 bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1 rounded-lg text-sm flex items-center">
-                          <Flame className="w-4 h-4 mr-1" />
-                          Trending
-                        </div>
-                      )}
-                    </div>
-                    <div className="p-6">
-                      <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2 group-hover:text-[var(--primary-start)] transition-colors">
-                        <Link href={`/events/${event.id}`} className="hover:text-[var(--primary-start)] transition-colors">
-                          {event.title}
-                        </Link>
-                      </h3>
-                      <p className="text-[var(--text-secondary)] mb-4">{event.description}</p>
-                      <div className="space-y-2 mb-4">
-                        <div className="flex items-center text-sm text-[var(--text-secondary)]">
-                          <Calendar className="w-4 h-4 mr-2 text-[var(--primary-start)]" />
-                          {event.date}
-                        </div>
-                        <div className="flex items-center text-sm text-[var(--text-secondary)]">
-                          <MapPin className="w-4 h-4 mr-2 text-[var(--primary-start)]" />
-                          {event.location}
-                        </div>
-                        <div className="flex items-center text-sm text-[var(--text-secondary)]">
-                          <Users className="w-4 h-4 mr-2 text-[var(--primary-start)]" />
-                          <span>{event.attendees.toLocaleString()} Expected Attendees</span>
-                          <span className="ml-2 bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full flex items-center">
-                            +{event.rsvp} RSVPs
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <Link 
-                          href={`/events/${event.id}`}
-                          className="inline-flex items-center text-[var(--primary-start)] hover:text-[var(--primary-end)] font-medium group"
-                        >
-                          View Details 
-                          <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                        </Link>
-                        
-                        {/* Achievement badge */}
-                        {event.id === 1 && (
-                          <span className="flex items-center gap-1 text-xs bg-[var(--primary-subtle)] text-[var(--primary-start)] px-2 py-1 rounded-full">
-                            <Trophy className="w-3 h-3" /> Popular Event
-                          </span>
-                        )}
-                      </div>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-2xl font-bold text-gradient-primary">Featured Events</h2>
+          <div className="inline-flex items-center bg-[var(--primary-start)]/10 px-3 py-1 rounded-full text-xs">
+            <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
+            <span className="text-[var(--primary-start)] font-medium">237 students viewing now</span>
+          </div>
+        </div>
+        
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {featuredEvents.map((event, index) => {
+            const { isHot, isSaved, daysLeft } = getEventInfo(event);
+            return (
+              <div key={index} className="card rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 relative float">
+                {isHot && (
+                  <div className="absolute left-4 top-4 z-10">
+                    <div className="fun-badge flex items-center gap-1">
+                      <Flame className="w-3 h-3" /> Trending
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-      )}
+                )}
+                <div className="relative h-48">
+                  <Image
+                    src={event.image}
+                    alt={event.title}
+                    fill
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+                <div className="p-6">
+                  <div className="flex justify-between items-start mb-3">
+                    <h3 className="text-xl font-bold text-[var(--text-primary)]">{event.title}</h3>
+                    <span className="bg-[var(--youth-green)]/10 text-[var(--youth-green)] text-xs font-medium px-2 py-1 rounded">
+                      {event.category}
+                    </span>
+                  </div>
+                  <p className="text-[var(--text-secondary)] mb-4 line-clamp-2">{event.description}</p>
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center text-sm text-[var(--text-muted)]">
+                      <Calendar className="w-4 h-4 mr-1" />
+                      {event.date}
+                    </div>
+                    <Link href={`/events/${event.id}`} className="text-[var(--primary-start)] hover:text-[var(--primary-end)] font-medium flex items-center">
+                      Join Now <ChevronRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => toggleSavedEvent(event.id)}
+                  className="absolute top-4 right-4 z-10 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition"
+                >
+                  <Heart className={`w-4 h-4 ${isSaved ? 'fill-[var(--primary-end)] text-[var(--primary-end)]' : 'text-gray-600'}`} />
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      </section>
 
       <section className="py-8 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -511,7 +465,7 @@ export default function EventsPage() {
                         </div>
                         <div className="flex items-center text-sm text-[var(--text-secondary)]">
                           <Users className="w-4 h-4 mr-2 text-[var(--primary-start)]" />
-                          {event.attendees.toLocaleString()} Expected Attendees
+                          <span>{event.attendees.toLocaleString()} Expected Attendees</span>
                           <span className="ml-2 bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full flex items-center">
                             +{event.rsvp} RSVPs
                           </span>

@@ -91,13 +91,13 @@ export default function AboutPage() {
       {/* Floating Achievement Button */}
       <Link 
         href="/register"
-        className="fixed right-8 bottom-8 z-40 bg-gradient-to-r from-purple-600 to-indigo-600 p-4 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 flex items-center gap-2"
+        className="fixed right-8 bottom-8 z-40 bg-gradient-to-r from-orange-500 to-red-500 p-4 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 flex items-center gap-2 pulse-glow"
       >
         <span className="text-white font-bold">Join Us</span>
         <ArrowRight className="w-5 h-5 text-white" />
       </Link>
       
-      <section className="py-16 bg-gradient-to-b from-[var(--primary-subtle)] to-[var(--section-light)] relative">
+      <section className="py-16 bg-gradient-to-b from-[var(--primary-subtle)] to-[var(--section-light)] relative emoji-bg">
         {/* Animated sparkles */}
         <div className="absolute top-12 right-32 animate-pulse">
           <Sparkles className="w-6 h-6 text-[var(--primary-start)]" />
@@ -113,7 +113,7 @@ export default function AboutPage() {
             </h1>
             <div className="absolute -top-2 -right-6">
               <div className="animate-bounce-in">
-                <div className="bg-yellow-400 text-indigo-900 px-3 py-1 rounded-full transform rotate-12 font-bold text-xs shadow-lg">
+                <div className="fun-badge">
                   Est. 2021
                 </div>
               </div>
@@ -176,10 +176,10 @@ export default function AboutPage() {
 
       <section className="py-16 bg-[var(--section-dark)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-16 text-gradient-primary">GradLyft By The Numbers</h2>
+          <h2 className="text-3xl font-bold mb-16 text-gradient-primary">By The Numbers 🔥</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
-              <div key={index} className="card p-6 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+              <div key={index} className="card p-6 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 float">
                 <div className="flex items-center justify-center mb-2">
                   <div className="w-12 h-12 rounded-full bg-[var(--primary-subtle)] flex items-center justify-center">
                     {stat.icon}
@@ -234,7 +234,7 @@ export default function AboutPage() {
             {teamMembers.map((member, index) => (
               <div 
                 key={index} 
-                className="card p-6 rounded-xl text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+                className="card p-6 rounded-xl text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative"
                 onMouseEnter={() => setHoveredMember(index)}
                 onMouseLeave={() => setHoveredMember(null)}
               >
@@ -248,22 +248,32 @@ export default function AboutPage() {
                     />
                   </div>
                   
-                  {hoveredMember === index && (
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-yellow-400 to-orange-400 text-black px-3 py-1 rounded-full text-xs font-bold animate-bounce-in">
+                  {/* Fun fact badge with fixed positioning and opacity transition */}
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 h-6">
+                    <div 
+                      className={`bg-gradient-to-r from-yellow-400 to-orange-400 text-black px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap transition-opacity duration-200 ${
+                        hoveredMember === index ? 'opacity-100' : 'opacity-0'
+                      }`}
+                    >
                       Fun Fact!
                     </div>
-                  )}
+                  </div>
                 </div>
                 
                 <h3 className="text-xl font-bold text-[var(--text-primary)]">{member.name}</h3>
                 <p className="text-[var(--primary-start)] mb-2">{member.role}</p>
                 <p className="text-sm text-[var(--text-secondary)]">{member.bio}</p>
                 
-                {hoveredMember === index && (
-                  <div className="mt-4 bg-[var(--primary-subtle)]/50 p-3 rounded-lg text-xs animate-fade-in">
+                {/* Fixed height container with opacity transition for fun fact */}
+                <div className="h-16 mt-4 flex items-center justify-center overflow-hidden">
+                  <div 
+                    className={`bg-[var(--primary-subtle)]/50 p-3 rounded-lg text-xs w-full transition-all duration-200 ${
+                      hoveredMember === index ? 'opacity-100 transform-none' : 'opacity-0 transform translate-y-2'
+                    }`}
+                  >
                     "{member.funFact}"
                   </div>
-                )}
+                </div>
               </div>
             ))}
           </div>
@@ -290,7 +300,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <div className="inline-block mb-6 relative">
             <h2 className="text-3xl font-bold">
-              Join Our Journey
+              Join Our Journey 🚀
             </h2>
             <div className="absolute -top-6 -right-6 animate-bounce">
               <Sparkles className="w-6 h-6 text-yellow-300" />
@@ -323,7 +333,7 @@ export default function AboutPage() {
               </div>
               <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-blue-500 rounded-full animate-pulse"></div>
             </div>
-            <span>Over 500 new members joined this week!</span>
+            <span>Over 500 new members joined this week! Don't miss out!</span>
           </div>
         </div>
       </section>

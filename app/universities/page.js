@@ -97,71 +97,109 @@ export default function UniversityPage() {
       {/* Notification Popup */}
       {showNotification && (
         <div className="fixed bottom-8 right-8 z-50 animate-bounce-in">
-          <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white p-4 rounded-lg shadow-xl flex items-center gap-3">
-            <Bell className="w-8 h-8 text-yellow-300 animate-pulse" />
+          <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 rounded-lg shadow-xl flex items-center gap-3 pulse-glow">
+            <div className="relative w-10 h-10 rounded-full overflow-hidden">
+              <Image 
+                src="/download (1).jpeg" 
+                alt="Notification"
+                fill
+                style={{objectFit: 'cover'}}
+              />
+            </div>
             <div>
-              <p className="font-bold text-lg">New University Partner!</p>
-              <p className="text-sm">Tech Institute joined GradLyft this week</p>
+              <p className="font-bold text-lg">University Fair Next Week! 🔥</p>
+              <p className="text-sm">10+ top schools will be recruiting. Don't miss out!</p>
             </div>
           </div>
         </div>
       )}
       
-      {/* Floating Achievement Button */}
-      <Link 
-        href="/universities/success-stories"
-        className="fixed left-8 bottom-8 z-40 bg-gradient-to-r from-green-600 to-teal-600 p-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300"
+      {/* Floating Stats Button */}
+      <button 
+        className="fixed left-8 bottom-8 z-40 bg-gradient-to-r from-orange-500 to-red-500 p-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 pulse-glow"
+        onClick={() => window.alert("University stats dashboard coming soon!")}
       >
-        <Trophy className="w-6 h-6 text-white" />
-      </Link>
+        <GraduationCap className="w-6 h-6 text-white" />
+      </button>
       
       {/* Hero Section */}
-      <div className="bg-gradient-to-b from-green-600 to-green-700 text-white relative overflow-hidden">
-        {/* Animated sparkles */}
+      <section className="py-16 bg-gradient-to-b from-[var(--primary-start)]/10 to-white relative emoji-bg">
         <div className="absolute top-12 right-32 animate-pulse">
-          <Sparkles className="w-6 h-6 text-yellow-300" />
+          <Sparkles className="w-6 h-6 text-[var(--primary-start)]" />
         </div>
         <div className="absolute bottom-20 left-24 animate-pulse delay-1000">
-          <Sparkles className="w-4 h-4 text-teal-300" />
+          <Sparkles className="w-4 h-4 text-[var(--primary-end)]" />
         </div>
-        
-        <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8 relative">
-          <div className="text-center">
-            <div className="inline-block relative">
-              <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
-                Empower Your Students' Success
-              </h1>
-              <div className="absolute -top-4 -right-8">
-                <div className="bg-yellow-400 text-green-900 px-3 py-1 rounded-full transform rotate-12 font-bold text-sm shadow-lg">
-                  Trending Now!
+      
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center gap-12">
+            <div className="md:w-1/2 animate-fade-in">
+              <div className="relative">
+                <h1 className="text-4xl font-bold mb-4 text-[var(--text-primary)]">
+                  Partner <span className="text-gradient-primary">Universities</span>
+                </h1>
+                <div className="absolute -top-6 -right-6">
+                  <div className="fun-badge">
+                    Join Today!
+                  </div>
+                </div>
+              </div>
+              <p className="text-lg text-[var(--text-secondary)] mb-6">
+                Level up your career opportunities by connecting with top universities around the globe. From Ivy League to specialized institutions, we've got you covered!
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="/universities/register" className="bg-gradient-to-r from-[var(--primary-start)] to-[var(--primary-end)] text-white px-6 py-3 rounded-md font-medium hover:opacity-90 transition-all duration-300 inline-flex items-center justify-center shadow-md">
+                  Register Your University
+                </Link>
+                <Link href="/contact" className="bg-white text-[var(--primary-end)] border border-[var(--primary-end)] px-6 py-3 rounded-md font-medium hover:bg-[var(--primary-end)]/5 transition-all duration-300 inline-block text-center">
+                  Contact Us
+                </Link>
+              </div>
+              
+              <div className="mt-8 bg-[var(--primary-start)]/10 rounded-lg p-4 border border-[var(--primary-start)]/20">
+                <h3 className="font-bold text-[var(--primary-start)] flex items-center mb-2">
+                  <Trophy className="w-5 h-5 mr-2" /> Why Partner With Us?
+                </h3>
+                <ul className="space-y-2 text-[var(--text-secondary)]">
+                  <li className="flex items-start">
+                    <div className="h-5 w-5 rounded-full bg-gradient-to-r from-[var(--primary-start)] to-[var(--primary-end)] flex items-center justify-center text-white mr-2 flex-shrink-0 mt-0.5">✓</div>
+                    <span>Connect with 500K+ talented students worldwide</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="h-5 w-5 rounded-full bg-gradient-to-r from-[var(--primary-start)] to-[var(--primary-end)] flex items-center justify-center text-white mr-2 flex-shrink-0 mt-0.5">✓</div>
+                    <span>Showcase your programs to targeted audiences</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="h-5 w-5 rounded-full bg-gradient-to-r from-[var(--primary-start)] to-[var(--primary-end)] flex items-center justify-center text-white mr-2 flex-shrink-0 mt-0.5">✓</div>
+                    <span>Access real-time analytics and conversion data</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            
+            <div className="md:w-1/2 mt-10 md:mt-0">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-[var(--primary-start)] to-[var(--primary-end)] rounded-3xl transform rotate-3 -z-10 opacity-20"></div>
+                <div className="card p-1 md:p-2 rounded-3xl overflow-hidden">
+                  <Image 
+                    src="/R.png" 
+                    alt="University Dashboard Preview"
+                    width={600}
+                    height={400}
+                    className="w-full rounded-2xl shadow-lg"
+                  />
+                </div>
+                <div className="absolute -top-4 -right-4 animate-pulse">
+                  <div className="bg-orange-400 text-white font-bold px-3 py-1 rounded-full transform rotate-12 text-xs shadow-lg">
+                    <span>New Dashboard!</span>
+                  </div>
                 </div>
               </div>
             </div>
-            <p className="mt-6 max-w-2xl mx-auto text-xl">
-              Connect your university with top employers, track student outcomes, and enhance your career services.
-            </p>
-            <div className="mt-10 flex justify-center gap-4">
-              <Link href="/universities/register" className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-green-600 bg-white hover:bg-gray-50 transition-all duration-300 transform hover:-translate-y-1 shadow-md">
-                Partner With Us
-              </Link>
-              <Link href="/universities/demo" className="inline-flex items-center px-6 py-3 border border-white text-base font-medium rounded-md text-white hover:bg-white/10 transition-all duration-300">
-                Book a Demo
-              </Link>
-            </div>
-            
-            {/* Live Activity Indicator */}
-            <div className="mt-8 inline-flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-sm border border-white/20">
-              <div className="relative mr-2">
-                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                <div className="w-2 h-2 bg-green-400 rounded-full absolute top-0 animate-ping"></div>
-              </div>
-              <span className="font-medium">
-                <span className="font-bold">{universityCount}</span> universities active right now
-              </span>
-            </div>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Features Section */}
       <div className="py-12 bg-white">
@@ -216,35 +254,24 @@ export default function UniversityPage() {
       </div>
 
       {/* Stats Section */}
-      <div className="bg-green-50">
-        <div className="max-w-7xl mx-auto py-12 px-4 sm:py-16 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900">GradLyft Impact</h2>
-            <p className="mt-2 text-gray-600">Join our growing community of educational institutions making a difference</p>
-          </div>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+      <section className="py-16 bg-[var(--section-light)]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold mb-10 text-center text-gradient-primary">Crushing Goals Together 🚀</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat) => (
-              <div key={stat.label} className="relative group">
-                <div className="text-center p-6 rounded-lg bg-white shadow-md group-hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2">
-                  <div className="flex items-center justify-center mb-4">
-                    <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center text-green-600">
-                      {stat.icon}
-                    </div>
-                  </div>
-                  <div className="text-4xl font-extrabold text-green-600">{stat.value}</div>
-                  <div className="mt-2 text-base text-gray-500">{stat.label}</div>
+              <div key={stat.label} className="card p-6 rounded-xl text-center hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 border border-[var(--primary-start)]/10 float">
+                <div className="w-16 h-16 gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+                  {stat.icon}
                 </div>
-                {/* Hot indicator for one stat */}
-                {stat.label === "Student Placements" && (
-                  <div className="absolute -top-3 -right-3 bg-red-500 text-white p-2 rounded-full group-hover:animate-pulse">
-                    <Flame className="w-4 h-4" />
-                  </div>
-                )}
+                <div className="mb-1 font-bold text-3xl text-gradient-primary">
+                  {typeof stat.value === 'number' ? stat.value.toLocaleString() : stat.value}
+                </div>
+                <p className="text-[var(--text-secondary)]">{stat.label}</p>
               </div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Success Stories Section */}
       <div className="bg-white py-12">

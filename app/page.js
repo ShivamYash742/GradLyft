@@ -188,10 +188,10 @@ export default function Home() {
               Ready to crush it? Find the sickest opportunities, flex your skills, & get hired by your dream company!
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/register" className="bg-white text-[var(--primary-end)] px-6 py-3 rounded-md font-medium hover:bg-gray-100 transition-all duration-300 inline-flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-1">
+              <Link href="/register" className="bg-white text-[var(--primary-end)] px-6 py-3 rounded-full font-medium hover:bg-gray-100 transition-all duration-300 inline-flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-1">
                 Get Started <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
-              <Link href="/about" className="text-white bg-transparent border border-white px-6 py-3 rounded-md font-medium hover:bg-white/10 transition-all duration-300 inline-block text-center">
+              <Link href="/about" className="text-white bg-transparent border border-white px-6 py-3 rounded-full font-medium hover:bg-white/10 transition-all duration-300 inline-block text-center">
                 Learn More
               </Link>
             </div>
@@ -223,49 +223,60 @@ export default function Home() {
           {/* Right: Feature Grid */}
           <div className="md:w-1/2 md:pl-10 animate-slide-up w-full">
             <div className="grid grid-cols-2 gap-4 w-full">
-              {featureItems.map((item, index) => (
-                <div
-                  key={item.id}
-                  className="relative"
-                  onMouseEnter={() => setHovered(item.id)}
-                  onMouseLeave={() => setHovered(null)}
-                  onFocus={() => setHovered(item.id)}
-                  onBlur={() => setHovered(null)}
-                >
-                  <Link 
-                    href={item.href}
-                    className="group relative block focus:outline-none"
-                  >
-                    <div className={`p-4 rounded-xl ${colorPalettes[colorOrder[index]]} flex flex-col h-[120px] md:h-[130px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer`}>
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="font-semibold text-gray-800 text-lg md:text-xl">{item.title}</span>
-                      </div>
-                      <p className="text-xs md:text-sm text-gray-700 flex-1">{item.description}</p>
-                      <div className="mt-auto flex justify-end">
-                        {item.icon}
-                      </div>
-                    </div>
-                  </Link>
-                  {/* Character Popup */}
-                  {hovered === item.id && (
-                    <div className="absolute z-50 left-full top-1/2 -translate-y-1/2 ml-4 w-64 bg-white text-gray-800 rounded-xl shadow-2xl p-4 flex flex-col items-center animate-fade-in border border-gray-100">
-                      <div className="w-20 h-20 relative rounded-full overflow-hidden bg-gray-100 mb-2">
-                        <Image 
-                          src={item.character} 
-                          alt={item.title + ' character'} 
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <div className="font-bold mb-1 text-base text-center">{item.title}</div>
-                      <div className="text-sm text-center">{item.explanation}</div>
-                    </div>
-                  )}
+              {/* Events Card */}
+              <Link href="/events" className="group block focus:outline-none">
+                <div className="p-4 rounded-xl bg-pink-100 flex flex-col h-[130px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="font-semibold text-gray-800 text-xl">Events</span>
+                  </div>
+                  <p className="text-sm text-gray-700 flex-1">Explore All Events</p>
+                  <div className="mt-auto flex justify-end">
+                    <Calendar size={24} />
+                  </div>
                 </div>
-              ))}
+              </Link>
+              
+              {/* Webinars Card */}
+              <Link href="/webinars" className="group block focus:outline-none">
+                <div className="p-4 rounded-xl bg-yellow-100 flex flex-col h-[130px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="font-semibold text-gray-800 text-xl">Webinars</span>
+                  </div>
+                  <p className="text-sm text-gray-700 flex-1">Join Live Webinars</p>
+                  <div className="mt-auto flex justify-end">
+                    <Video size={24} />
+                  </div>
+                </div>
+              </Link>
+              
+              {/* Hackathons Card */}
+              <Link href="/hackathons" className="group block focus:outline-none">
+                <div className="p-4 rounded-xl bg-blue-100 flex flex-col h-[130px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="font-semibold text-gray-800 text-xl">Hackathons</span>
+                  </div>
+                  <p className="text-sm text-gray-700 flex-1">Compete & Win</p>
+                  <div className="mt-auto flex justify-end">
+                    <Award size={24} />
+                  </div>
+                </div>
+              </Link>
+              
+              {/* More Card */}
+              <Link href="/more" className="group block focus:outline-none">
+                <div className="p-4 rounded-xl bg-sky-100 flex flex-col h-[130px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="font-semibold text-gray-800 text-xl">More</span>
+                  </div>
+                  <p className="text-sm text-gray-700 flex-1">Discover More</p>
+                  <div className="mt-auto flex justify-end">
+                    <MoreHorizontal size={24} />
+                  </div>
+                </div>
+              </Link>
             </div>
             
-            {/* Trending events sidebar */}
+            {/* FOMO Alert section */}
             <div className="mt-6 bg-white/10 backdrop-blur-sm p-4 rounded-lg border border-white/20">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="font-bold text-lg flex items-center">
@@ -274,25 +285,40 @@ export default function Home() {
                 <Bell className="w-5 h-5 text-yellow-300 animate-pulse" />
               </div>
               <div className="space-y-2">
-                {upcomingEvents.map(event => (
-                  <Link href="/events" key={event.id} className="flex items-center justify-between p-2 rounded-md hover:bg-white/10 transition-colors">
-                    <div className="flex items-center">
-                      <div className="relative w-8 h-8 mr-2 rounded-full overflow-hidden">
-                        <Image 
-                          src={event.hot ? "/yogi-bear3.png" : "/R.png"} 
-                          alt={event.name}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <span>{event.name}</span>
+                <Link href="/events" className="flex items-center justify-between p-2 rounded-md hover:bg-white/10 transition-colors">
+                  <div className="flex items-center">
+                    <div className="relative w-8 h-8 mr-2 rounded-full overflow-hidden">
+                      <Image 
+                        src="/yogi-bear3.png" 
+                        alt="Tech Career Fair"
+                        fill
+                        className="object-cover"
+                      />
                     </div>
-                    <div className="flex items-center">
-                      <span className="text-sm mr-2">{event.date}</span>
-                      {event.hot && <Flame className="w-4 h-4 text-orange-400" />}
+                    <span>Tech Career Fair</span>
+                  </div>
+                  <div className="flex items-center">
+                    <span className="text-sm mr-2">Today</span>
+                    <Flame className="w-4 h-4 text-orange-400" />
+                  </div>
+                </Link>
+                
+                <Link href="/events" className="flex items-center justify-between p-2 rounded-md hover:bg-white/10 transition-colors">
+                  <div className="flex items-center">
+                    <div className="relative w-8 h-8 mr-2 rounded-full overflow-hidden">
+                      <Image 
+                        src="/R.png" 
+                        alt="Resume Workshop"
+                        fill
+                        className="object-cover"
+                      />
                     </div>
-                  </Link>
-                ))}
+                    <span>Resume Workshop</span>
+                  </div>
+                  <div className="flex items-center">
+                    <span className="text-sm">Tomorrow</span>
+                  </div>
+                </Link>
               </div>
               <div className="mt-3 pt-2 border-t border-white/10 text-xs text-center">
                 <span className="text-[var(--youth-yellow)]">237 students</span> are viewing these events right now!
@@ -313,10 +339,14 @@ export default function Home() {
       <section className="py-16 bg-[var(--section-light)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold mb-4 text-gradient-primary">GradLyft Impact</h2>
+            <h2 className="text-3xl font-bold mb-2 text-gradient-primary">The Hype is Real! 🔥</h2>
+            <p className="text-[var(--text-secondary)] max-w-2xl mx-auto">Join the squad and be part of something epic</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div className="p-6 card rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-[var(--primary-start)]/10 relative overflow-hidden">
+            <div className="p-6 card rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-[var(--primary-start)]/10 relative overflow-hidden float">
+              <div className="absolute -right-2 -top-2">
+                <div className="fun-badge">Lit! 🔥</div>
+              </div>
               <div className="w-full h-32 mb-4 relative">
                 <Image 
                   src="/yogi-bear3.png" 
@@ -332,7 +362,7 @@ export default function Home() {
               <h3 className="text-3xl md:text-4xl font-bold text-gradient-primary mb-2">500+</h3>
               <p className="text-[var(--text-secondary)]">Universities</p>
             </div>
-            <div className="p-6 card rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-[var(--primary-mid)]/10 relative overflow-hidden">
+            <div className="p-6 card rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-[var(--primary-mid)]/10 relative overflow-hidden float">
               <div className="w-full h-32 mb-4 relative">
                 <Image 
                   src="/download.jpeg" 
@@ -348,7 +378,10 @@ export default function Home() {
               <h3 className="text-3xl md:text-4xl font-bold text-gradient-primary mb-2">2M+</h3>
               <p className="text-[var(--text-secondary)]">Students</p>
             </div>
-            <div className="p-6 card rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-[var(--primary-end)]/10 relative overflow-hidden">
+            <div className="p-6 card rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-[var(--primary-end)]/10 relative overflow-hidden float">
+              <div className="absolute -right-2 -top-2">
+                <div className="fun-badge">Fire! 🚀</div>
+              </div>
               <div className="w-full h-32 mb-4 relative">
                 <Image 
                   src="/download (1).jpeg" 
@@ -364,7 +397,7 @@ export default function Home() {
               <h3 className="text-3xl md:text-4xl font-bold text-gradient-primary mb-2">10K+</h3>
               <p className="text-[var(--text-secondary)]">Events</p>
             </div>
-            <div className="p-6 card rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-[var(--primary-start)]/10 relative overflow-hidden">
+            <div className="p-6 card rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-[var(--primary-start)]/10 relative overflow-hidden float">
               <div className="w-full h-32 mb-4 relative">
                 <Image 
                   src="/download (2).jpeg" 
@@ -433,26 +466,26 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-section-light">
+      <section className="py-20 bg-[var(--section-light)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient-primary">Opportunities That Await You</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient-primary">Epic Opportunities Await You 🤩</h2>
             <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto">
-              Explore a world of opportunities designed to help you grow professionally and personally.
+              Level up your skills and build your personal brand with these sick opportunities!
             </p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
             <div className="card rounded-xl p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden">
-              <div className="absolute -right-4 -top-4 bg-gradient-to-br from-red-500 to-pink-500 text-white text-xs font-bold px-8 py-1 transform rotate-45">
-                Popular
+              <div className="absolute -right-4 -top-4 bg-gradient-to-br from-orange-500 to-red-500 text-white text-xs font-bold px-8 py-1 transform rotate-45">
+                🔥 Popular
               </div>
               <div className="w-14 h-14 gradient-primary rounded-xl flex items-center justify-center mb-6 shadow-md">
                 <Award className="text-white" size={28} />
               </div>
               <h3 className="text-xl font-bold text-[var(--text-primary)] mb-3">Competitions & Hackathons</h3>
               <p className="text-[var(--text-secondary)] mb-4">
-                Participate in challenges that test your skills and creativity while competing with peers.
+                Show off your skills and crush it in challenges that'll boost your resume and make recruiters notice!
               </p>
               <Link href="/events" className="link font-medium flex items-center group hover:text-[var(--link-hover)]">
                 Explore Events <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -465,7 +498,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-bold text-[var(--text-primary)] mb-3">Internships & Jobs</h3>
               <p className="text-[var(--text-secondary)] mb-4">
-                Connect with top employers looking for talented individuals to join their teams.
+                Connect with top employers looking for fresh talent like you. Time to secure that bag! 💰
               </p>
               <Link href="/employer" className="link font-medium flex items-center group hover:text-[var(--link-hover)]">
                 Find Opportunities <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -473,15 +506,15 @@ export default function Home() {
             </div>
             
             <div className="card rounded-xl p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden">
-              <div className="absolute -right-4 -top-4 bg-gradient-to-br from-blue-500 to-purple-500 text-white text-xs font-bold px-8 py-1 transform rotate-45">
-                New
+              <div className="absolute -right-4 -top-4 bg-gradient-to-br from-orange-500 to-red-500 text-white text-xs font-bold px-8 py-1 transform rotate-45">
+                ✨ New
               </div>
               <div className="w-14 h-14 gradient-primary rounded-xl flex items-center justify-center mb-6 shadow-md">
                 <Calendar className="text-white" size={28} />
               </div>
               <h3 className="text-xl font-bold text-[var(--text-primary)] mb-3">Workshops & Webinars</h3>
               <p className="text-[var(--text-secondary)] mb-4">
-                Learn from industry experts through interactive sessions designed to enhance your skills.
+                Learn from the pros in super cool interactive sessions. Major knowledge flex incoming!
               </p>
               <Link href="/events" className="link font-medium flex items-center group hover:text-[var(--link-hover)]">
                 View Schedule <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -588,13 +621,13 @@ export default function Home() {
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <div className="inline-block mb-6 relative">
-            <h2 className="text-3xl md:text-4xl font-bold">Ready to Take the Next Step?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold">Ready to Get Started? 🚀</h2>
             <div className="absolute -top-6 -right-6 animate-bounce">
               <Sparkles className="w-6 h-6 text-yellow-300" />
             </div>
           </div>
           <p className="text-xl mb-10 max-w-3xl mx-auto">
-            Join thousands of students and professionals who have already discovered the power of GradLyft.
+            Join thousands of students who are already living their best career lives on GradLyft!
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link href="/register" className="bg-white text-[var(--primary-end)] px-8 py-4 rounded-md font-medium hover:bg-gray-100 transition-all duration-300 inline-block shadow-lg hover:shadow-xl transform hover:-translate-y-1">
@@ -620,7 +653,7 @@ export default function Home() {
                 <Users className="w-2 h-2 text-white" />
               </div>
             </div>
-            <span>37 people registered in the last hour</span>
+            <span>37 people registered in the last hour! Don't miss out!</span>
           </div>
         </div>
       </section>
