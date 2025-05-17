@@ -1,58 +1,176 @@
-# Gradlyft
+# GradLyft - Student Career Platform
 
-This is a [Next.js](https://nextjs.org) project with integrated backend and frontend for the Gradlyft application.
+GradLyft is a comprehensive Next.js application designed to connect students with career opportunities, universities, and employers. It provides a platform for students to discover events, gain skills, and build their professional network.
+
+![GradLyft Platform](https://placeholder-for-gradlyft-screenshot.com)
+
+## Table of Contents
+
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Database Setup](#database-setup)
+  - [Environment Configuration](#environment-configuration)
+  - [Running the Application](#running-the-application)
+- [Project Structure](#project-structure)
+- [User Roles](#user-roles)
+- [API Documentation](#api-documentation)
+- [Deployment](#deployment)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Features
+
+- **User Authentication**: Secure login and registration for students, employers, and university representatives
+- **Event Management**: Browse, register, and manage event participation
+- **Career Opportunities**: Access to internships, jobs, and other professional opportunities
+- **University Partnerships**: Connect with universities and educational resources
+- **Profile Building**: Create and enhance professional profiles
+- **Mentorship**: Connect with mentors in various fields
+- **Interactive Dashboard**: Personalized dashboard for tracking progress and opportunities
+- **Responsive Design**: Optimized for desktop and mobile devices
+
+## Technology Stack
+
+- **Frontend**: Next.js, React, TailwindCSS
+- **Backend**: Next.js API Routes
+- **Database**: PostgreSQL
+- **ORM**: Prisma
+- **Authentication**: NextAuth/JWT
+- **Styling**: TailwindCSS with custom theme support
+- **Deployment**: Vercel/Netlify/AWS (options)
 
 ## Getting Started
 
-### 1. Set Up PostgreSQL Database
+### Prerequisites
 
-Make sure PostgreSQL is installed and running.
+- Node.js (v16+)
+- npm or yarn
+- PostgreSQL (v12+)
+- Git
 
-Create a new database:
+### Installation
 
+1. Clone the repository
+```bash
+git clone https://github.com/yourusername/gradlyft.git
+cd gradlyft
+```
+
+2. Install dependencies
+```bash
+npm install
+# or
+yarn install
+```
+
+### Database Setup
+
+1. Make sure PostgreSQL is installed and running.
+
+2. Create a new database:
 ```bash
 createdb -U postgres gradlyft_db
 ```
 
-> If `createdb` doesn't work, create the database manually via pgAdmin or psql.
+> If `createdb` doesn't work, create the database manually via pgAdmin or psql with:
+> ```sql
+> CREATE DATABASE gradlyft_db;
+> ```
 
-### 2. Configure Environment Variables
+### Environment Configuration
 
-Create a `.env` file in the root directory with:
+1. Create a `.env` file in the root directory with the following variables:
 
 ```env
+# Database
 DATABASE_URL="postgresql://postgres:<your_password>@localhost:5432/gradlyft_db"
-NEXTAUTH_SECRET="your_super_secret_string"   # openssl rand -base64 32
+
+# Authentication
+NEXTAUTH_SECRET="your_super_secret_string"   # Generate with: openssl rand -base64 32
+NEXTAUTH_URL="http://localhost:3000"
+
+# Optional: Email (for password recovery)
+EMAIL_SERVER=smtp://username:password@smtp.example.com:587
+EMAIL_FROM=noreply@gradlyft.com
+
+# Optional: Third-party OAuth
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
 ```
 
 - Replace `<your_password>` with your actual PostgreSQL password.
-- To create your NEXTAUTH_SECRET, use this command: `openssl rand -base64 32`
+- Generate a secure NEXTAUTH_SECRET with: `openssl rand -base64 32`
 
-### 3. Install Dependencies
+### Running the Application
 
-```bash
-npm install
-```
-
-### 4. Prisma Setup
-
+1. Set up the database schema:
 ```bash
 npx prisma format
 npx prisma generate
 npx prisma migrate dev --name init
 ```
 
-### 5. Run the Development Server
-
+2. Seed the database with initial data (optional):
 ```bash
-npm run dev
+npm run seed
+# or
+node prisma/seed.js
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Run the development server:
+```bash
+npm run dev
+# or
+yarn dev
+```
 
-## API Endpoints
+4. Access the application:
+   - Frontend: [http://localhost:3000](http://localhost:3000)
+   - Prisma Studio (DB GUI): [http://localhost:5555](http://localhost:5555) (run with `npx prisma studio`)
 
-### Signup
+## Project Structure
+
+```
+gradlyft/
+├── app/               # Next.js app router pages and API routes
+│   ├── api/           # Backend API endpoints
+│   ├── admin/         # Admin portal pages
+│   ├── student/       # Student-facing pages
+│   ├── employer/      # Employer-facing pages
+│   └── ...            # Other pages
+├── components/        # Reusable React components
+├── lib/               # Utility functions and helpers
+├── prisma/            # Database schema and migrations
+│   └── schema.prisma  # Prisma schema file
+├── public/            # Static assets
+└── scripts/           # Helper scripts
+```
+
+## User Roles
+
+GradLyft supports three primary user roles:
+
+1. **Student**: Access events, career opportunities, and educational resources
+2. **Employer**: Post jobs, connect with student talent, and manage applications
+3. **Admin**: Platform management and oversight
+
+### Test Credentials
+
+You can test the system with the following credentials:
+
+- **Student**: `student@example.com` / `password123`
+- **Employer**: `employer@example.com` / `password123`
+- **Admin**: `admin@gradlyft.com` / `password123`
+
+## API Documentation
+
+### Authentication
+
+#### Signup
 
 ```
 POST /api/signup
@@ -97,7 +215,7 @@ Sample payloads:
 }
 ```
 
-### Login (Token-Based)
+#### Login (Token-Based)
 
 ```
 POST /api/token
@@ -111,53 +229,64 @@ Payload:
 }
 ```
 
-## Database Tools
-
-- **Reset DB**:
-```bash
-npx prisma migrate reset
-```
-
-- **Prisma Studio (GUI)**:
-```bash
-npx prisma studio
-```
-Accessible at http://localhost:5555
-
-## Event Registration System
-
-The event registration system allows students to:
-
-1. Browse upcoming events
-2. View detailed event information
-3. Register for events with a comprehensive form
-4. Cancel registrations when needed
-
-### Database Schema
-
-The system uses the following models:
-
-- `Event`: Stores event information including title, description, date/time, location, etc.
-- `EventRegistration`: Records each student registration with their contact information and preferences
-
-### API Endpoints
+### Event System
 
 - `POST /api/events/register`: Register for an event
 - `POST /api/events/cancel`: Cancel an event registration
 - `GET /api/events/status`: Check registration status for an event
 
-### Technical Implementation
+## Deployment
 
-- Secure authentication using JWT
-- Database persistence with Prisma ORM
-- Comprehensive error handling
-- Real-time status updates
-- Analytics tracking
+### Vercel (Recommended)
 
-## Test Credentials
+1. Push your code to a GitHub repository
+2. Connect your repository to Vercel
+3. Configure environment variables in the Vercel dashboard
+4. Deploy!
 
-You can test the system with the following credentials:
+### Traditional Deployment
 
-- Student: `student@example.com` / `password123`
-- Employer: `employer@example.com` / `password123`
-- Admin: `admin@gradlyft.com` / `password123`
+1. Build the application
+```bash
+npm run build
+```
+
+2. Start the production server
+```bash
+npm start
+```
+
+## Troubleshooting
+
+### Database Connection Issues
+
+- Verify that PostgreSQL is running
+- Check your DATABASE_URL in the .env file
+- Ensure your database user has proper permissions
+- Try connecting with psql or another PostgreSQL client
+
+### Prisma Errors
+
+- Run `npx prisma generate` to update the Prisma client
+- Run `npx prisma db push` to update the database schema
+- Check for mismatches between your schema and database
+
+### Authentication Problems
+
+- Verify NEXTAUTH_SECRET is set correctly
+- Clear browser cookies and try again
+- Check for API errors in the browser console
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
