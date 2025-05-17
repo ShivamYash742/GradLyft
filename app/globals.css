@@ -5,20 +5,26 @@
   --background: #ffffff;
   --foreground: #171717;
   
-  /* Theme colors */
-  --primary-gradient: linear-gradient(90deg, hsla(214, 100%, 50%, 1) 0%, hsla(300, 100%, 75%, 1) 70%, hsla(0, 100%, 77%, 1) 100%);
-  --secondary-gradient: linear-gradient(135deg, #2B2D42, #8D99AE);
+  /* Theme colors - Updated with more orange tones */
+  --primary-gradient: linear-gradient(90deg, #FF7A00 0%, #FFA41C 50%, #FF5757 100%);
+  --secondary-gradient: linear-gradient(135deg, #FF5A00, #FFB800);
   
   /* Button colors */
-  --button-gradient: linear-gradient(90deg, hsla(214, 100%, 50%, 1) 0%, hsla(300, 100%, 75%, 1) 70%, hsla(0, 100%, 77%, 1) 100%);
-  --button-hover-gradient: linear-gradient(90deg, hsla(214, 100%, 45%, 1) 0%, hsla(300, 100%, 70%, 1) 70%, hsla(0, 100%, 72%, 1) 100%);
+  --button-gradient: linear-gradient(90deg, #FF7A00 0%, #FFA41C 50%, #FF5757 100%);
+  --button-hover-gradient: linear-gradient(90deg, #FF6A00 0%, #FF941C 50%, #FF4747 100%);
   
   /* Theme colors */
-  --primary-start: hsla(214, 100%, 50%, 1);
-  --primary-mid: hsla(300, 100%, 75%, 1);
-  --primary-end: hsla(0, 100%, 77%, 1);
-  --secondary-start: #2B2D42;
-  --secondary-end: #8D99AE;
+  --primary-start: #FF7A00;
+  --primary-mid: #FFA41C;
+  --primary-end: #FF5757;
+  --secondary-start: #FF5A00;
+  --secondary-end: #FFB800;
+  
+  /* Youth accent colors */
+  --youth-green: #00CCAA;
+  --youth-purple: #8A4FFF;
+  --youth-pink: #FF3D9A;
+  --youth-yellow: #FFDE59;
   
   /* Section colors */
   --section-light: #ffffff;
@@ -31,8 +37,8 @@
   --text-primary: #171717;
   --text-secondary: #4b5563;
   --text-muted: #6b7280;
-  --link-color: hsla(214, 100%, 50%, 1);
-  --link-hover: hsla(300, 100%, 75%, 1);
+  --link-color: #FF7A00;
+  --link-hover: #FF5A00;
   --text-on-gradient: #ffffff;
 }
 
@@ -263,6 +269,69 @@ body {
   animation: fadeIn 0.5s ease-in-out;
 }
 
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  70% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+.animate-bounce-in {
+  animation: bounceIn 0.6s ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.delay-500 {
+  animation-delay: 500ms;
+}
+
+.delay-1000 {
+  animation-delay: 1000ms;
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.animate-ping {
+  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.delay-700 {
+  animation-delay: 700ms;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -290,4 +359,51 @@ body {
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;  /* Chrome, Safari and Opera */
+}
+
+/* Add cool effects */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.float {
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 0 0 rgba(255, 122, 0, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(255, 122, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 122, 0, 0); }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+/* Fun badges */
+.fun-badge {
+  background: linear-gradient(90deg, #FF7A00 0%, #FFA41C 100%);
+  color: white;
+  font-weight: bold;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  box-shadow: 0 2px 4px rgba(255, 122, 0, 0.2);
+  transform: rotate(-2deg);
+  display: inline-block;
+}
+
+.emoji-bg {
+  position: relative;
+}
+
+.emoji-bg:before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 10C18.96 10 10 18.96 10 30s8.96 20 20 20 20-8.96 20-20-8.96-20-20-20zm0 36c-8.84 0-16-7.16-16-16S21.16 14 30 14s16 7.16 16 16-7.16 16-16 16zm7.5-18c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-15 0c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm7.5 13c6.05 0 11.04-4.34 12.1-10h-24.2c1.06 5.66 6.05 10 12.1 10z' fill='%23FF7A00' fill-opacity='0.05'/%3E%3C/svg%3E") repeat;
+  opacity: 0.3;
+  z-index: 0;
 }

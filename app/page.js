@@ -1,13 +1,27 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Award, Users, Briefcase, Calendar, ChevronRight, Star, GraduationCap, Building, BookOpen, MoreHorizontal, Video, Smile } from 'lucide-react';
+import { ArrowRight, Award, Users, Briefcase, Calendar, ChevronRight, Star, GraduationCap, Building, BookOpen, MoreHorizontal, Video, Smile, Flame, Trophy, Bell, Sparkles } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 
 export default function Home() {
   // Feature grid color shuffle
   const [colorOrder, setColorOrder] = useState([0, 1, 2, 3]);
   const [hovered, setHovered] = useState(null);
+  const [streakCount, setStreakCount] = useState(3);
+  const [showStreakPopup, setShowStreakPopup] = useState(false);
+  const [achievements, setAchievements] = useState([
+    { id: 1, name: 'Profile Star', completed: true, icon: <Star className="text-yellow-400" /> },
+    { id: 2, name: 'Event Explorer', completed: true, icon: <Calendar className="text-blue-500" /> },
+    { id: 3, name: 'Network Builder', completed: false, icon: <Users className="text-purple-500" /> },
+    { id: 4, name: 'Skill Master', completed: false, icon: <Trophy className="text-amber-500" /> },
+  ]);
+  const [upcomingEvents, setUpcomingEvents] = useState([
+    { id: 1, name: 'Tech Career Fair', date: 'Today', hot: true },
+    { id: 2, name: 'Resume Workshop', date: 'Tomorrow', hot: false },
+    { id: 3, name: 'Coding Challenge', date: 'In 3 days', hot: true },
+  ]);
+  
   const colorPalettes = [
     'bg-blue-100',      // Events
     'bg-purple-100',    // Webinars
@@ -60,6 +74,20 @@ export default function Home() {
       return () => clearInterval(timer);
     }
   }, []);
+
+  useEffect(() => {
+    // Show streak popup after a short delay
+    const timer = setTimeout(() => {
+      setShowStreakPopup(true);
+      
+      // Auto-hide after 5 seconds
+      setTimeout(() => {
+        setShowStreakPopup(false);
+      }, 5000);
+    }, 2000);
+    
+    return () => clearTimeout(timer);
+  }, []);
   
   const featureItems = [
     {
@@ -68,7 +96,7 @@ export default function Home() {
       description: 'Explore All Events',
       icon: <Calendar size={24} />,
       href: '/events',
-      character: '/characters/events.png',
+      character: '/download.jpeg',
       explanation: 'Find and join exciting events to boost your career and network with professionals.'
     },
     {
@@ -77,7 +105,7 @@ export default function Home() {
       description: 'Join Live Webinars',
       icon: <span className="flex items-center gap-1"><Video size={22} /><Smile size={20} /></span>,
       href: '/webinars',
-      character: '/characters/webinars.png',
+      character: '/download (1).jpeg',
       explanation: 'Attend live webinars hosted by industry experts and enhance your knowledge.'
     },
     {
@@ -86,7 +114,7 @@ export default function Home() {
       description: 'Compete & Win',
       icon: <Award size={24} />,
       href: '/hackathons',
-      character: '/characters/hackathons.png',
+      character: '/download (2).jpeg',
       explanation: 'Participate in hackathons, solve real-world problems, and win amazing prizes!'
     },
     {
@@ -95,31 +123,101 @@ export default function Home() {
       description: 'Discover More',
       icon: <MoreHorizontal size={24} />,
       href: '/more',
-      character: '/characters/more.png',
+      character: '/yogi-bear3.png',
       explanation: 'Explore more opportunities and resources to help you grow.'
     }
   ];
 
   return (
     <main className="overflow-hidden">
+      {/* Streak popup */}
+      {showStreakPopup && (
+        <div className="fixed bottom-8 right-8 z-50 animate-bounce-in">
+          <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 rounded-xl shadow-xl flex items-center gap-3 pulse-glow">
+            <div className="relative w-14 h-14 flex-shrink-0">
+              <Image 
+                src="/little-einsteins-cartoon-characters-png-3.png" 
+                alt="Streak Character"
+                fill
+                className="object-contain"
+              />
+              <Flame className="w-8 h-8 text-yellow-300 absolute -bottom-2 -right-2" />
+            </div>
+            <div>
+              <p className="font-bold text-lg">🔥 {streakCount} Day Streak!</p>
+              <p className="text-sm">You're on fire! Come back tmrw!</p>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Floating Achievement Button */}
+      <button 
+        className="fixed left-8 bottom-8 z-40 bg-gradient-to-r from-orange-500 to-red-500 p-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 pulse-glow"
+        onClick={() => window.alert("Achievements dashboard coming soon!")}
+      >
+        <Trophy className="w-6 h-6 text-white" />
+      </button>
+      
       {/* Hero Section */}
-      <section className="gradient-primary text-white">
+      <section className="relative gradient-primary text-white overflow-hidden emoji-bg">
+        {/* Animated sparkles */}
+        <div className="absolute top-12 right-32 animate-pulse">
+          <Sparkles className="w-6 h-6 text-yellow-300" />
+        </div>
+        <div className="absolute bottom-20 left-24 animate-pulse delay-1000">
+          <Sparkles className="w-4 h-4 text-pink-300" />
+        </div>
+        <div className="absolute top-40 left-1/4 animate-pulse delay-500">
+          <Sparkles className="w-5 h-5 text-blue-300" />
+        </div>
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 flex flex-col md:flex-row items-center">
           {/* Left: Hero Text */}
           <div className="md:w-1/2 mb-10 md:mb-0 animate-fade-in">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight drop-shadow-md">
-              Unlock Your Career
-            </h1>
+            <div className="relative">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight drop-shadow-md">
+                Level Up Your <span className="text-[var(--youth-yellow)]">Career</span>
+              </h1>
+              {/* New tag */}
+              <div className="absolute -top-6 -right-6 bg-yellow-400 text-indigo-900 px-3 py-1 rounded-full transform rotate-12 font-bold text-sm shadow-lg">
+                🔥 Hot Events!
+              </div>
+            </div>
             <p className="text-lg md:text-xl mb-8 opacity-90 drop-shadow">
-              Explore opportunities from across the globe to grow, showcase skills, gain CV points & get hired by your dream company.
+              Ready to crush it? Find the sickest opportunities, flex your skills, & get hired by your dream company!
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/register" className="bg-white text-[var(--primary-end)] px-6 py-3 rounded-md font-medium hover:bg-gray-100 transition-all duration-300 inline-block shadow-md hover:shadow-lg transform hover:-translate-y-1">
-                Get Started
+              <Link href="/register" className="bg-white text-[var(--primary-end)] px-6 py-3 rounded-md font-medium hover:bg-gray-100 transition-all duration-300 inline-flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-1">
+                Get Started <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
               <Link href="/about" className="text-white bg-transparent border border-white px-6 py-3 rounded-md font-medium hover:bg-white/10 transition-all duration-300 inline-block text-center">
                 Learn More
               </Link>
+            </div>
+            
+            {/* User progress section */}
+            <div className="mt-10 bg-white/10 backdrop-blur-sm p-4 rounded-lg border border-white/20">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-bold text-lg flex items-center">
+                  <span>Your Vibe</span>
+                  <div className="ml-2 flex">
+                    <Flame className="w-5 h-5 text-orange-400" />
+                    <span className="ml-1">{streakCount}</span>
+                  </div>
+                </h3>
+                <Link href="/profile" className="text-sm hover:underline">View All</Link>
+              </div>
+              <div className="flex gap-3 mb-3">
+                {achievements.map(achievement => (
+                  <div key={achievement.id} className={`w-10 h-10 flex items-center justify-center rounded-full ${achievement.completed ? 'bg-gradient-to-br from-orange-400 to-red-500 text-white' : 'bg-white/30'}`}>
+                    {achievement.icon}
+                  </div>
+                ))}
+              </div>
+              <div className="text-xs text-white/80">
+                Level up your profile to unlock more achievements! 🏆
+              </div>
             </div>
           </div>
           {/* Right: Feature Grid */}
@@ -151,7 +249,14 @@ export default function Home() {
                   {/* Character Popup */}
                   {hovered === item.id && (
                     <div className="absolute z-50 left-full top-1/2 -translate-y-1/2 ml-4 w-64 bg-white text-gray-800 rounded-xl shadow-2xl p-4 flex flex-col items-center animate-fade-in border border-gray-100">
-                      <Image src={item.character} alt={item.title + ' character'} width={80} height={80} className="mb-2 rounded-full bg-gray-100" />
+                      <div className="w-20 h-20 relative rounded-full overflow-hidden bg-gray-100 mb-2">
+                        <Image 
+                          src={item.character} 
+                          alt={item.title + ' character'} 
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
                       <div className="font-bold mb-1 text-base text-center">{item.title}</div>
                       <div className="text-sm text-center">{item.explanation}</div>
                     </div>
@@ -159,27 +264,119 @@ export default function Home() {
                 </div>
               ))}
             </div>
+            
+            {/* Trending events sidebar */}
+            <div className="mt-6 bg-white/10 backdrop-blur-sm p-4 rounded-lg border border-white/20">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-bold text-lg flex items-center">
+                  <span>🔥 FOMO Alert!</span>
+                </h3>
+                <Bell className="w-5 h-5 text-yellow-300 animate-pulse" />
+              </div>
+              <div className="space-y-2">
+                {upcomingEvents.map(event => (
+                  <Link href="/events" key={event.id} className="flex items-center justify-between p-2 rounded-md hover:bg-white/10 transition-colors">
+                    <div className="flex items-center">
+                      <div className="relative w-8 h-8 mr-2 rounded-full overflow-hidden">
+                        <Image 
+                          src={event.hot ? "/yogi-bear3.png" : "/R.png"} 
+                          alt={event.name}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <span>{event.name}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <span className="text-sm mr-2">{event.date}</span>
+                      {event.hot && <Flame className="w-4 h-4 text-orange-400" />}
+                    </div>
+                  </Link>
+                ))}
+              </div>
+              <div className="mt-3 pt-2 border-t border-white/10 text-xs text-center">
+                <span className="text-[var(--youth-yellow)]">237 students</span> are viewing these events right now!
+              </div>
+            </div>
           </div>
+        </div>
+        
+        {/* Animated wave */}
+        <div className="absolute bottom-0 left-0 right-0">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="w-full">
+            <path fill="#ffffff" fillOpacity="1" d="M0,96L48,112C96,128,192,160,288,154.7C384,149,480,107,576,112C672,117,768,171,864,176C960,181,1056,139,1152,122.7C1248,107,1344,117,1392,122.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+          </svg>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-section-light">
+      <section className="py-16 bg-[var(--section-light)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold mb-4 text-gradient-primary">GradLyft Impact</h2>
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div className="p-6 card rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+            <div className="p-6 card rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-[var(--primary-start)]/10 relative overflow-hidden">
+              <div className="w-full h-32 mb-4 relative">
+                <Image 
+                  src="/yogi-bear3.png" 
+                  alt="Universities"
+                  fill
+                  style={{ objectFit: 'contain' }}
+                  className="p-1"
+                />
+              </div>
+              <div className="w-12 h-12 gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+                <GraduationCap className="text-white w-6 h-6" />
+              </div>
               <h3 className="text-3xl md:text-4xl font-bold text-gradient-primary mb-2">500+</h3>
               <p className="text-[var(--text-secondary)]">Universities</p>
             </div>
-            <div className="p-6 card rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+            <div className="p-6 card rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-[var(--primary-mid)]/10 relative overflow-hidden">
+              <div className="w-full h-32 mb-4 relative">
+                <Image 
+                  src="/download.jpeg" 
+                  alt="Students"
+                  fill
+                  style={{ objectFit: 'contain' }}
+                  className="p-1"
+                />
+              </div>
+              <div className="w-12 h-12 gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+                <Users className="text-white w-6 h-6" />
+              </div>
               <h3 className="text-3xl md:text-4xl font-bold text-gradient-primary mb-2">2M+</h3>
               <p className="text-[var(--text-secondary)]">Students</p>
             </div>
-            <div className="p-6 card rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+            <div className="p-6 card rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-[var(--primary-end)]/10 relative overflow-hidden">
+              <div className="w-full h-32 mb-4 relative">
+                <Image 
+                  src="/download (1).jpeg" 
+                  alt="Events"
+                  fill
+                  style={{ objectFit: 'contain' }}
+                  className="p-1"
+                />
+              </div>
+              <div className="w-12 h-12 gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+                <Calendar className="text-white w-6 h-6" />
+              </div>
               <h3 className="text-3xl md:text-4xl font-bold text-gradient-primary mb-2">10K+</h3>
               <p className="text-[var(--text-secondary)]">Events</p>
             </div>
-            <div className="p-6 card rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+            <div className="p-6 card rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-[var(--primary-start)]/10 relative overflow-hidden">
+              <div className="w-full h-32 mb-4 relative">
+                <Image 
+                  src="/download (2).jpeg" 
+                  alt="Employers"
+                  fill
+                  style={{ objectFit: 'contain' }}
+                  className="p-1"
+                />
+              </div>
+              <div className="w-12 h-12 gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+                <Briefcase className="text-white w-6 h-6" />
+              </div>
               <h3 className="text-3xl md:text-4xl font-bold text-gradient-primary mb-2">5K+</h3>
               <p className="text-[var(--text-secondary)]">Employers</p>
             </div>
@@ -246,7 +443,10 @@ export default function Home() {
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="card rounded-xl p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+            <div className="card rounded-xl p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden">
+              <div className="absolute -right-4 -top-4 bg-gradient-to-br from-red-500 to-pink-500 text-white text-xs font-bold px-8 py-1 transform rotate-45">
+                Popular
+              </div>
               <div className="w-14 h-14 gradient-primary rounded-xl flex items-center justify-center mb-6 shadow-md">
                 <Award className="text-white" size={28} />
               </div>
@@ -272,7 +472,10 @@ export default function Home() {
               </Link>
             </div>
             
-            <div className="card rounded-xl p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+            <div className="card rounded-xl p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden">
+              <div className="absolute -right-4 -top-4 bg-gradient-to-br from-blue-500 to-purple-500 text-white text-xs font-bold px-8 py-1 transform rotate-45">
+                New
+              </div>
               <div className="w-14 h-14 gradient-primary rounded-xl flex items-center justify-center mb-6 shadow-md">
                 <Calendar className="text-white" size={28} />
               </div>
@@ -299,7 +502,10 @@ export default function Home() {
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="card p-8 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+            <div className="card p-8 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 relative">
+              <div className="absolute -top-4 -left-4 bg-yellow-400 text-yellow-900 rounded-full w-8 h-8 flex items-center justify-center shadow-md">
+                <Trophy className="w-5 h-5" />
+              </div>
               <div className="flex mb-4">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <Star key={star} size={20} className="text-yellow-400 fill-current" />
@@ -363,9 +569,30 @@ export default function Home() {
       </section>
       
       {/* CTA Section */}
-      <section className="gradient-primary py-20 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Take the Next Step?</h2>
+      <section className="gradient-primary py-20 text-white relative overflow-hidden">
+        {/* Animated particles */}
+        <div className="absolute inset-0">
+          <div className="absolute top-12 left-1/4 animate-ping">
+            <div className="w-2 h-2 rounded-full bg-white/40"></div>
+          </div>
+          <div className="absolute top-1/3 left-1/2 animate-ping delay-300">
+            <div className="w-3 h-3 rounded-full bg-white/30"></div>
+          </div>
+          <div className="absolute bottom-1/4 right-1/3 animate-ping delay-700">
+            <div className="w-2 h-2 rounded-full bg-white/50"></div>
+          </div>
+          <div className="absolute bottom-1/2 right-1/4 animate-ping delay-500">
+            <div className="w-4 h-4 rounded-full bg-white/20"></div>
+          </div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <div className="inline-block mb-6 relative">
+            <h2 className="text-3xl md:text-4xl font-bold">Ready to Take the Next Step?</h2>
+            <div className="absolute -top-6 -right-6 animate-bounce">
+              <Sparkles className="w-6 h-6 text-yellow-300" />
+            </div>
+          </div>
           <p className="text-xl mb-10 max-w-3xl mx-auto">
             Join thousands of students and professionals who have already discovered the power of GradLyft.
           </p>
@@ -376,6 +603,24 @@ export default function Home() {
             <Link href="/about" className="text-white bg-transparent border border-white px-8 py-4 rounded-md font-medium hover:bg-white/10 transition-all duration-300 inline-block">
               Learn More About Us
             </Link>
+          </div>
+          
+          {/* FOMO element */}
+          <div className="mt-8 inline-flex items-center bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm">
+            <div className="relative mr-3">
+              <div className="w-10 h-10 rounded-full overflow-hidden bg-green-400 flex items-center justify-center text-white">
+                <Image 
+                  src="/download (1).jpeg" 
+                  alt="Active users"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-blue-500 rounded-full animate-pulse flex items-center justify-center">
+                <Users className="w-2 h-2 text-white" />
+              </div>
+            </div>
+            <span>37 people registered in the last hour</span>
           </div>
         </div>
       </section>
