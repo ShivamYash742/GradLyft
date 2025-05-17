@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Menu, X, User, LogOut } from 'lucide-react';
 import { useAuth } from '../app/context/AuthContext';
 import { useRouter } from 'next/navigation';
+import ThemeToggleButton from './ThemeToggleButton';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -74,6 +75,7 @@ const Navbar = () => {
           </div>
           
           <div className="hidden md:flex items-center space-x-4">
+            <ThemeToggleButton />
             {loading ? (
               <div className="h-5 w-5 rounded-full border-2 border-[var(--primary-start)] border-t-transparent animate-spin"></div>
             ) : user ? (
@@ -99,7 +101,7 @@ const Navbar = () => {
                     {user.role === 'ADMIN' && (
                       <Link
                         href="/admin/dashboard"
-                        className="block px-4 py-2 hover:bg-[var(--section-light)] transition-colors text-[var(--text-primary)]"
+                        className="block px-4 py-2 hover:bg-[var(--section-light,#ffffff)] transition-colors text-[var(--text-primary,#171717)]"
                         onClick={() => setProfileDropdownOpen(false)}
                       >
                         Admin Dashboard
@@ -109,7 +111,7 @@ const Navbar = () => {
                     {user.role === 'EMPLOYER' && (
                       <Link
                         href="/employer/dashboard"
-                        className="block px-4 py-2 hover:bg-[var(--section-light)] transition-colors text-[var(--text-primary)]"
+                        className="block px-4 py-2 hover:bg-[var(--section-light,#ffffff)] transition-colors text-[var(--text-primary,#171717)]"
                         onClick={() => setProfileDropdownOpen(false)}
                       >
                         Employer Dashboard
@@ -118,7 +120,7 @@ const Navbar = () => {
                     
                     <button
                       onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 hover:bg-[var(--section-light)] transition-colors text-[var(--text-primary)]"
+                      className="block w-full text-left px-4 py-2 hover:bg-[var(--section-light,#ffffff)] transition-colors text-[var(--text-primary,#171717)]"
                     >
                       <span className="flex items-center">
                         <LogOut size={16} className="mr-2" />
@@ -143,7 +145,7 @@ const Navbar = () => {
           <div className="md:hidden flex items-center">
             <button 
               onClick={toggleMenu}
-              className="text-[var(--text-primary)] hover:text-[var(--link-hover)] focus:outline-none"
+              className="text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] focus:outline-none"
             >
               {isMenuOpen ? (
                 <X size={24} />
@@ -157,48 +159,52 @@ const Navbar = () => {
       
       {isMenuOpen && (
         <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-[var(--section-light)]/95 backdrop-blur-md shadow-lg rounded-b-xl">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-[var(--section-light,#ffffff)]/95 backdrop-blur-md shadow-lg rounded-b-xl">
             <Link 
               href="/student" 
-              className="block px-3 py-2 rounded-md text-[var(--text-primary)] hover:text-[var(--link-hover)] hover:bg-[var(--card-bg)]"
+              className="block px-3 py-2 rounded-md text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] hover:bg-[var(--card-bg,#ffffff)]"
               onClick={() => setIsMenuOpen(false)}
             >
               For Students
             </Link>
             <Link 
               href="/universities" 
-              className="block px-3 py-2 rounded-md text-[var(--text-primary)] hover:text-[var(--link-hover)] hover:bg-[var(--card-bg)]"
+              className="block px-3 py-2 rounded-md text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] hover:bg-[var(--card-bg,#ffffff)]"
               onClick={() => setIsMenuOpen(false)}
             >
               For Universities
             </Link>
             <Link 
               href="/employer" 
-              className="block px-3 py-2 rounded-md text-[var(--text-primary)] hover:text-[var(--link-hover)] hover:bg-[var(--card-bg)]"
+              className="block px-3 py-2 rounded-md text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] hover:bg-[var(--card-bg,#ffffff)]"
               onClick={() => setIsMenuOpen(false)}
             >
               For Employers
             </Link>
             <Link 
               href="/events" 
-              className="block px-3 py-2 rounded-md text-[var(--text-primary)] hover:text-[var(--link-hover)] hover:bg-[var(--card-bg)]"
+              className="block px-3 py-2 rounded-md text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] hover:bg-[var(--card-bg,#ffffff)]"
               onClick={() => setIsMenuOpen(false)}
             >
               Events
             </Link>
             <Link 
               href="/about" 
-              className="block px-3 py-2 rounded-md text-[var(--text-primary)] hover:text-[var(--link-hover)] hover:bg-[var(--card-bg)]"
+              className="block px-3 py-2 rounded-md text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] hover:bg-[var(--card-bg,#ffffff)]"
               onClick={() => setIsMenuOpen(false)}
             >
               About
             </Link>
             
+            <div className="px-3 py-2 flex justify-center">
+              <ThemeToggleButton />
+            </div>
+            
             {user ? (
               <>
                 <Link 
                   href="/profile" 
-                  className="block px-3 py-2 rounded-md text-[var(--text-primary)] hover:text-[var(--link-hover)] hover:bg-[var(--card-bg)]"
+                  className="block px-3 py-2 rounded-md text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] hover:bg-[var(--card-bg,#ffffff)]"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Profile
@@ -207,7 +213,7 @@ const Navbar = () => {
                 {user.role === 'ADMIN' && (
                   <Link 
                     href="/admin/dashboard" 
-                    className="block px-3 py-2 rounded-md text-[var(--text-primary)] hover:text-[var(--link-hover)] hover:bg-[var(--card-bg)]"
+                    className="block px-3 py-2 rounded-md text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] hover:bg-[var(--card-bg,#ffffff)]"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Admin Dashboard
@@ -217,7 +223,7 @@ const Navbar = () => {
                 {user.role === 'EMPLOYER' && (
                   <Link 
                     href="/employer/dashboard" 
-                    className="block px-3 py-2 rounded-md text-[var(--text-primary)] hover:text-[var(--link-hover)] hover:bg-[var(--card-bg)]"
+                    className="block px-3 py-2 rounded-md text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] hover:bg-[var(--card-bg,#ffffff)]"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Employer Dashboard
@@ -229,7 +235,7 @@ const Navbar = () => {
                     handleLogout();
                     setIsMenuOpen(false);
                   }}
-                  className="w-full text-left px-3 py-2 rounded-md text-[var(--text-primary)] hover:text-[var(--link-hover)] hover:bg-[var(--card-bg)]"
+                  className="w-full text-left px-3 py-2 rounded-md text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] hover:bg-[var(--card-bg,#ffffff)]"
                 >
                   Log out
                 </button>
