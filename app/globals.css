@@ -40,6 +40,23 @@
   --link-color: #FF7A00;
   --link-hover: #FF5A00;
   --text-on-gradient: #ffffff;
+  
+  /* Form and background colors */
+  --bg-gradient-start: #e0f2fe; /* blue-50 */
+  --bg-gradient-end: #ccfbf1; /* teal-50 */
+  --input-bg: rgba(255, 255, 255, 0.7);
+  --input-border: #e5e7eb; /* gray-200 */
+  --input-focus: #FF7A00;
+  --input-focus-ring: rgba(255, 122, 0, 0.2);
+  --form-text: #374151; /* gray-700 */
+  --form-text-muted: #9ca3af; /* gray-400 */
+  --form-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --glass-shadow: rgba(0, 0, 0, 0.1);
+  --badge-bg: rgba(20, 184, 166, 0.1); /* teal bg for badges */
+  --floating-bg-1: #bae6fd; /* blue blob */
+  --floating-bg-2: #99f6e4; /* teal blob */
+  --floating-bg-3: #c7d2fe; /* indigo blob */
 }
 
 [data-theme="dark"] {
@@ -59,6 +76,23 @@
   --text-muted: #9ca3af;
   --link-color: hsla(214, 100%, 70%, 1);
   --link-hover: hsla(300, 100%, 85%, 1);
+  
+  /* Form and background colors - dark mode versions */
+  --bg-gradient-start: #1e3a8a; /* dark blue */
+  --bg-gradient-end: #134e4a; /* dark teal */
+  --input-bg: rgba(31, 41, 55, 0.7); /* gray-800 with opacity */
+  --input-border: #4b5563; /* gray-600 */
+  --input-focus: #60a5fa; /* blue-400 */
+  --input-focus-ring: rgba(96, 165, 250, 0.2);
+  --form-text: #f3f4f6; /* gray-100 */
+  --form-text-muted: #6b7280; /* gray-500 */
+  --form-bg: rgba(31, 41, 55, 0.8); /* gray-800 with opacity */
+  --glass-border: rgba(75, 85, 99, 0.5); /* gray-600 with opacity */
+  --glass-shadow: rgba(0, 0, 0, 0.3);
+  --badge-bg: rgba(5, 150, 105, 0.2); /* dark teal bg for badges */
+  --floating-bg-1: #1e40af; /* dark blue blob */
+  --floating-bg-2: #115e59; /* dark teal blob */
+  --floating-bg-3: #4338ca; /* dark indigo blob */
 }
 
 body {
