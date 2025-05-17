@@ -12,7 +12,7 @@ export default function UniversityStudentManagementPage() {
     },
     {
       title: 'Progress Tracking',
-      description: 'Monitor students' job search progress, application status, and career development activities.',
+      description: 'Monitor students job search progress, application status, and career development activities.',
       icon: <CheckSquare className="w-6 h-6 text-[var(--primary-start)]" />
     },
     {
