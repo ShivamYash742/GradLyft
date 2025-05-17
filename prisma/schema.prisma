@@ -7,38 +7,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  STUDENT
-  EMPLOYER
-  ADMIN
-}
-
-enum JobStatus {
-  PENDING
-  APPROVED
-  REJECTED
-}
-
-enum Mode {
-  ONLINE
-  OFFLINE
-}
-
 model User {
   id        String           @id @default(cuid())
   email     String           @unique
   password  String
   role      Role
-  student   StudentProfile?
-  employer  EmployerProfile?
   createdAt DateTime         @default(now())
+  employer  EmployerProfile?
+  student   StudentProfile?
   sessions  UserSession[]
 }
 
 model StudentProfile {
   id                 String              @id @default(cuid())
   userId             String              @unique
-  user               User                @relation(fields: [userId], references: [id])
   name               String
   college            String
   degree             String
@@ -47,15 +29,16 @@ model StudentProfile {
   cvUrl              String?
   bookmarks          Bookmark[]
   eventRegistrations EventRegistration[]
+  user               User                @relation(fields: [userId], references: [id])
 }
 
 model EmployerProfile {
   id          String @id @default(cuid())
   userId      String @unique
-  user        User   @relation(fields: [userId], references: [id])
   name        String
   company     String
   designation String
+  user        User   @relation(fields: [userId], references: [id])
   jobs        Job[]
 }
 
@@ -71,36 +54,59 @@ model Job {
   applyMethod String
   status      JobStatus       @default(PENDING)
   employerId  String
-  employer    EmployerProfile @relation(fields: [employerId], references: [id])
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
   bookmarks   Bookmark[]
+  employer    EmployerProfile @relation(fields: [employerId], references: [id])
 }
 
 model Bookmark {
   id        String         @id @default(cuid())
   studentId String
   jobId     String
-  student   StudentProfile @relation(fields: [studentId], references: [id])
   job       Job            @relation(fields: [jobId], references: [id])
+  student   StudentProfile @relation(fields: [studentId], references: [id])
 }
 
 model Event {
-  id            String              @id @default(cuid())
-  title         String
-  date          DateTime
-  time          String
-  mode          Mode
-  description   String
-  registrations EventRegistration[]
+  id              String              @id @default(cuid())
+  title           String
+  date            DateTime
+  time            String
+  description     String
+  address         String?
+  agenda          Json?
+  attendees       Int                 @default(0)
+  category        EventCategory       @default(OTHER)
+  createdAt       DateTime            @default(now())
+  endDate         DateTime?
+  format          EventFormat         @default(VIRTUAL)
+  image           String?
+  location        String
+  longDescription String?
+  organizer       String?
+  sponsors        Json?
+  updatedAt       DateTime            @updatedAt
+  registrations   EventRegistration[]
 }
 
 model EventRegistration {
-  id        String         @id @default(cuid())
-  studentId String
-  eventId   String
-  student   StudentProfile @relation(fields: [studentId], references: [id])
-  event     Event          @relation(fields: [eventId], references: [id])
+  id           String             @id @default(cuid())
+  studentId    String
+  eventId      String
+  cancelledAt  DateTime?
+  email        String
+  interests    String?
+  name         String
+  phone        String?
+  registeredAt DateTime           @default(now())
+  requirements String?
+  resumeUrl    String?
+  status       RegistrationStatus @default(CONFIRMED)
+  event        Event              @relation(fields: [eventId], references: [id])
+  student      StudentProfile     @relation(fields: [studentId], references: [id])
+
+  @@unique([studentId, eventId])
 }
 
 model UpskillingResource {
@@ -118,12 +124,51 @@ model UserSession {
   action    String
   startedAt DateTime  @default(now())
   endedAt   DateTime?
-  duration  Int? // seconds
+  duration  Int?
   ipAddress String?
   userAgent String?
   createdAt DateTime  @default(now())
+  user      User?     @relation(fields: [userId], references: [id])
+}
 
-  user User? @relation(fields: [userId], references: [id])
+enum Role {
+  STUDENT
+  EMPLOYER
+  ADMIN
+}
+
+enum JobStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum Mode {
+  ONLINE
+  OFFLINE
+}
+
+enum RegistrationStatus {
+  CONFIRMED
+  CANCELLED
+  WAITLISTED
+}
+
+enum EventFormat {
+  VIRTUAL
+  IN_PERSON
+  HYBRID
+}
+
+enum EventCategory {
+  CAREER_FAIR
+  WORKSHOP
+  NETWORKING
+  WEBINAR
+  PANEL
+  HACKATHON
+  CONFERENCE
+  OTHER
 }
 
 enum Category {

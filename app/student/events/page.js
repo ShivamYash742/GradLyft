@@ -4,13 +4,25 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { CalendarDays, MapPin, Users, ChevronLeft, Search, Filter, Calendar, Tag } from 'lucide-react';
+import { CalendarDays, MapPin, Users, ChevronLeft, Search, Filter, Calendar, Tag, X, UserCheck, Phone, Mail, CheckCircle } from 'lucide-react';
 
 export default function StudentEvents() {
   const { user, loading } = useAuth();
   const router = useRouter();
   const [filter, setFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [registrationSubmitting, setRegistrationSubmitting] = useState(false);
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    interests: '',
+    requirements: '',
+    agreeToTerms: false
+  });
 
   // Redirect if not logged in
   useEffect(() => {
@@ -19,8 +31,20 @@ export default function StudentEvents() {
     }
   }, [loading, user, router]);
 
+  // Populate form with user data if available
+  useEffect(() => {
+    if (user) {
+      setFormData(prev => ({
+        ...prev,
+        name: user.displayName || '',
+        email: user.email || '',
+        phone: user.phone || ''
+      }));
+    }
+  }, [user]);
+
   // Mock data for events
-  const events = [
+  const [events, setEvents] = useState([
     { 
       id: 1, 
       title: "Tech Career Fair", 
@@ -76,7 +100,52 @@ export default function StudentEvents() {
       attendees: 150,
       registered: false
     }
-  ];
+  ]);
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === 'checkbox' ? checked : value
+    });
+  };
+
+  const handleRegisterClick = (event) => {
+    setSelectedEvent(event);
+    setShowModal(true);
+    setRegistrationSuccess(false);
+  };
+
+  const handleCancelRegistration = (eventId) => {
+    // In a real application, you would make an API call to cancel the registration
+    setEvents(events.map(event => 
+      event.id === eventId 
+        ? { ...event, registered: false, attendees: event.attendees - 1 } 
+        : event
+    ));
+  };
+
+  const handleSubmitRegistration = (e) => {
+    e.preventDefault();
+    setRegistrationSubmitting(true);
+    
+    // Simulate API call with a timeout
+    setTimeout(() => {
+      setEvents(events.map(event => 
+        event.id === selectedEvent.id 
+          ? { ...event, registered: true, attendees: event.attendees + 1 } 
+          : event
+      ));
+      setRegistrationSubmitting(false);
+      setRegistrationSuccess(true);
+      
+      // Close modal after showing success message
+      setTimeout(() => {
+        setShowModal(false);
+        setSelectedEvent(null);
+      }, 2000);
+    }, 1000);
+  };
 
   // Filter events
   const filteredEvents = events.filter(event => {
@@ -232,11 +301,17 @@ export default function StudentEvents() {
                       Details
                     </button>
                     {!event.registered ? (
-                      <button className="px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-lg text-sm font-medium transition-colors">
+                      <button 
+                        onClick={() => handleRegisterClick(event)}
+                        className="px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-lg text-sm font-medium transition-colors"
+                      >
                         Register
                       </button>
                     ) : (
-                      <button className="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors">
+                      <button 
+                        onClick={() => handleCancelRegistration(event.id)}
+                        className="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors"
+                      >
                         Cancel Registration
                       </button>
                     )}
@@ -262,6 +337,180 @@ export default function StudentEvents() {
           </div>
         )}
       </div>
+
+      {/* Registration Modal */}
+      {showModal && selectedEvent && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+            {registrationSuccess ? (
+              <div className="p-6 text-center">
+                <div className="w-16 h-16 bg-green-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <CheckCircle className="h-10 w-10 text-green-600" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-2">Registration Successful!</h3>
+                <p className="text-gray-600">You have successfully registered for {selectedEvent.title}</p>
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="mt-6 px-6 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-lg text-sm font-medium transition-colors"
+                >
+                  Close
+                </button>
+              </div>
+            ) : (
+              <>
+                <div className="flex justify-between items-center p-6 border-b border-gray-200">
+                  <h3 className="text-lg font-bold text-gray-800">Register for Event</h3>
+                  <button 
+                    onClick={() => setShowModal(false)}
+                    className="text-gray-500 hover:text-gray-700"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+                </div>
+                
+                <div className="p-6 border-b border-gray-200">
+                  <h4 className="font-bold text-xl text-gray-800">{selectedEvent.title}</h4>
+                  <div className="mt-2 flex items-center text-sm text-gray-500">
+                    <CalendarDays className="h-4 w-4 mr-2" />
+                    {selectedEvent.date} • {selectedEvent.time}
+                  </div>
+                  <div className="mt-1 flex items-center text-sm text-gray-500">
+                    <MapPin className="h-4 w-4 mr-2" />
+                    {selectedEvent.location}
+                  </div>
+                </div>
+                
+                <form onSubmit={handleSubmitRegistration} className="p-6 space-y-4">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                      Full Name *
+                    </label>
+                    <div className="relative">
+                      <UserCheck className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Your full name"
+                        required
+                      />
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                      Email Address *
+                    </label>
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="your@email.com"
+                        required
+                      />
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                      Phone Number
+                    </label>
+                    <div className="relative">
+                      <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="(123) 456-7890"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="interests" className="block text-sm font-medium text-gray-700 mb-1">
+                      What are you hoping to gain from this event?
+                    </label>
+                    <textarea
+                      id="interests"
+                      name="interests"
+                      value={formData.interests}
+                      onChange={handleInputChange}
+                      rows="2"
+                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="Share your interests and what you hope to learn..."
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="requirements" className="block text-sm font-medium text-gray-700 mb-1">
+                      Special Requirements or Accommodations
+                    </label>
+                    <textarea
+                      id="requirements"
+                      name="requirements"
+                      value={formData.requirements}
+                      onChange={handleInputChange}
+                      rows="2"
+                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="Any accommodations or requirements you need..."
+                    />
+                  </div>
+                  
+                  <div className="flex items-start">
+                    <div className="flex items-center h-5">
+                      <input
+                        id="agreeToTerms"
+                        name="agreeToTerms"
+                        type="checkbox"
+                        checked={formData.agreeToTerms}
+                        onChange={handleInputChange}
+                        className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        required
+                      />
+                    </div>
+                    <div className="ml-3 text-sm">
+                      <label htmlFor="agreeToTerms" className="text-gray-600">
+                        I agree to receive communications about this and other events *
+                      </label>
+                    </div>
+                  </div>
+                  
+                  <div className="pt-4">
+                    <button
+                      type="submit"
+                      disabled={registrationSubmitting}
+                      className="w-full px-6 py-3 bg-blue-600 text-white hover:bg-blue-700 rounded-lg font-medium transition-colors flex items-center justify-center"
+                    >
+                      {registrationSubmitting ? (
+                        <span className="flex items-center">
+                          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Submitting...
+                        </span>
+                      ) : (
+                        'Complete Registration'
+                      )}
+                    </button>
+                  </div>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 } 

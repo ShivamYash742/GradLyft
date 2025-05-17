@@ -123,3 +123,41 @@ npx prisma migrate reset
 npx prisma studio
 ```
 Accessible at http://localhost:5555
+
+## Event Registration System
+
+The event registration system allows students to:
+
+1. Browse upcoming events
+2. View detailed event information
+3. Register for events with a comprehensive form
+4. Cancel registrations when needed
+
+### Database Schema
+
+The system uses the following models:
+
+- `Event`: Stores event information including title, description, date/time, location, etc.
+- `EventRegistration`: Records each student registration with their contact information and preferences
+
+### API Endpoints
+
+- `POST /api/events/register`: Register for an event
+- `POST /api/events/cancel`: Cancel an event registration
+- `GET /api/events/status`: Check registration status for an event
+
+### Technical Implementation
+
+- Secure authentication using JWT
+- Database persistence with Prisma ORM
+- Comprehensive error handling
+- Real-time status updates
+- Analytics tracking
+
+## Test Credentials
+
+You can test the system with the following credentials:
+
+- Student: `student@example.com` / `password123`
+- Employer: `employer@example.com` / `password123`
+- Admin: `admin@gradlyft.com` / `password123`
