@@ -7,7 +7,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { UserCircle, Award, Sparkles, GraduationCap, Flame, Star, Briefcase, ChevronRight, 
          ArrowRight, Bookmark, CalendarDays, BookMarked, MapPin, Clock, Building, Filter,
-         Search, DollarSign, Users, Calendar, Tag, Trash2, Bell } from 'lucide-react';
+         Search, DollarSign, Users, Calendar, Tag, Trash2, Bell, User, Save, X, Phone, Mail, Book, Lightbulb,
+         Plus, Pencil, CheckCircle, Loader2 } from 'lucide-react';
 
 // Loading component for Suspense
 function ProfileLoading() {
@@ -20,21 +21,43 @@ function ProfileLoading() {
 
 // Main profile component that uses searchParams
 function ProfileContent() {
-  const { user, loading } = useAuth();
+  const { user, loading, setUser } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState('profile');
   const [eventsFilter, setEventsFilter] = useState('all');
   const [jobsFilter, setJobsFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
-
-  // Skills with proficiency levels
-  const [skillsData, setSkillsData] = useState([
-    { name: "JavaScript", level: 85 },
-    { name: "React", level: 70 },
-    { name: "UI/UX Design", level: 60 },
-    { name: "Python", level: 75 },
-  ]);
+  const [editMode, setEditMode] = useState({
+    personal: false,
+    education: false,
+    career: false
+  });
+  const [profileData, setProfileData] = useState({
+    name: '',
+    college: '',
+    degree: '',
+    branch: '',
+    year: '',
+    dob: '',
+    phoneNo: '',
+    state: '',
+    aspiration: '',
+    workingStatus: 'FRESHER',
+    interests: ''
+  });
+  
+  // Skills states
+  const [skills, setSkills] = useState([]);
+  const [isLoadingSkills, setIsLoadingSkills] = useState(false);
+  const [skillFormOpen, setSkillFormOpen] = useState(false);
+  const [editingSkill, setEditingSkill] = useState(null);
+  const [newSkill, setNewSkill] = useState({ name: '', proficiency: 50 });
+  const [skillError, setSkillError] = useState('');
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   // Mock data for events
   const events = [
@@ -116,6 +139,261 @@ function ProfileContent() {
     }
   ];
 
+  // Initialize form data from user profile
+  useEffect(() => {
+    if (user?.student) {
+      setProfileData({
+        name: user.student.name || '',
+        college: user.student.college || '',
+        degree: user.student.degree || '',
+        branch: user.student.branch || '',
+        year: user.student.year ? user.student.year.toString() : '',
+        dob: user.student.dob ? new Date(user.student.dob).toISOString().split('T')[0] : '',
+        phoneNo: user.student.phoneNo || '',
+        state: user.student.state || '',
+        aspiration: user.student.aspiration || '',
+        workingStatus: user.student.workingStatus || 'FRESHER',
+        interests: user.student.interests || ''
+      });
+      
+      // Load skills when user is available
+      fetchSkills();
+    }
+  }, [user]);
+
+  // Fetch skills from API
+  const fetchSkills = async () => {
+    if (!user?.student) return;
+    
+    setIsLoadingSkills(true);
+    try {
+      const response = await fetch('/api/skills');
+      if (!response.ok) {
+        throw new Error('Failed to fetch skills');
+      }
+      const data = await response.json();
+      if (data.success) {
+        setSkills(data.skills || []);
+      }
+    } catch (error) {
+      console.error('Error fetching skills:', error);
+    } finally {
+      setIsLoadingSkills(false);
+    }
+  };
+
+  // Handle skill form input change
+  const handleSkillInputChange = (e) => {
+    const { name, value } = e.target;
+    
+    if (name === 'proficiency') {
+      // Ensure proficiency is between 0-100
+      const proficiency = Math.max(0, Math.min(100, parseInt(value, 10) || 0));
+      setNewSkill(prev => ({ ...prev, proficiency }));
+    } else {
+      setNewSkill(prev => ({ ...prev, [name]: value }));
+    }
+    
+    setSkillError('');
+  };
+
+  // Open skill form for adding new skill
+  const openAddSkillForm = () => {
+    setNewSkill({ name: '', proficiency: 50 });
+    setEditingSkill(null);
+    setSkillFormOpen(true);
+    setSkillError('');
+  };
+  
+  // Open skill form for editing existing skill
+  const openEditSkillForm = (skill) => {
+    setNewSkill({ name: skill.name, proficiency: skill.proficiency });
+    setEditingSkill(skill);
+    setSkillFormOpen(true);
+    setSkillError('');
+  };
+  
+  // Close skill form
+  const closeSkillForm = () => {
+    setSkillFormOpen(false);
+    setEditingSkill(null);
+    setSkillError('');
+  };
+
+  // Add or update skill
+  const saveSkill = async () => {
+    if (!newSkill.name.trim()) {
+      setSkillError('Skill name is required');
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    try {
+      let response;
+      let successMsg = '';
+      
+      if (editingSkill) {
+        // Update existing skill
+        response = await fetch(`/api/skills/${editingSkill.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newSkill)
+        });
+        successMsg = 'Skill updated successfully';
+      } else {
+        // Add new skill
+        response = await fetch('/api/skills', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newSkill)
+        });
+        successMsg = 'Skill added successfully';
+      }
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to save skill');
+      }
+      
+      // Refresh skills list
+      await fetchSkills();
+      
+      // Show success message
+      setSuccessMessage(successMsg);
+      setTimeout(() => setSuccessMessage(''), 3000);
+      
+      // Close the form
+      closeSkillForm();
+    } catch (error) {
+      console.error('Error saving skill:', error);
+      setSkillError(error.message || 'Failed to save skill');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  
+  // Delete a skill
+  const deleteSkill = async (skill) => {
+    if (!window.confirm(`Are you sure you want to delete "${skill.name}" skill?`)) {
+      return;
+    }
+    
+    try {
+      const response = await fetch(`/api/skills/${skill.id}`, {
+        method: 'DELETE'
+      });
+      
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || 'Failed to delete skill');
+      }
+      
+      // Refresh skills list
+      await fetchSkills();
+      
+      // Show success message
+      setSuccessMessage('Skill deleted successfully');
+      setTimeout(() => setSuccessMessage(''), 3000);
+    } catch (error) {
+      console.error('Error deleting skill:', error);
+      setErrorMessage(error.message || 'Failed to delete skill');
+      setTimeout(() => setErrorMessage(''), 3000);
+    }
+  };
+
+  // Handle form field changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProfileData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Toggle edit mode for a section
+  const toggleEditMode = (section) => {
+    setEditMode(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+    
+    // Reset error/success messages when toggling edit mode
+    setErrorMessage('');
+    setSuccessMessage('');
+  };
+
+  // Handle form submission
+  const handleSubmit = async (section) => {
+    setIsSubmitting(true);
+    setErrorMessage('');
+    setSuccessMessage('');
+    
+    try {
+      // Prepare data based on which section is being updated
+      let updateData = { profileType: 'student' };
+      
+      if (section === 'personal') {
+        updateData = {
+          ...updateData,
+          name: profileData.name,
+          phoneNo: profileData.phoneNo,
+          dob: profileData.dob,
+          state: profileData.state
+        };
+      } else if (section === 'education') {
+        updateData = {
+          ...updateData,
+          college: profileData.college,
+          degree: profileData.degree,
+          branch: profileData.branch,
+          year: profileData.year
+        };
+      } else if (section === 'career') {
+        updateData = {
+          ...updateData,
+          workingStatus: profileData.workingStatus,
+          aspiration: profileData.aspiration,
+          interests: profileData.interests
+        };
+      }
+
+      const response = await fetch('/api/profile/update', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updateData)
+      });
+
+      const data = await response.json();
+      
+      if (response.ok && data.success) {
+        // Update user context with new profile data
+        setUser({
+          ...user,
+          student: {
+            ...user.student,
+            ...updateData,
+            id: user.student.id,
+            userId: user.student.userId
+          }
+        });
+        
+        setSuccessMessage('Profile updated successfully');
+        
+        // Close edit mode after successful update
+        toggleEditMode(section);
+      } else {
+        throw new Error(data.message || 'Failed to update profile');
+      }
+    } catch (error) {
+      console.error('Profile update error:', error);
+      setErrorMessage(error.message || 'An error occurred while updating profile');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   // Redirect if not logged in
   useEffect(() => {
     if (!loading && !user) {
@@ -189,6 +467,166 @@ function ProfileContent() {
     return null; // Will redirect in useEffect
   }
 
+  // Skills section - replace the static skills section with this dynamic one
+  const renderSkillsSection = () => (
+    <div className="bg-white rounded-xl p-6 shadow-md mb-6">
+      <div className="flex justify-between items-center mb-4">
+        <div className="flex items-center">
+          <Flame className="h-5 w-5 text-orange-500 mr-2" />
+          <h3 className="font-bold text-gray-800">Skills & Expertise</h3>
+        </div>
+        <button 
+          onClick={openAddSkillForm} 
+          className="text-blue-600 text-sm hover:underline flex items-center"
+        >
+          <Plus className="h-4 w-4 mr-1" /> Add Skills
+        </button>
+      </div>
+      
+      {isLoadingSkills ? (
+        <div className="flex justify-center py-8">
+          <Loader2 className="h-8 w-8 text-blue-500 animate-spin" />
+        </div>
+      ) : skills.length === 0 ? (
+        <div className="text-center py-8 text-gray-500">
+          <p>No skills added yet.</p>
+          <button 
+            onClick={openAddSkillForm}
+            className="mt-2 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg transition-colors"
+          >
+            Add your first skill
+          </button>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {skills.map((skill) => (
+            <div key={skill.id} className="group">
+              <div className="flex justify-between mb-1">
+                <span className="text-sm font-medium text-gray-700">{skill.name}</span>
+                <div className="flex items-center">
+                  <span className="text-xs text-gray-500 mr-2">{skill.proficiency}%</span>
+                  <div className="hidden group-hover:flex space-x-1">
+                    <button 
+                      onClick={() => openEditSkillForm(skill)}
+                      className="text-blue-500 hover:text-blue-700"
+                      title="Edit skill"
+                    >
+                      <Pencil className="h-3.5 w-3.5" />
+                    </button>
+                    <button 
+                      onClick={() => deleteSkill(skill)}
+                      className="text-red-500 hover:text-red-700"
+                      title="Delete skill"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-1.5">
+                <div 
+                  className={`h-1.5 rounded-full ${
+                    skill.proficiency > 80 ? 'bg-green-500' : skill.proficiency > 60 ? 'bg-blue-500' : 'bg-orange-400'
+                  }`} 
+                  style={{ width: `${skill.proficiency}%` }}
+                ></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      
+      {/* Skill Form Modal */}
+      {skillFormOpen && (
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-lg max-w-md w-full animate-fade-in">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-bold text-gray-800">
+                  {editingSkill ? 'Edit Skill' : 'Add New Skill'}
+                </h3>
+                <button onClick={closeSkillForm} className="text-gray-400 hover:text-gray-600">
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+              
+              {skillError && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded-lg mb-4 text-sm">
+                  {skillError}
+                </div>
+              )}
+              
+              <div className="space-y-4">
+                <div>
+                  <label htmlFor="skillName" className="block text-sm font-medium text-gray-700 mb-1">
+                    Skill Name
+                  </label>
+                  <input
+                    id="skillName"
+                    name="name"
+                    type="text"
+                    value={newSkill.name}
+                    onChange={handleSkillInputChange}
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                    placeholder="e.g., JavaScript, Python, Photoshop"
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="skillProficiency" className="block text-sm font-medium text-gray-700 mb-1">
+                    Proficiency: {newSkill.proficiency}%
+                  </label>
+                  <input
+                    id="skillProficiency"
+                    name="proficiency"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={newSkill.proficiency}
+                    onChange={handleSkillInputChange}
+                    className="block w-full"
+                  />
+                  <div className="flex justify-between text-xs text-gray-500 mt-1">
+                    <span>Beginner</span>
+                    <span>Intermediate</span>
+                    <span>Expert</span>
+                  </div>
+                </div>
+                
+                <div className="flex justify-end space-x-3 pt-3">
+                  <button
+                    type="button"
+                    onClick={closeSkillForm}
+                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md shadow-sm hover:bg-gray-50"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    onClick={saveSkill}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-md shadow-sm hover:bg-blue-700 flex items-center"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-1 animate-spin" /> Saving...
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle className="h-4 w-4 mr-1" /> 
+                        {editingSkill ? 'Update Skill' : 'Add Skill'}
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
   // Render Student Profile content (called when activeTab === 'profile')
   const renderStudentProfileContent = () => (
     <div className="animate-fade-in">
@@ -208,14 +646,26 @@ function ProfileContent() {
             <p className="text-blue-200">{user?.student?.college || 'University'}</p>
             <div className="flex items-center mt-2 text-sm">
               <GraduationCap className="h-4 w-4 mr-1" />
-              <span>{user?.student?.degree || 'Degree'} • </span>
+              <span>{user?.student?.degree || 'Degree'} • {user?.student?.branch || 'Branch'} • </span>
               <span className="ml-1">{user?.student?.year || '2024'}</span>
+            </div>
+            <div className="flex items-center mt-1 text-sm">
+              <MapPin className="h-4 w-4 mr-1" />
+              <span>{user?.student?.state || 'State'}</span>
+              {user?.student?.workingStatus && (
+                <span className="ml-2 bg-blue-700 px-2 py-0.5 rounded-full text-xs">
+                  {user?.student?.workingStatus === 'FRESHER' ? 'Fresher' : 'Working Professional'}
+                </span>
+              )}
             </div>
           </div>
         </div>
         
         <div className="mt-6 flex gap-2">
-          <button className="px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-sm hover:bg-white/30 transition-all duration-200">
+          <button 
+            className="px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-sm hover:bg-white/30 transition-all duration-200"
+            onClick={() => toggleEditMode('personal')}
+          >
             Edit Profile
           </button>
           <button className="px-3 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-sm hover:bg-white/30 transition-all duration-200 flex items-center">
@@ -223,6 +673,457 @@ function ProfileContent() {
           </button>
         </div>
       </div>
+
+      {/* Success/Error Messages */}
+      {successMessage && (
+        <div className="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl animate-fade-in">
+          {successMessage}
+        </div>
+      )}
+      
+      {errorMessage && (
+        <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl animate-fade-in">
+          {errorMessage}
+        </div>
+      )}
+
+      {/* Personal Details */}
+      <div className="bg-white rounded-xl p-6 shadow-md mb-6">
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center">
+            <User className="h-5 w-5 text-blue-600 mr-2" />
+            <h3 className="font-bold text-gray-800">Personal Details</h3>
+          </div>
+          {!editMode.personal ? (
+            <button 
+              onClick={() => toggleEditMode('personal')} 
+              className="text-blue-600 text-sm hover:underline"
+            >
+              Edit
+            </button>
+          ) : (
+            <div className="flex space-x-2">
+              <button 
+                onClick={() => toggleEditMode('personal')}
+                className="text-gray-500 text-sm hover:underline flex items-center"
+                disabled={isSubmitting}
+              >
+                <X className="h-4 w-4 mr-1" /> Cancel
+              </button>
+              <button 
+                onClick={() => handleSubmit('personal')}
+                className="text-green-600 text-sm hover:underline flex items-center"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="h-4 w-4 border-2 border-green-600 border-t-transparent rounded-full animate-spin mr-1"></div>
+                    Saving...
+                  </>
+                ) : (
+                  <>
+                    <Save className="h-4 w-4 mr-1" /> Save
+                  </>
+                )}
+              </button>
+            </div>
+          )}
+        </div>
+        {!editMode.personal ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <p className="text-sm text-gray-500">Full Name</p>
+              <p className="font-medium">{user?.student?.name || 'Not specified'}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Email Address</p>
+              <p className="font-medium">{user?.email || 'Not specified'}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Phone Number</p>
+              <p className="font-medium">{user?.student?.phoneNo || 'Not specified'}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Date of Birth</p>
+              <p className="font-medium">
+                {user?.student?.dob ? new Date(user.student.dob).toLocaleDateString() : 'Not specified'}
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">State</p>
+              <p className="font-medium">{user?.student?.state || 'Not specified'}</p>
+            </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Full Name
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <User className="h-4 w-4 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  name="name"
+                  value={profileData.name}
+                  onChange={handleInputChange}
+                  className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Email Address (Not Editable)
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Mail className="h-4 w-4 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  value={user?.email || ''}
+                  className="pl-10 block w-full rounded-md border-gray-300 shadow-sm bg-gray-50"
+                  disabled
+                />
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Phone Number
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Phone className="h-4 w-4 text-gray-400" />
+                </div>
+                <input
+                  type="tel"
+                  name="phoneNo"
+                  value={profileData.phoneNo}
+                  onChange={handleInputChange}
+                  className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Date of Birth
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Calendar className="h-4 w-4 text-gray-400" />
+                </div>
+                <input
+                  type="date"
+                  name="dob"
+                  value={profileData.dob}
+                  onChange={handleInputChange}
+                  className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                State
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <MapPin className="h-4 w-4 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  name="state"
+                  value={profileData.state}
+                  onChange={handleInputChange}
+                  className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Education Details */}
+      <div className="bg-white rounded-xl p-6 shadow-md mb-6">
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center">
+            <GraduationCap className="h-5 w-5 text-blue-600 mr-2" />
+            <h3 className="font-bold text-gray-800">Education</h3>
+          </div>
+          {!editMode.education ? (
+            <button 
+              onClick={() => toggleEditMode('education')} 
+              className="text-blue-600 text-sm hover:underline"
+            >
+              Edit
+            </button>
+          ) : (
+            <div className="flex space-x-2">
+              <button 
+                onClick={() => toggleEditMode('education')}
+                className="text-gray-500 text-sm hover:underline flex items-center"
+                disabled={isSubmitting}
+              >
+                <X className="h-4 w-4 mr-1" /> Cancel
+              </button>
+              <button 
+                onClick={() => handleSubmit('education')}
+                className="text-green-600 text-sm hover:underline flex items-center"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="h-4 w-4 border-2 border-green-600 border-t-transparent rounded-full animate-spin mr-1"></div>
+                    Saving...
+                  </>
+                ) : (
+                  <>
+                    <Save className="h-4 w-4 mr-1" /> Save
+                  </>
+                )}
+              </button>
+            </div>
+          )}
+        </div>
+        {!editMode.education ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <p className="text-sm text-gray-500">College/University</p>
+              <p className="font-medium">{user?.student?.college || 'Not specified'}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Degree</p>
+              <p className="font-medium">{user?.student?.degree || 'Not specified'}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Branch/Major</p>
+              <p className="font-medium">{user?.student?.branch || 'Not specified'}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Year</p>
+              <p className="font-medium">{user?.student?.year || 'Not specified'}</p>
+            </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                College/University
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <GraduationCap className="h-4 w-4 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  name="college"
+                  value={profileData.college}
+                  onChange={handleInputChange}
+                  className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Degree
+              </label>
+              <select
+                name="degree"
+                value={profileData.degree}
+                onChange={handleInputChange}
+                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              >
+                <option value="">Select Degree</option>
+                <option value="Bachelor's">Bachelor's</option>
+                <option value="Master's">Master's</option>
+                <option value="Ph.D.">Ph.D.</option>
+                <option value="Diploma">Diploma</option>
+              </select>
+            </div>
+            
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Branch/Major
+              </label>
+              <input
+                type="text"
+                name="branch"
+                value={profileData.branch}
+                onChange={handleInputChange}
+                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Year
+              </label>
+              <select
+                name="year"
+                value={profileData.year}
+                onChange={handleInputChange}
+                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              >
+                <option value="">Select Year</option>
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3">3rd Year</option>
+                <option value="4">4th Year</option>
+                <option value="5">5th Year</option>
+              </select>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Career Section */}
+      <div className="bg-white rounded-xl p-6 shadow-md mb-6">
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center">
+            <Briefcase className="h-5 w-5 text-blue-600 mr-2" />
+            <h3 className="font-bold text-gray-800">Career Information</h3>
+          </div>
+          {!editMode.career ? (
+            <button 
+              onClick={() => toggleEditMode('career')} 
+              className="text-blue-600 text-sm hover:underline"
+            >
+              Edit
+            </button>
+          ) : (
+            <div className="flex space-x-2">
+              <button 
+                onClick={() => toggleEditMode('career')}
+                className="text-gray-500 text-sm hover:underline flex items-center"
+                disabled={isSubmitting}
+              >
+                <X className="h-4 w-4 mr-1" /> Cancel
+              </button>
+              <button 
+                onClick={() => handleSubmit('career')}
+                className="text-green-600 text-sm hover:underline flex items-center"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="h-4 w-4 border-2 border-green-600 border-t-transparent rounded-full animate-spin mr-1"></div>
+                    Saving...
+                  </>
+                ) : (
+                  <>
+                    <Save className="h-4 w-4 mr-1" /> Save
+                  </>
+                )}
+              </button>
+            </div>
+          )}
+        </div>
+        {!editMode.career ? (
+          <div>
+            <p className="text-sm text-gray-500">Professional Status</p>
+            <p className="font-medium">
+              {user?.student?.workingStatus === 'PROFESSIONAL' 
+                ? 'Working Professional' 
+                : 'Fresher'}
+            </p>
+            
+            <p className="text-sm text-gray-500 mt-4">Career Aspiration</p>
+            <p className="font-medium">{user?.student?.aspiration || 'Not specified'}</p>
+            
+            <div className="mt-4">
+              <p className="text-sm text-gray-500 mb-2">Interests</p>
+              <div className="flex flex-wrap gap-2">
+                {(user?.student?.interests || '').split(',').filter(Boolean).map((interest, i) => (
+                  <span key={i} className="bg-blue-50 text-blue-700 px-3 py-1.5 rounded-full text-sm">
+                    {interest.trim()}
+                  </span>
+                ))}
+                {!user?.student?.interests && <p className="font-medium">Not specified</p>}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Professional Status
+              </label>
+              <div className="flex space-x-4">
+                <label className="inline-flex items-center">
+                  <input 
+                    type="radio" 
+                    name="workingStatus"
+                    value="FRESHER"
+                    checked={profileData.workingStatus === 'FRESHER'}
+                    onChange={handleInputChange}
+                    className="text-blue-600 focus:ring-blue-500 h-4 w-4"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">Fresher</span>
+                </label>
+                <label className="inline-flex items-center">
+                  <input 
+                    type="radio" 
+                    name="workingStatus"
+                    value="PROFESSIONAL"
+                    checked={profileData.workingStatus === 'PROFESSIONAL'}
+                    onChange={handleInputChange}
+                    className="text-blue-600 focus:ring-blue-500 h-4 w-4"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">Working Professional</span>
+                </label>
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Career Aspiration
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Lightbulb className="h-4 w-4 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  name="aspiration"
+                  value={profileData.aspiration}
+                  onChange={handleInputChange}
+                  className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  placeholder="e.g., Software Engineer, Data Scientist"
+                />
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Interests (comma-separated)
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Book className="h-4 w-4 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  name="interests"
+                  value={profileData.interests}
+                  onChange={handleInputChange}
+                  className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  placeholder="e.g., AI, Web Development, Machine Learning"
+                />
+              </div>
+              <p className="text-xs text-gray-500 mt-1">Separate multiple interests with commas</p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Skills */}
+      {renderSkillsSection()}
 
       {/* Profile Completion */}
       <div className="bg-white rounded-xl p-6 shadow-md mb-6">
@@ -253,37 +1154,6 @@ function ProfileContent() {
             <div className="h-4 w-4 rounded-full bg-gray-300 flex items-center justify-center text-white text-xs">!</div>
             <span className="ml-2 text-sm text-gray-600">Skills Assessment</span>
           </div>
-        </div>
-      </div>
-
-      {/* Skills */}
-      <div className="bg-white rounded-xl p-6 shadow-md mb-6">
-        <div className="flex justify-between items-center mb-4">
-          <div className="flex items-center">
-            <Flame className="h-5 w-5 text-orange-500 mr-2" />
-            <h3 className="font-bold text-gray-800">Skills & Expertise</h3>
-          </div>
-          <button className="text-blue-600 text-sm hover:underline">
-            Add Skills
-          </button>
-        </div>
-        <div className="space-y-4">
-          {skillsData.map((skill, index) => (
-            <div key={index}>
-              <div className="flex justify-between mb-1">
-                <span className="text-sm font-medium text-gray-700">{skill.name}</span>
-                <span className="text-xs text-gray-500">{skill.level}%</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-1.5">
-                <div 
-                  className={`h-1.5 rounded-full ${
-                    skill.level > 80 ? 'bg-green-500' : skill.level > 60 ? 'bg-blue-500' : 'bg-orange-400'
-                  }`} 
-                  style={{ width: `${skill.level}%` }}
-                ></div>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
 

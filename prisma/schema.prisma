@@ -24,11 +24,18 @@ model StudentProfile {
   name               String
   college            String
   degree             String
+  branch             String              @default("Not specified")
   year               Int
   interests          String
   cvUrl              String?
+  dob                DateTime?
+  phoneNo            String?
+  state              String?
+  aspiration         String?
+  workingStatus      WorkingStatus       @default(FRESHER)
   bookmarks          Bookmark[]
   eventRegistrations EventRegistration[]
+  skills             StudentSkill[]
   user               User                @relation(fields: [userId], references: [id])
 }
 
@@ -181,4 +188,22 @@ enum Category {
 enum FileType {
   PDF
   Video
+}
+
+enum WorkingStatus {
+  FRESHER
+  PROFESSIONAL
+}
+
+// New model for student skills
+model StudentSkill {
+  id           String         @id @default(cuid())
+  studentId    String
+  name         String
+  proficiency  Int            @default(0)  // 0-100 scale
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  student      StudentProfile @relation(fields: [studentId], references: [id])
+  
+  @@unique([studentId, name])
 }

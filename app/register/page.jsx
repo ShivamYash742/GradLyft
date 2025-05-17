@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { User, Mail, Lock, Eye, EyeOff, Briefcase, GraduationCap, CheckCircle, Sparkles, Stars } from 'lucide-react';
+import { User, Mail, Lock, Eye, EyeOff, Briefcase, GraduationCap, CheckCircle, Sparkles, Stars, Calendar, Phone, MapPin, Book, Lightbulb } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function Register() {
@@ -12,6 +12,16 @@ export default function Register() {
     password: '',
     confirmPassword: '',
     userType: '',
+    college: '',
+    degree: '',
+    branch: '',
+    year: '',
+    dob: '',
+    phoneNo: '',
+    state: '',
+    aspiration: '',
+    workingStatus: 'FRESHER',
+    interests: '',
   });
   
   const [showPassword, setShowPassword] = useState(false);
@@ -58,6 +68,39 @@ export default function Register() {
       setError('Passwords do not match');
       return false;
     }
+    
+    // Check student-specific required fields
+    if (formData.userType === 'student') {
+      if (!formData.college.trim()) {
+        setError('College name is required');
+        return false;
+      }
+      if (!formData.degree.trim()) {
+        setError('Degree is required');
+        return false;
+      }
+      if (!formData.branch.trim()) {
+        setError('Branch is required');
+        return false;
+      }
+      if (!formData.year.trim()) {
+        setError('Year is required');
+        return false;
+      }
+      if (!formData.dob.trim()) {
+        setError('Date of birth is required');
+        return false;
+      }
+      if (!formData.phoneNo.trim()) {
+        setError('Phone number is required');
+        return false;
+      }
+      if (!formData.state.trim()) {
+        setError('State is required');
+        return false;
+      }
+    }
+    
     return true;
   };
 
@@ -70,10 +113,13 @@ export default function Register() {
     setIsSubmitting(true);
 
     try {
+      // Generate a random password if not set
+      const generatedPassword = formData.password;
+      
       // Prepare data based on user type
       const userData = {
         email: formData.email,
-        password: formData.password,
+        password: generatedPassword,
         role: formData.userType === 'student' ? 'STUDENT' : 'EMPLOYER'
       };
 
@@ -81,10 +127,16 @@ export default function Register() {
       if (formData.userType === 'student') {
         userData.student = {
           name: formData.name,
-          college: "Not specified", // These are required fields but we don't collect them in the UI
-          degree: "Not specified", // You might want to add these fields to your form
-          year: 2023, // Using numeric value instead of string
-          interests: "Not specified"
+          college: formData.college || "Not specified",
+          degree: formData.degree || "Not specified",
+          branch: formData.branch || "Not specified",
+          year: parseInt(formData.year, 10) || new Date().getFullYear(),
+          dob: formData.dob ? new Date(formData.dob).toISOString() : null,
+          phoneNo: formData.phoneNo || null,
+          state: formData.state || null,
+          aspiration: formData.aspiration || null,
+          workingStatus: formData.workingStatus,
+          interests: formData.interests || "Not specified"
         };
       } else { // employer
         userData.employer = {
@@ -392,6 +444,239 @@ export default function Register() {
                       </div>
                     </div>
                   </div>
+
+                  {/* Additional Fields for Students */}
+                  {formData.userType === 'student' && (
+                    <>
+                      <div className="space-y-2">
+                        <label htmlFor="college" className="block text-sm font-medium text-[var(--form-text)] ml-1">
+                          College/University
+                        </label>
+                        <div className="relative group">
+                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <GraduationCap className="h-5 w-5 text-[var(--form-text-muted)] group-hover:text-[var(--input-focus)] transition-colors duration-200" />
+                          </div>
+                          <input
+                            id="college"
+                            name="college"
+                            type="text"
+                            required
+                            value={formData.college}
+                            onChange={handleChange}
+                            className="pl-10 w-full px-4 py-3 rounded-xl border border-[var(--input-border)] focus:border-[var(--input-focus)] focus:ring focus:ring-[var(--input-focus-ring)] focus:ring-opacity-50 bg-[var(--input-bg)] backdrop-blur-sm transition-all duration-200 text-[var(--form-text)]"
+                            placeholder="University of Example"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <label htmlFor="degree" className="block text-sm font-medium text-[var(--form-text)] ml-1">
+                            Degree
+                          </label>
+                          <div className="relative group">
+                            <select
+                              id="degree"
+                              name="degree"
+                              required
+                              value={formData.degree}
+                              onChange={handleChange}
+                              className="w-full px-4 py-3 rounded-xl border border-[var(--input-border)] focus:border-[var(--input-focus)] focus:ring focus:ring-[var(--input-focus-ring)] focus:ring-opacity-50 bg-[var(--input-bg)] backdrop-blur-sm transition-all duration-200 text-[var(--form-text)]"
+                            >
+                              <option value="">Select Degree</option>
+                              <option value="Bachelor's">Bachelor's</option>
+                              <option value="Master's">Master's</option>
+                              <option value="Ph.D.">Ph.D.</option>
+                              <option value="Diploma">Diploma</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div className="space-y-2">
+                          <label htmlFor="branch" className="block text-sm font-medium text-[var(--form-text)] ml-1">
+                            Branch/Major
+                          </label>
+                          <div className="relative group">
+                            <input
+                              id="branch"
+                              name="branch"
+                              type="text"
+                              required
+                              value={formData.branch}
+                              onChange={handleChange}
+                              className="w-full px-4 py-3 rounded-xl border border-[var(--input-border)] focus:border-[var(--input-focus)] focus:ring focus:ring-[var(--input-focus-ring)] focus:ring-opacity-50 bg-[var(--input-bg)] backdrop-blur-sm transition-all duration-200 text-[var(--form-text)]"
+                              placeholder="Computer Science"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <label htmlFor="year" className="block text-sm font-medium text-[var(--form-text)] ml-1">
+                            Year of Study
+                          </label>
+                          <div className="relative group">
+                            <select
+                              id="year"
+                              name="year"
+                              required
+                              value={formData.year}
+                              onChange={handleChange}
+                              className="w-full px-4 py-3 rounded-xl border border-[var(--input-border)] focus:border-[var(--input-focus)] focus:ring focus:ring-[var(--input-focus-ring)] focus:ring-opacity-50 bg-[var(--input-bg)] backdrop-blur-sm transition-all duration-200 text-[var(--form-text)]"
+                            >
+                              <option value="">Select Year</option>
+                              <option value="1">1st Year</option>
+                              <option value="2">2nd Year</option>
+                              <option value="3">3rd Year</option>
+                              <option value="4">4th Year</option>
+                              <option value="5">5th Year</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div className="space-y-2">
+                          <label htmlFor="dob" className="block text-sm font-medium text-[var(--form-text)] ml-1">
+                            Date of Birth
+                          </label>
+                          <div className="relative group">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                              <Calendar className="h-5 w-5 text-[var(--form-text-muted)] group-hover:text-[var(--input-focus)] transition-colors duration-200" />
+                            </div>
+                            <input
+                              id="dob"
+                              name="dob"
+                              type="date"
+                              required
+                              value={formData.dob}
+                              onChange={handleChange}
+                              className="pl-10 w-full px-4 py-3 rounded-xl border border-[var(--input-border)] focus:border-[var(--input-focus)] focus:ring focus:ring-[var(--input-focus-ring)] focus:ring-opacity-50 bg-[var(--input-bg)] backdrop-blur-sm transition-all duration-200 text-[var(--form-text)]"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <label htmlFor="phoneNo" className="block text-sm font-medium text-[var(--form-text)] ml-1">
+                            Phone Number
+                          </label>
+                          <div className="relative group">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                              <Phone className="h-5 w-5 text-[var(--form-text-muted)] group-hover:text-[var(--input-focus)] transition-colors duration-200" />
+                            </div>
+                            <input
+                              id="phoneNo"
+                              name="phoneNo"
+                              type="tel"
+                              required
+                              value={formData.phoneNo}
+                              onChange={handleChange}
+                              className="pl-10 w-full px-4 py-3 rounded-xl border border-[var(--input-border)] focus:border-[var(--input-focus)] focus:ring focus:ring-[var(--input-focus-ring)] focus:ring-opacity-50 bg-[var(--input-bg)] backdrop-blur-sm transition-all duration-200 text-[var(--form-text)]"
+                              placeholder="1234567890"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-2">
+                          <label htmlFor="state" className="block text-sm font-medium text-[var(--form-text)] ml-1">
+                            State
+                          </label>
+                          <div className="relative group">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                              <MapPin className="h-5 w-5 text-[var(--form-text-muted)] group-hover:text-[var(--input-focus)] transition-colors duration-200" />
+                            </div>
+                            <input
+                              id="state"
+                              name="state"
+                              type="text"
+                              required
+                              value={formData.state}
+                              onChange={handleChange}
+                              className="pl-10 w-full px-4 py-3 rounded-xl border border-[var(--input-border)] focus:border-[var(--input-focus)] focus:ring focus:ring-[var(--input-focus-ring)] focus:ring-opacity-50 bg-[var(--input-bg)] backdrop-blur-sm transition-all duration-200 text-[var(--form-text)]"
+                              placeholder="California"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label htmlFor="aspiration" className="block text-sm font-medium text-[var(--form-text)] ml-1">
+                          Career Aspiration
+                        </label>
+                        <div className="relative group">
+                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <Lightbulb className="h-5 w-5 text-[var(--form-text-muted)] group-hover:text-[var(--input-focus)] transition-colors duration-200" />
+                          </div>
+                          <input
+                            id="aspiration"
+                            name="aspiration"
+                            type="text"
+                            value={formData.aspiration}
+                            onChange={handleChange}
+                            className="pl-10 w-full px-4 py-3 rounded-xl border border-[var(--input-border)] focus:border-[var(--input-focus)] focus:ring focus:ring-[var(--input-focus-ring)] focus:ring-opacity-50 bg-[var(--input-bg)] backdrop-blur-sm transition-all duration-200 text-[var(--form-text)]"
+                            placeholder="Software Engineer, Data Scientist, etc."
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label htmlFor="interests" className="block text-sm font-medium text-[var(--form-text)] ml-1">
+                          Interests
+                        </label>
+                        <div className="relative group">
+                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <Book className="h-5 w-5 text-[var(--form-text-muted)] group-hover:text-[var(--input-focus)] transition-colors duration-200" />
+                          </div>
+                          <input
+                            id="interests"
+                            name="interests"
+                            type="text"
+                            value={formData.interests}
+                            onChange={handleChange}
+                            className="pl-10 w-full px-4 py-3 rounded-xl border border-[var(--input-border)] focus:border-[var(--input-focus)] focus:ring focus:ring-[var(--input-focus-ring)] focus:ring-opacity-50 bg-[var(--input-bg)] backdrop-blur-sm transition-all duration-200 text-[var(--form-text)]"
+                            placeholder="AI, Web Development, Robotics"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="block text-sm font-medium text-[var(--form-text)] ml-1">
+                          Professional Status
+                        </label>
+                        <div className="flex space-x-4">
+                          <div className="flex items-center">
+                            <input
+                              id="fresher"
+                              name="workingStatus"
+                              type="radio"
+                              value="FRESHER"
+                              checked={formData.workingStatus === 'FRESHER'}
+                              onChange={handleChange}
+                              className="h-4 w-4 text-[var(--primary-start)] focus:ring-[var(--input-focus-ring)]"
+                            />
+                            <label htmlFor="fresher" className="ml-2 text-[var(--form-text)]">
+                              Fresher
+                            </label>
+                          </div>
+                          <div className="flex items-center">
+                            <input
+                              id="professional"
+                              name="workingStatus"
+                              type="radio"
+                              value="PROFESSIONAL"
+                              checked={formData.workingStatus === 'PROFESSIONAL'}
+                              onChange={handleChange}
+                              className="h-4 w-4 text-[var(--primary-start)] focus:ring-[var(--input-focus-ring)]"
+                            />
+                            <label htmlFor="professional" className="ml-2 text-[var(--form-text)]">
+                              Working Professional
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
 
                   <div className="pt-2">
                     <button

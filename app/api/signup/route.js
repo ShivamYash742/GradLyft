@@ -59,11 +59,18 @@ export async function POST(req) {
         }, { status: 400 });
       }
       
-      const { name, college, degree, year, interests, cvUrl } = student;
+      const { 
+        name, college, degree, branch, year, 
+        interests, cvUrl, dob, phoneNo, state, 
+        aspiration, workingStatus 
+      } = student;
 
-      console.log('Student profile data:', { name, college, degree, year, interests });
+      console.log('Student profile data:', { 
+        name, college, degree, branch, year, 
+        interests, dob, phoneNo, state, aspiration, workingStatus 
+      });
 
-      if (!name || !college || !degree || !year || !interests) {
+      if (!name || !college || !degree || !year) {
         return Response.json({ 
           success: false, 
           message: "Incomplete student profile" 
@@ -74,9 +81,15 @@ export async function POST(req) {
         create: { 
           name, 
           college, 
-          degree, 
-          year: parseInt(year, 10) || 2023, 
-          interests, 
+          degree,
+          branch: branch || "Not specified",
+          year: parseInt(year, 10) || new Date().getFullYear(), 
+          interests: interests || "Not specified", 
+          dob: dob ? new Date(dob) : null,
+          phoneNo: phoneNo || null,
+          state: state || null,
+          aspiration: aspiration || null,
+          workingStatus: workingStatus || "FRESHER",
           cvUrl: cvUrl || "" 
         }
       };
