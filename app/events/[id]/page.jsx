@@ -5,12 +5,14 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Calendar, MapPin, Users, ChevronLeft, Clock, Share2, Heart, Download, Bell, CheckCircle, Mail, Phone, UserCheck } from 'lucide-react';
-import { useAuth } from '../../../context/AuthContext';
 
 export default function EventDetails({ params }) {
   const { id } = params;
   const router = useRouter();
-  const { user, loading } = useAuth();
+  
+  // Mock auth context
+  const user = null;  // Simulate not logged in
+  const loading = false;
   
   const [event, setEvent] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
