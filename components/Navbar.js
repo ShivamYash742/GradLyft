@@ -45,7 +45,7 @@ const Navbar = () => {
 
   return (
     <nav className={`sticky top-0 z-50 transition-all duration-300 ${
-      scrolled ? 'bg-[var(--section-light)] shadow-md py-3' : 'bg-[var(--section-light)]/90 backdrop-blur-md py-4'
+      scrolled ? 'bg-[var(--section-light,#ffffff)] shadow-md py-3' : 'bg-[var(--section-light,#ffffff)]/90 backdrop-blur-md py-4'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
@@ -56,19 +56,19 @@ const Navbar = () => {
           </div>
           
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="/student" className="text-[var(--text-primary)] hover:text-[var(--link-hover)] transition">
+            <Link href="/student" className="text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] transition">
               For Students
             </Link>
-            <Link href="/universities" className="text-[var(--text-primary)] hover:text-[var(--link-hover)] transition">
+            <Link href="/universities" className="text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] transition">
               For Universities
             </Link>
-            <Link href="/employer" className="text-[var(--text-primary)] hover:text-[var(--link-hover)] transition">
+            <Link href="/employer" className="text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] transition">
               For Employers
             </Link>
-            <Link href="/events" className="text-[var(--text-primary)] hover:text-[var(--link-hover)] transition">
+            <Link href="/events" className="text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] transition">
               Events
             </Link>
-            <Link href="/about" className="text-[var(--text-primary)] hover:text-[var(--link-hover)] transition">
+            <Link href="/about" className="text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] transition">
               About
             </Link>
           </div>
@@ -80,17 +80,17 @@ const Navbar = () => {
               <div className="relative">
                 <button 
                   onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-                  className="flex items-center space-x-2 text-[var(--text-primary)] hover:text-[var(--link-hover)] transition"
+                  className="flex items-center space-x-2 text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] transition"
                 >
                   <User size={18} />
                   <span className="font-medium">{getUserDisplayName()}</span>
                 </button>
                 
                 {profileDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-[var(--card-bg)] rounded-md shadow-lg py-1 z-50 border border-[var(--card-border)]">
+                  <div className="absolute right-0 mt-2 w-48 bg-[var(--card-bg,#ffffff)] rounded-md shadow-lg py-1 z-50 border border-[var(--card-border,#f3f4f6)]">
                     <Link
                       href="/profile"
-                      className="block px-4 py-2 hover:bg-[var(--section-light)] transition-colors text-[var(--text-primary)]"
+                      className="block px-4 py-2 hover:bg-[var(--section-light,#ffffff)] transition-colors text-[var(--text-primary,#171717)]"
                       onClick={() => setProfileDropdownOpen(false)}
                     >
                       Profile
@@ -130,7 +130,7 @@ const Navbar = () => {
               </div>
             ) : (
               <>
-                <Link href="/login" className="text-[var(--text-primary)] hover:text-[var(--link-hover)] transition">
+                <Link href="/login" className="text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] transition">
                   Log in
                 </Link>
                 <Link href="/register" className="gradient-button text-white px-4 py-2 rounded-md hover:gradient-button-hover transition shadow-md hover:shadow-lg">
