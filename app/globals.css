@@ -60,39 +60,60 @@
 }
 
 [data-theme="dark"] {
-  --background: #171717;
-  --foreground: #ffffff;
+  /* Main background colors */
+  --background: #1F0F2C;
+  --foreground: #FFFFFF;
+  
+  /* Theme colors - Deep purple theme */
+  --primary-gradient: linear-gradient(90deg, #A384FF 0%, #6B42D9 100%);
+  --secondary-gradient: linear-gradient(135deg, #E5B8FF, #9BD8FF);
+  --button-gradient: linear-gradient(90deg, #A384FF 0%, #6B42D9 100%);
+  --button-hover-gradient: linear-gradient(90deg, #B394FF 0%, #7B52E9 100%);
+  
+  /* Theme colors */
+  --primary-start: #A384FF;
+  --primary-mid: #6B42D9;
+  --primary-end: #9BD8FF;
+  --secondary-start: #E5B8FF;
+  --secondary-end: #9BD8FF;
+  
+  /* Youth accent colors */
+  --youth-green: #00CCAA;
+  --youth-purple: #A384FF;
+  --youth-pink: #E5B8FF;
+  --youth-yellow: #FFDE59;
   
   /* Section colors */
-  --section-light: #1f2937;
-  --section-dark: #111827;
-  --card-bg: #1f2937;
-  --card-border: #374151;
-  --card-shadow: rgba(0, 0, 0, 0.2);
+  --section-light: #2A1745;
+  --section-dark: #251333;
+  --card-bg: #2A1745;
+  --card-border: #6B42D9;
+  --card-shadow: rgba(107, 66, 217, 0.3);
   
   /* Text colors */
-  --text-primary: #ffffff;
-  --text-secondary: #d1d5db;
-  --text-muted: #9ca3af;
-  --link-color: hsla(214, 100%, 70%, 1);
-  --link-hover: hsla(300, 100%, 85%, 1);
+  --text-primary: #FFFFFF;
+  --text-secondary: #CFCFCF;
+  --text-muted: #9CA3AF;
+  --link-color: #A384FF;
+  --link-hover: #E5B8FF;
+  --text-on-gradient: #FFFFFF;
   
-  /* Form and background colors - dark mode versions */
-  --bg-gradient-start: #1e3a8a; /* dark blue */
-  --bg-gradient-end: #134e4a; /* dark teal */
-  --input-bg: rgba(31, 41, 55, 0.7); /* gray-800 with opacity */
-  --input-border: #4b5563; /* gray-600 */
-  --input-focus: #60a5fa; /* blue-400 */
-  --input-focus-ring: rgba(96, 165, 250, 0.2);
-  --form-text: #f3f4f6; /* gray-100 */
-  --form-text-muted: #6b7280; /* gray-500 */
-  --form-bg: rgba(31, 41, 55, 0.8); /* gray-800 with opacity */
-  --glass-border: rgba(75, 85, 99, 0.5); /* gray-600 with opacity */
+  /* Form and background colors */
+  --bg-gradient-start: #251333; 
+  --bg-gradient-end: #1F0F2C;
+  --input-bg: rgba(42, 23, 69, 0.7);
+  --input-border: #6B42D9;
+  --input-focus: #E5B8FF;
+  --input-focus-ring: rgba(229, 184, 255, 0.2);
+  --form-text: #FFFFFF;
+  --form-text-muted: #CFCFCF;
+  --form-bg: rgba(42, 23, 69, 0.8);
+  --glass-border: rgba(107, 66, 217, 0.5);
   --glass-shadow: rgba(0, 0, 0, 0.3);
-  --badge-bg: rgba(5, 150, 105, 0.2); /* dark teal bg for badges */
-  --floating-bg-1: #1e40af; /* dark blue blob */
-  --floating-bg-2: #115e59; /* dark teal blob */
-  --floating-bg-3: #4338ca; /* dark indigo blob */
+  --badge-bg: rgba(155, 216, 255, 0.2);
+  --floating-bg-1: #6B42D9;
+  --floating-bg-2: #251333;
+  --floating-bg-3: #A384FF;
 }
 
 body {
