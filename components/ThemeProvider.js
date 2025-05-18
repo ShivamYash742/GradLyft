@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const ThemeContext = createContext();
 
@@ -9,32 +9,42 @@ export function useTheme() {
 }
 
 export default function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState('dark');
   const [mounted, setMounted] = useState(false);
 
   // Apply default theme immediately to prevent flash
   useEffect(() => {
-    // Set a default theme initially
-    document.documentElement.setAttribute('data-theme', 'light');
-    
-    // Check for user's preferred theme
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    if (savedTheme) {
-      setTheme(savedTheme);
-    } else if (prefersDark) {
-      setTheme('dark');
+    if (typeof window !== 'undefined') {
+      // Set dark theme initially
+      document.documentElement.setAttribute('data-theme', 'dark');
+      
+      // Check for user's saved theme preference
+      try {
+        const savedTheme = localStorage.getItem('theme');
+        
+        if (savedTheme) {
+          setTheme(savedTheme);
+        } else {
+          // If no saved preference, default to dark
+          localStorage.setItem('theme', 'dark');
+        }
+      } catch (error) {
+        console.error('Error accessing localStorage:', error);
+      }
+      
+      setMounted(true);
     }
-    
-    setMounted(true);
   }, []);
 
   useEffect(() => {
-    if (mounted) {
-      // Update theme in localStorage and document
-      localStorage.setItem('theme', theme);
-      document.documentElement.setAttribute('data-theme', theme);
+    if (mounted && typeof window !== 'undefined') {
+      try {
+        // Update theme in localStorage and document
+        localStorage.setItem('theme', theme);
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (error) {
+        console.error('Error setting theme:', error);
+      }
     }
   }, [theme, mounted]);
 

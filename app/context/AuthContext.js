@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, useRef } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 
 const AuthContext = createContext(null);
@@ -38,6 +38,8 @@ export function AuthProvider({ children }) {
 
   // Record session start time when component mounts
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     sessionStartTime.current = Date.now();
     lastPath.current = pathname;
 
@@ -59,10 +61,12 @@ export function AuthProvider({ children }) {
 
     window.addEventListener('beforeunload', handleUnload);
     return () => window.removeEventListener('beforeunload', handleUnload);
-  }, [user]);
+  }, [user, pathname]);
 
   // Track page views and time spent on each page
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     if (pathname && user) {
       // If we have a previous path, record the time spent there
       if (lastPath.current && lastPath.current !== pathname && sessionStartTime.current) {
@@ -136,7 +140,7 @@ export function AuthProvider({ children }) {
   const logout = async () => {
     try {
       // Record the final page duration before logout
-      if (user && sessionStartTime.current && lastPath.current) {
+      if (typeof window !== 'undefined' && user && sessionStartTime.current && lastPath.current) {
         const duration = Math.floor((Date.now() - sessionStartTime.current) / 1000);
         if (duration >= 1) {
           await fetch('/api/track', {

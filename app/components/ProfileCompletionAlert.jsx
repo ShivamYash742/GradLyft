@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { AlertCircle, X } from 'lucide-react';
 
@@ -9,6 +9,8 @@ export default function ProfileCompletionAlert() {
   const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     // Check if user is logged in and profile is incomplete
     const checkProfileCompletion = async () => {
       try {
@@ -81,24 +83,24 @@ export default function ProfileCompletionAlert() {
   
   return (
     <div className="fixed bottom-4 right-4 md:bottom-8 md:right-8 max-w-md z-50 animate-slide-up">
-      <div className="bg-amber-50 border border-amber-300 rounded-lg shadow-lg p-4 backdrop-blur-sm">
+      <div className="bg-[#251333] border border-[#6B42D9] rounded-lg shadow-lg shadow-purple-900/30 p-4 backdrop-blur-sm">
         <div className="flex items-start">
           <div className="flex-shrink-0 mt-0.5">
-            <AlertCircle className="h-5 w-5 text-amber-500" />
+            <AlertCircle className="h-5 w-5 text-[#E5B8FF]" />
           </div>
           <div className="ml-3 flex-1">
-            <h3 className="text-sm font-medium text-amber-800">Complete Your Profile</h3>
-            <div className="mt-2 text-sm text-amber-700">
+            <h3 className="text-sm font-medium text-[#E5B8FF]">Complete Your Profile</h3>
+            <div className="mt-2 text-sm text-[#CFCFCF]">
               <p>Your profile is incomplete. Complete your profile to get personalized opportunities and improve your visibility.</p>
             </div>
             <div className="mt-4 flex gap-2">
-              <Link href="/profile" className="inline-flex items-center rounded-md bg-amber-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 transition-all">
+              <Link href="/profile" className="inline-flex items-center rounded-md bg-gradient-to-r from-[#A384FF] to-[#6B42D9] px-3 py-2 text-sm font-semibold text-white shadow-sm hover:shadow-purple-500/30 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#A384FF] focus:ring-offset-2 transition-all">
                 Complete Profile
               </Link>
               <button
                 type="button"
                 onClick={() => setIsVisible(false)}
-                className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-amber-900 ring-1 ring-inset ring-amber-300 hover:bg-amber-50 focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 transition-all"
+                className="inline-flex items-center rounded-md bg-[#2A1745] px-3 py-2 text-sm font-semibold text-[#E5B8FF] border border-[#6B42D9]/40 hover:bg-[#2A1745]/70 focus:outline-none focus:ring-2 focus:ring-[#A384FF] focus:ring-offset-2 transition-all"
               >
                 Remind Later
               </button>
@@ -106,7 +108,7 @@ export default function ProfileCompletionAlert() {
           </div>
           <button
             type="button"
-            className="ml-auto -mx-1.5 -my-1.5 rounded-lg p-1.5 text-amber-500 hover:bg-amber-100 focus:outline-none focus:ring-2 focus:ring-amber-600"
+            className="ml-auto -mx-1.5 -my-1.5 rounded-lg p-1.5 text-[#9BD8FF] hover:bg-[#2A1745] focus:outline-none focus:ring-2 focus:ring-[#A384FF]"
             onClick={() => setIsVisible(false)}
           >
             <span className="sr-only">Dismiss</span>
