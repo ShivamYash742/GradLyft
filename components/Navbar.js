@@ -41,7 +41,7 @@ const Navbar = () => {
 
   const getUserDisplayName = () => {
     if (!user) return '';
-    return user.student?.name || user.employer?.name || user.email;
+    return user.student?.name || user.email;
   };
 
   return (
@@ -56,20 +56,17 @@ const Navbar = () => {
             </Link>
           </div>
           
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center justify-end flex-1 space-x-8 ml-8">
             <Link href="/student" className="text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] transition">
               For Students
             </Link>
             <Link href="/universities" className="text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] transition">
               For Universities
             </Link>
-            <Link href="/employer" className="text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] transition">
-              For Employers
-            </Link>
             <Link href="/events" className="text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] transition">
               Events
             </Link>
-            <Link href="/about" className="text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] transition">
+            <Link href="/about" className="text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] transition mr-8">
               About
             </Link>
           </div>
@@ -105,16 +102,6 @@ const Navbar = () => {
                         onClick={() => setProfileDropdownOpen(false)}
                       >
                         Admin Dashboard
-                      </Link>
-                    )}
-                    
-                    {user.role === 'EMPLOYER' && (
-                      <Link
-                        href="/employer/dashboard"
-                        className="block px-4 py-2 hover:bg-[var(--section-light,#ffffff)] transition-colors text-[var(--text-primary,#171717)]"
-                        onClick={() => setProfileDropdownOpen(false)}
-                      >
-                        Employer Dashboard
                       </Link>
                     )}
                     
@@ -175,13 +162,6 @@ const Navbar = () => {
               For Universities
             </Link>
             <Link 
-              href="/employer" 
-              className="block px-3 py-2 rounded-md text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] hover:bg-[var(--card-bg,#ffffff)]"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              For Employers
-            </Link>
-            <Link 
               href="/events" 
               className="block px-3 py-2 rounded-md text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] hover:bg-[var(--card-bg,#ffffff)]"
               onClick={() => setIsMenuOpen(false)}
@@ -217,16 +197,6 @@ const Navbar = () => {
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Admin Dashboard
-                  </Link>
-                )}
-                
-                {user.role === 'EMPLOYER' && (
-                  <Link 
-                    href="/employer/dashboard" 
-                    className="block px-3 py-2 rounded-md text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] hover:bg-[var(--card-bg,#ffffff)]"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Employer Dashboard
                   </Link>
                 )}
                 

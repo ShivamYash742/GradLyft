@@ -20,7 +20,9 @@ export default function EventsPage() {
     'workshop',
     'networking',
     'hackathon',
-    'conference'
+    'conference',
+    'webinar',
+    'contest'
   ];
 
   const formats = [
@@ -36,7 +38,7 @@ export default function EventsPage() {
       const today = new Date();
       const newCountdowns = {};
       
-      [...featuredEvents, ...upcomingEvents].forEach(event => {
+      featuredEvents.forEach(event => {
         const eventDate = parseEventDate(event.date);
         if (eventDate) {
           const diffTime = eventDate - today;
@@ -88,18 +90,6 @@ export default function EventsPage() {
 
   const featuredEvents = [
     {
-      id: 1,
-      title: 'Global Tech Career Fair 2024',
-      description: 'Connect with leading technology companies looking to hire talented graduates and students for various roles.',
-      category: 'career fair',
-      format: 'hybrid',
-      date: 'June 15-16, 2024',
-      location: 'San Francisco & Virtual',
-      attendees: 5000,
-      image: '/R.png',
-      rsvp: 287
-    },
-    {
       id: 2,
       title: 'Resume Building Workshop',
       description: 'Learn how to craft a standout resume that highlights your skills and experiences effectively.',
@@ -112,96 +102,35 @@ export default function EventsPage() {
       rsvp: 124
     },
     {
-      id: 3,
-      title: 'Student-Employer Networking Evening',
-      description: 'An exclusive opportunity to network with recruiters and professionals from various industries in a relaxed setting.',
-      category: 'networking',
-      format: 'in-person',
-      date: 'June 5, 2024',
-      location: 'New York City',
-      attendees: 300,
+      id: 12,
+      title: 'Tech Industry Trends Webinar',
+      description: 'Join industry experts as they discuss emerging technology trends and career opportunities in the evolving tech landscape.',
+      category: 'webinar',
+      format: 'virtual',
+      date: 'June 18, 2024',
+      location: 'Online',
+      attendees: 1200,
       image: '/download (2).jpeg',
-      rsvp: 98
+      rsvp: 210
+    },
+    {
+      id: 10,
+      title: 'Student Pitch Competition',
+      description: 'Present your startup ideas to a panel of venture capitalists and industry experts for a chance to win seed funding.',
+      category: 'contest',
+      format: 'hybrid',
+      date: 'July 22, 2024',
+      location: 'Austin & Virtual',
+      attendees: 300,
+      image: '/R.png',
+      rsvp: 89
     }
   ];
 
-  const upcomingEvents = [
-    {
-      id: 4,
-      title: 'Summer Internship Fair',
-      description: 'Explore internship opportunities with 50+ companies across multiple industries for the upcoming summer.',
-      category: 'career fair',
-      format: 'in-person',
-      date: 'June 20, 2024',
-      location: 'Chicago',
-      attendees: 1200,
-      image: '/yogi-bear3.png',
-      rsvp: 76
-    },
-    {
-      id: 5,
-      title: 'Healthcare Careers Summit',
-      description: 'Discover career paths in healthcare, from clinical roles to administration and technology.',
-      category: 'conference',
-      format: 'hybrid',
-      date: 'July 8-9, 2024',
-      location: 'Boston & Virtual',
-      attendees: 800,
-      image: '/download.jpeg',
-      rsvp: 112
-    },
-    {
-      id: 6,
-      title: 'Interview Skills Masterclass',
-      description: 'Master the art of interviewing with practical exercises and feedback from professional recruiters.',
-      category: 'workshop',
-      format: 'virtual',
-      date: 'June 12, 2024',
-      location: 'Online',
-      attendees: 400,
-      image: '/download (2).jpeg',
-      rsvp: 54
-    },
-    {
-      id: 7,
-      title: 'Finance Industry Networking Breakfast',
-      description: 'Network with professionals from leading financial institutions over breakfast and short presentations.',
-      category: 'networking',
-      format: 'in-person',
-      date: 'June 25, 2024',
-      location: 'London',
-      attendees: 150,
-      image: '/download (1).jpeg',
-      rsvp: 32
-    },
-    {
-      id: 8,
-      title: 'Sustainable Innovation Hackathon',
-      description: 'Create innovative solutions to environmental challenges in this 48-hour hackathon with industry mentors.',
-      category: 'hackathon',
-      format: 'hybrid',
-      date: 'July 15-17, 2024',
-      location: 'Berlin & Virtual',
-      attendees: 600,
-      image: '/R.png',
-      rsvp: 145
-    },
-    {
-      id: 9,
-      title: 'Diversity in Tech Conference',
-      description: 'Explore initiatives and career opportunities promoting diversity and inclusion in the technology sector.',
-      category: 'conference',
-      format: 'hybrid',
-      date: 'August 5-6, 2024',
-      location: 'Toronto & Virtual',
-      attendees: 1000,
-      image: '/yogi-bear3.png',
-      rsvp: 67
-    }
-  ];
+  const upcomingEvents = [];
 
   // Filter events based on search query, category, and format
-  const filteredEvents = [...featuredEvents, ...upcomingEvents].filter(event => {
+  const filteredEvents = featuredEvents.filter(event => {
     const matchesSearch = searchQuery === '' || 
       event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       event.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -220,6 +149,11 @@ export default function EventsPage() {
     const isSaved = savedEvents.includes(event.id);
     
     return { daysLeft, isHot, isSaved };
+  };
+
+  // Check if event type should be displayed normally or with coming soon badge
+  const isActiveEventType = (category) => {
+    return category === 'webinar' || category === 'workshop' || category === 'contest';
   };
 
   return (
@@ -270,22 +204,6 @@ export default function EventsPage() {
           <p className="text-xl mb-10 max-w-3xl">
             Discover and join epic events that'll level up your career and connect you with awesome professionals!
           </p>
-          
-          <div className="flex gap-4 mb-6 overflow-x-auto no-scrollbar">
-            {categories.map(category => (
-              <button 
-                key={category}
-                onClick={() => setActiveCategory(category)}
-                className={`${
-                  activeCategory === category 
-                    ? 'bg-white text-[var(--primary-end)]' 
-                    : 'bg-white/10 text-white hover:bg-white/20'
-                } px-4 py-2 rounded-full font-medium whitespace-nowrap transition`}
-              >
-                {category === 'all' ? 'All Events' : category.charAt(0).toUpperCase() + category.slice(1)}
-              </button>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -366,8 +284,12 @@ export default function EventsPage() {
                 <div className="p-6">
                   <div className="flex justify-between items-start mb-3">
                     <h3 className="text-xl font-bold text-[var(--text-primary)]">{event.title}</h3>
-                    <span className="bg-[var(--youth-green)]/10 text-[var(--youth-green)] text-xs font-medium px-2 py-1 rounded">
-                      {event.category}
+                    <span className={`text-xs font-medium px-2 py-1 rounded ${
+                      isActiveEventType(event.category) 
+                      ? 'bg-[var(--youth-green)]/10 text-[var(--youth-green)]' 
+                      : 'bg-orange-100 text-orange-600'
+                    }`}>
+                      {isActiveEventType(event.category) ? event.category : 'Coming Soon'}
                     </span>
                   </div>
                   <p className="text-[var(--text-secondary)] mb-4 line-clamp-2">{event.description}</p>
@@ -390,110 +312,6 @@ export default function EventsPage() {
               </div>
             );
           })}
-        </div>
-      </section>
-
-      <section className="py-8 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold mb-8 text-[var(--text-primary)]">
-            {searchQuery !== '' || activeCategory !== 'all' || activeFormat !== 'all' ? 'Events Matching Your Criteria' : 'All Upcoming Events'}
-          </h2>
-          
-          {filteredEvents.length > 0 ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredEvents.map(event => {
-                const { daysLeft, isHot, isSaved } = getEventInfo(event);
-                
-                return (
-                  <div key={event.id} className="card rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 relative group">
-                    {/* Save button */}
-                    <button 
-                      className="absolute top-4 right-4 z-10 bg-white/80 p-2 rounded-full transition-all duration-300 hover:bg-white"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        toggleSavedEvent(event.id);
-                      }}
-                    >
-                      <Heart className={`w-5 h-5 ${isSaved ? 'text-red-500 fill-red-500' : 'text-gray-400'}`} />
-                    </button>
-                  
-                    <div className="aspect-video bg-[var(--section-dark)] relative">
-                      <Image
-                        src={event.image}
-                        alt={event.title}
-                        fill
-                        style={{ objectFit: 'cover' }}
-                      />
-                      <div className="absolute top-0 left-0 bg-[var(--primary-light)] text-[var(--primary-start)] px-3 py-1 rounded-br-lg capitalize text-sm font-medium">
-                        {event.category}
-                      </div>
-                      <div className="absolute top-0 right-12 bg-[var(--card-bg)] text-[var(--text-secondary)] px-3 py-1 rounded-bl-lg text-sm">
-                        {event.format}
-                      </div>
-                      
-                      {/* Countdown overlay */}
-                      {daysLeft <= 14 && (
-                        <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-lg text-sm flex items-center">
-                          <Clock className="w-4 h-4 mr-1" />
-                          {daysLeft === 0 ? 'Today!' : daysLeft === 1 ? 'Tomorrow!' : `${daysLeft} days left`}
-                        </div>
-                      )}
-                      
-                      {/* Hot event indicator */}
-                      {isHot && (
-                        <div className="absolute bottom-4 right-4 bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1 rounded-lg text-sm flex items-center">
-                          <Flame className="w-4 h-4 mr-1" />
-                          Trending
-                        </div>
-                      )}
-                    </div>
-                    <div className="p-6">
-                      <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2 group-hover:text-[var(--primary-start)] transition-colors">
-                        <Link href={`/events/${event.id}`} className="hover:text-[var(--primary-start)] transition-colors">
-                          {event.title}
-                        </Link>
-                      </h3>
-                      <p className="text-[var(--text-secondary)] mb-4">{event.description}</p>
-                      <div className="space-y-2 mb-4">
-                        <div className="flex items-center text-sm text-[var(--text-secondary)]">
-                          <Calendar className="w-4 h-4 mr-2 text-[var(--primary-start)]" />
-                          {event.date}
-                        </div>
-                        <div className="flex items-center text-sm text-[var(--text-secondary)]">
-                          <MapPin className="w-4 h-4 mr-2 text-[var(--primary-start)]" />
-                          {event.location}
-                        </div>
-                        <div className="flex items-center text-sm text-[var(--text-secondary)]">
-                          <Users className="w-4 h-4 mr-2 text-[var(--primary-start)]" />
-                          <span>{event.attendees.toLocaleString()} Expected Attendees</span>
-                          <span className="ml-2 bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full flex items-center">
-                            +{event.rsvp} RSVPs
-                          </span>
-                        </div>
-                      </div>
-                      <Link 
-                        href={`/events/${event.id}`}
-                        className="inline-flex items-center text-[var(--primary-start)] hover:text-[var(--primary-end)] font-medium group"
-                      >
-                        View Details 
-                        <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                      </Link>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="text-center py-16">
-              <p className="text-[var(--text-secondary)] text-lg">No events found matching your criteria.</p>
-              <button 
-                onClick={() => {setSearchQuery(''); setActiveCategory('all'); setActiveFormat('all');}}
-                className="mt-4 text-[var(--primary-start)] hover:text-[var(--primary-end)] font-medium"
-              >
-                Clear Filters
-              </button>
-            </div>
-          )}
         </div>
       </section>
 

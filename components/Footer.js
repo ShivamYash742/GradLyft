@@ -34,39 +34,39 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* For Students */}
           <div className="col-span-1">
             <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-3">For Students</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/student/jobs" className="text-[var(--text-secondary)] hover:text-[var(--link-color)]">
-                  Browse Jobs
-                </Link>
-              </li>
-              <li>
-                <Link href="/student/events" className="text-[var(--text-secondary)] hover:text-[var(--link-color)]">
+                <Link href="/events" className="text-[var(--text-secondary)] hover:text-[var(--link-color)]">
                   Events Calendar
                 </Link>
               </li>
               <li>
-                <Link href="/profile/dashboard" className="text-[var(--text-secondary)] hover:text-[var(--link-color)]">
-                  Track Applications
+                <Link href="/profile" className="text-[var(--text-secondary)] hover:text-[var(--link-color)]">
+                  Profile Completion
                 </Link>
               </li>
               <li>
-                <Link href="/student/resources" className="text-[var(--text-secondary)] hover:text-[var(--link-color)]">
-                  Career Resources
+                <Link href="/events/request" className="text-[var(--text-secondary)] hover:text-[var(--link-color)]">
+                  Event Request
                 </Link>
               </li>
               <li>
-                <Link href="/student/mentorship" className="text-[var(--text-secondary)] hover:text-[var(--link-color)]">
-                  Find a Mentor
+                <Link href="/sponsorship" className="text-[var(--text-secondary)] hover:text-[var(--link-color)]">
+                  Sponsorship Request
+                </Link>
+              </li>
+              <li>
+                <Link href="/ca-program" className="text-[var(--text-secondary)] hover:text-[var(--link-color)]">
+                  Join CA Program
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* For Universities and Employers */}
+          {/* For Partners */}
           <div className="col-span-1">
             <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-3">For Partners</h3>
             <ul className="space-y-2">
@@ -76,18 +76,8 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/employer" className="text-[var(--text-secondary)] hover:text-[var(--link-color)]">
+                <Link href="/employers" className="text-[var(--text-secondary)] hover:text-[var(--link-color)]">
                   Employers
-                </Link>
-              </li>
-              <li>
-                <Link href="/pricing" className="text-[var(--text-secondary)] hover:text-[var(--link-color)]">
-                  Pricing Plans
-                </Link>
-              </li>
-              <li>
-                <Link href="/partner-resources" className="text-[var(--text-secondary)] hover:text-[var(--link-color)]">
-                  Partner Resources
                 </Link>
               </li>
               <li>

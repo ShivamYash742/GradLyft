@@ -7,12 +7,6 @@ import { useState, useEffect } from 'react';
 export default function Home() {
   const streakCount = 3;
   const [showStreakPopup, setShowStreakPopup] = useState(false);
-  const achievements = [
-    { id: 1, name: 'Profile Star', completed: true, icon: <Star className="text-yellow-400" /> },
-    { id: 2, name: 'Event Explorer', completed: true, icon: <Calendar className="text-blue-500" /> },
-    { id: 3, name: 'Network Builder', completed: false, icon: <Users className="text-purple-500" /> },
-    { id: 4, name: 'Skill Master', completed: false, icon: <Trophy className="text-amber-500" /> },
-  ];
   
   // Universities carousel
   const universities = [
@@ -65,15 +59,7 @@ export default function Home() {
         </div>
       )}
       
-      {/* Floating Achievement Button */}
-      <button 
-        className="fixed left-8 bottom-8 z-40 bg-gradient-to-r from-orange-500 to-red-500 p-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 pulse-glow"
-        onClick={() => window.alert("Achievements dashboard coming soon!")}
-      >
-        <Trophy className="w-6 h-6 text-white" />
-      </button>
-      
-      {/* Hero Section */}
+      {/* SECTION A: Main Hero Section with Login/Profile Completion */}
       <section className="relative gradient-primary text-white overflow-hidden emoji-bg">
         {/* Animated sparkles */}
         <div className="absolute top-12 right-32 animate-pulse">
@@ -104,12 +90,12 @@ export default function Home() {
             <p className="text-lg md:text-xl mb-8 opacity-90 drop-shadow">
               Ready to crush it? Find the sickest opportunities, flex your skills, & get hired by your dream company!
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/register" className="bg-white text-[var(--primary-end)] px-6 py-3 rounded-full font-medium hover:bg-gray-100 transition-all duration-300 inline-flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-1 pulse-glow">
+            <div className="flex flex-col sm:flex-row gap-4 relative z-10">
+              <Link href="/register" className="bg-white text-[var(--primary-end)] px-6 py-3 rounded-full font-medium hover:bg-gray-100 transition-all duration-300 inline-flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-1 pulse-glow z-10">
                 Get Started <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
-              <Link href="/about" className="text-white bg-transparent border border-white px-6 py-3 rounded-full font-medium hover:bg-white/10 transition-all duration-300 inline-block text-center">
-                Learn More
+              <Link href="/profile" className="bg-transparent border border-white text-white px-6 py-3 rounded-full font-medium hover:bg-white/10 transition-all duration-300 inline-flex items-center justify-center z-10">
+                Complete Your Profile <ChevronRight className="ml-2 w-4 h-4" />
               </Link>
             </div>
           </div>
@@ -177,28 +163,28 @@ export default function Home() {
                 </div>
               </Link>
               
-              {/* More Card - Second Column, Second Row */}
-              <Link href="/more" className="group block focus:outline-none transform transition-all duration-300 hover:scale-105">
+              {/* Profile Card - Second Column, Second Row */}
+              <Link href="/profile" className="group block focus:outline-none transform transition-all duration-300 hover:scale-105">
                 <div className="p-4 rounded-xl bg-gradient-to-br from-sky-100 to-sky-200 flex flex-col h-[130px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer border border-sky-200 relative overflow-hidden">
                   <div className="absolute right-0 top-0 bottom-0 w-[45%] opacity-80 group-hover:opacity-90 transition-opacity">
                     <div className="absolute inset-0 bg-gradient-to-br from-transparent to-sky-200/50 z-[1] rounded-lg"></div>
                     <Image 
                       src="/small-boy-colorful-background-funny-cartoon-character-school-kid-3d-generative-ai_58409-28549.avif" 
-                      alt="More" 
+                      alt="Profile" 
                       fill 
                       className="object-cover rounded-lg mix-blend-multiply"
                     />
                   </div>
                   <div className="w-[55%] flex flex-col h-full pr-2">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="font-semibold text-gray-800 text-xl">More</span>
+                      <span className="font-semibold text-gray-800 text-xl">Profile</span>
                       <div className="ml-auto bg-sky-500/20 p-1 rounded-full">
-                        <MoreHorizontal size={16} className="text-sky-600" />
+                        <Users size={16} className="text-sky-600" />
                       </div>
                     </div>
-                    <p className="text-sm text-gray-700 flex-1">Discover More</p>
+                    <p className="text-sm text-gray-700 flex-1">Complete Profile</p>
                     <div className="mt-auto">
-                      <span className="text-xs bg-sky-500/20 rounded-full px-2 py-1 text-sky-700">👀 Explore</span>
+                      <span className="text-xs bg-sky-500/20 rounded-full px-2 py-1 text-sky-700">👀 Boost</span>
                     </div>
                   </div>
                 </div>
@@ -208,101 +194,113 @@ export default function Home() {
         </div>
       </section>
 
-      {/* User Engagement Section - Moved from Hero */}
+      {/* SECTION B: Upcoming Events */}
       <section className="py-12 bg-gradient-to-r from-indigo-50 to-sky-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* Your Vibe Section */}
-            <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-indigo-100">
-              <div className="bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-4">
-                <h3 className="font-bold text-xl text-white flex items-center">
-                  <span>Your Vibe</span>
-                  <div className="ml-2 flex">
-                    <Flame className="w-5 h-5 text-orange-300 animate-pulse" />
-                    <span className="ml-1">{streakCount}</span>
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-gradient-primary">Upcoming Events</h2>
+            <Link href="/events" className="text-[var(--primary-start)] hover:text-[var(--primary-end)] font-medium flex items-center">
+              View All <ChevronRight className="w-5 h-5" />
+            </Link>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <Link href="/events" className="card rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 relative float group">
+              <div className="absolute left-4 top-4 z-10">
+                <div className="fun-badge flex items-center gap-1">
+                  <Flame className="w-3 h-3" /> Trending
+                </div>
+              </div>
+              <div className="relative h-48">
+                <Image
+                  src="/download (1).jpeg"
+                  alt="Resume Building Workshop"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                />
+              </div>
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-3">
+                  <h3 className="text-xl font-bold text-[var(--text-primary)] group-hover:text-[var(--primary-start)] transition-colors">Resume Building Workshop</h3>
+                  <span className="bg-[var(--youth-green)]/10 text-[var(--youth-green)] text-xs font-medium px-2 py-1 rounded">
+                    workshop
+                  </span>
+                </div>
+                <p className="text-[var(--text-secondary)] mb-4 line-clamp-2">Learn how to craft a standout resume that highlights your skills and experiences effectively.</p>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center text-sm text-[var(--text-muted)]">
+                    <Calendar className="w-4 h-4 mr-1" />
+                    May 28, 2024
                   </div>
-                </h3>
+                  <span className="text-[var(--primary-start)] hover:text-[var(--primary-end)] font-medium flex items-center">
+                    Join Now <ChevronRight className="w-4 h-4" />
+                  </span>
+                </div>
+              </div>
+            </Link>
+
+            <Link href="/events" className="card rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 relative float group">
+              <div className="relative h-48">
+                <Image
+                  src="/download (2).jpeg"
+                  alt="Tech Industry Trends Webinar"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                />
               </div>
               <div className="p-6">
-                <div className="flex gap-3 mb-3">
-                  {achievements.map(achievement => (
-                    <div key={achievement.id} className={`w-12 h-12 flex items-center justify-center rounded-full ${achievement.completed ? 'bg-gradient-to-br from-orange-400 to-red-500 text-white pulse-glow' : 'bg-gray-200 text-gray-400'}`}>
-                      {achievement.icon}
-                    </div>
-                  ))}
+                <div className="flex justify-between items-start mb-3">
+                  <h3 className="text-xl font-bold text-[var(--text-primary)] group-hover:text-[var(--primary-start)] transition-colors">Tech Industry Trends Webinar</h3>
+                  <span className="bg-[var(--youth-green)]/10 text-[var(--youth-green)] text-xs font-medium px-2 py-1 rounded">
+                    webinar
+                  </span>
                 </div>
-                <div className="text-sm text-gray-600 mt-2">
-                  Level up your profile to unlock more achievements! 🏆
-                </div>
-                <div className="mt-4 pt-4 border-t border-gray-100">
-                  <Link href="/profile" className="text-indigo-600 hover:text-indigo-800 text-sm font-medium flex items-center justify-center">
-                    View All Achievements <ChevronRight className="ml-1 w-4 h-4" />
-                  </Link>
+                <p className="text-[var(--text-secondary)] mb-4 line-clamp-2">Join industry experts as they discuss emerging technology trends and career opportunities in the evolving tech landscape.</p>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center text-sm text-[var(--text-muted)]">
+                    <Calendar className="w-4 h-4 mr-1" />
+                    June 18, 2024
+                  </div>
+                  <span className="text-[var(--primary-start)] hover:text-[var(--primary-end)] font-medium flex items-center">
+                    Join Now <ChevronRight className="w-4 h-4" />
+                  </span>
                 </div>
               </div>
-            </div>
-            
-            {/* FOMO Alert Section */}
-            <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-indigo-100">
-              <div className="bg-gradient-to-r from-orange-500 to-red-500 px-6 py-4">
-                <h3 className="font-bold text-xl text-white flex items-center">
-                  <span>🔥 FOMO Alert!</span>
-                  <Bell className="w-5 h-5 text-yellow-300 animate-pulse ml-auto" />
-                </h3>
+            </Link>
+
+            <Link href="/events" className="card rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 relative float group">
+              <div className="relative h-48">
+                <Image
+                  src="/R.png"
+                  alt="Student Pitch Competition"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                />
               </div>
               <div className="p-6">
-                <div className="space-y-3">
-                  <Link href="/events" className="flex items-center justify-between p-3 rounded-md bg-orange-50 hover:bg-orange-100 transition-colors">
-                    <div className="flex items-center">
-                      <div className="relative w-10 h-10 mr-3 rounded-full overflow-hidden ring-2 ring-orange-300 animate-pulse">
-                        <Image 
-                          src="/yogi-bear3.png" 
-                          alt="Tech Career Fair"
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <div>
-                        <span className="font-medium text-gray-900">Tech Career Fair</span>
-                        <p className="text-xs text-gray-500">Connect with top employers</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center">
-                      <span className="text-sm mr-2 bg-red-500 text-white px-2 py-0.5 rounded-full">Today</span>
-                      <Flame className="w-4 h-4 text-orange-400" />
-                    </div>
-                  </Link>
-                  
-                  <Link href="/events" className="flex items-center justify-between p-3 rounded-md bg-yellow-50 hover:bg-yellow-100 transition-colors">
-                    <div className="flex items-center">
-                      <div className="relative w-10 h-10 mr-3 rounded-full overflow-hidden ring-2 ring-pink-300">
-                        <Image 
-                          src="/cute-girl-3d-character-design-cartoon-girl-avatar_432516-5510.avif" 
-                          alt="Resume Workshop"
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <div>
-                        <span className="font-medium text-gray-900">Resume Workshop</span>
-                        <p className="text-xs text-gray-500">Learn how to stand out</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center">
-                      <span className="text-sm bg-yellow-500 text-white px-2 py-0.5 rounded-full">Tomorrow</span>
-                    </div>
-                  </Link>
+                <div className="flex justify-between items-start mb-3">
+                  <h3 className="text-xl font-bold text-[var(--text-primary)] group-hover:text-[var(--primary-start)] transition-colors">Student Pitch Competition</h3>
+                  <span className="bg-[var(--youth-green)]/10 text-[var(--youth-green)] text-xs font-medium px-2 py-1 rounded">
+                    contest
+                  </span>
                 </div>
-                <div className="mt-4 pt-3 border-t border-gray-100 text-sm text-center">
-                  <span className="text-orange-600 font-bold animate-pulse">237 students</span> are viewing these events right now!
+                <p className="text-[var(--text-secondary)] mb-4 line-clamp-2">Present your startup ideas to a panel of venture capitalists and industry experts for a chance to win seed funding.</p>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center text-sm text-[var(--text-muted)]">
+                    <Calendar className="w-4 h-4 mr-1" />
+                    July 22, 2024
+                  </div>
+                  <span className="text-[var(--primary-start)] hover:text-[var(--primary-end)] font-medium flex items-center">
+                    Join Now <ChevronRight className="w-4 h-4" />
+                  </span>
                 </div>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
+      {/* SECTION C: The Hype Stats Section */}
       <section className="py-16 bg-[var(--section-light)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
@@ -313,14 +311,6 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {/* Universities */}
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center group hover:shadow-lg transition-transform duration-300 hover:-translate-y-1">
-              <div className="w-24 h-24 mx-auto mb-4 relative overflow-hidden rounded-lg">
-                <Image 
-                  src="/yogi-bear3.png" 
-                  alt="Universities"
-                  fill
-                  className="object-contain p-1"
-                />
-              </div>
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-indigo-100 flex items-center justify-center group-hover:bg-indigo-200 transition-colors">
                 <GraduationCap className="text-indigo-600 w-7 h-7" />
               </div>
@@ -333,14 +323,6 @@ export default function Home() {
             
             {/* Students */}
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center group hover:shadow-lg transition-transform duration-300 hover:-translate-y-1">
-              <div className="w-24 h-24 mx-auto mb-4 relative overflow-hidden rounded-lg">
-                <Image 
-                  src="/3d-cartoon-boy-studying-wearing-glasses_988987-175.avif" 
-                  alt="Students"
-                  fill
-                  className="object-contain p-1"
-                />
-              </div>
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-100 flex items-center justify-center group-hover:bg-blue-200 transition-colors">
                 <Users className="text-blue-600 w-7 h-7" />
               </div>
@@ -353,14 +335,6 @@ export default function Home() {
             
             {/* Events */}
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center group hover:shadow-lg transition-transform duration-300 hover:-translate-y-1">
-              <div className="w-24 h-24 mx-auto mb-4 relative overflow-hidden rounded-lg">
-                <Image 
-                  src="/download (1).jpeg" 
-                  alt="Events"
-                  fill
-                  className="object-contain p-1"
-                />
-              </div>
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-pink-100 flex items-center justify-center group-hover:bg-pink-200 transition-colors">
                 <Calendar className="text-pink-600 w-7 h-7" />
               </div>
@@ -373,14 +347,6 @@ export default function Home() {
             
             {/* Employers */}
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center group hover:shadow-lg transition-transform duration-300 hover:-translate-y-1">
-              <div className="w-24 h-24 mx-auto mb-4 relative overflow-hidden rounded-lg">
-                <Image 
-                  src="/download (2).jpeg" 
-                  alt="Employers"
-                  fill
-                  className="object-contain p-1"
-                />
-              </div>
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center group-hover:bg-green-200 transition-colors">
                 <Briefcase className="text-green-600 w-7 h-7" />
               </div>
@@ -394,272 +360,106 @@ export default function Home() {
         </div>
       </section>
 
-      {/* University Partners Section */}
+      {/* SECTION D: Unstop - Why Unstop */}
       <section className="py-16 bg-section-dark">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient-primary">Trusted by Leading Universities</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient-primary">Why Unstop?</h2>
             <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto">
-              Partner with us to connect your students with top employers and opportunities worldwide.
-            </p>
-          </div>
-          
-          <div className="relative overflow-hidden">
-            <div className="absolute left-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-r from-[var(--section-dark)] to-transparent"></div>
-            <div className="absolute right-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-l from-[var(--section-dark)] to-transparent"></div>
-            
-            <div className="slider-track py-8 overflow-hidden">
-              <div className="slide-track flex items-center">
-                {/* First set of universities */}
-                {universities.map((university, index) => (
-                  <div key={`first-${index}`} className="slide flex-shrink-0 flex flex-col items-center mx-6">
-                    <div className="w-32 h-32 relative rounded-full overflow-hidden bg-white p-2 shadow-md">
-                      <Image 
-                        src={university.logo} 
-                        alt={university.name} 
-                        fill
-                        style={{ objectFit: 'contain' }}
-                        className="p-1"
-                      />
-                    </div>
-                    <p className="mt-3 text-sm text-[var(--text-secondary)] font-medium">{university.name}</p>
-                  </div>
-                ))}
-                
-                {/* Duplicate set for seamless looping */}
-                {universities.map((university, index) => (
-                  <div key={`second-${index}`} className="slide flex-shrink-0 flex flex-col items-center mx-6">
-                    <div className="w-32 h-32 relative rounded-full overflow-hidden bg-white p-2 shadow-md">
-                      <Image 
-                        src={university.logo} 
-                        alt={university.name} 
-                        fill
-                        style={{ objectFit: 'contain' }}
-                        className="p-1"
-                      />
-                    </div>
-                    <p className="mt-3 text-sm text-[var(--text-secondary)] font-medium">{university.name}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-          
-          <div className="text-center mt-10">
-            <Link 
-              href="/universities/register" 
-              className="inline-flex items-center text-[var(--primary-start)] hover:text-[var(--primary-end)] font-medium"
-            >
-              Become a Partner University <ChevronRight className="ml-1 w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-20 bg-[var(--section-light)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient-primary">Epic Opportunities Await You 🤩</h2>
-            <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto">
-              Level up your skills and build your personal brand with these sick opportunities!
+              Here's what GradLyft can do for you
             </p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
+            <div className="card p-8 rounded-xl bg-white/10 backdrop-blur-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+              <div className="w-14 h-14 gradient-primary rounded-xl flex items-center justify-center mb-6 shadow-md">
+                <Calendar className="text-white" size={28} />
+              </div>
+              <h3 className="text-xl font-bold text-[var(--text-primary)] mb-3">All-in-one Platform</h3>
+              <p className="text-[var(--text-secondary)] mb-4">
+                Access events, competitions, workshops, and networking opportunities in one seamless experience. No more juggling multiple platforms.
+              </p>
+            </div>
+
+            <div className="card p-8 rounded-xl bg-white/10 backdrop-blur-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+              <div className="w-14 h-14 gradient-primary rounded-xl flex items-center justify-center mb-6 shadow-md">
+                <Briefcase className="text-white" size={28} />
+              </div>
+              <h3 className="text-xl font-bold text-[var(--text-primary)] mb-3">Career Growth</h3>
+              <p className="text-[var(--text-secondary)] mb-4">
+                Get noticed by top employers, build your profile, showcase your skills, and open doors to incredible internship and job opportunities.
+              </p>
+            </div>
+
+            <div className="card p-8 rounded-xl bg-white/10 backdrop-blur-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+              <div className="w-14 h-14 gradient-primary rounded-xl flex items-center justify-center mb-6 shadow-md">
+                <Users className="text-white" size={28} />
+              </div>
+              <h3 className="text-xl font-bold text-[var(--text-primary)] mb-3">Community</h3>
+              <p className="text-[var(--text-secondary)] mb-4">
+                Join a thriving ecosystem of students, universities and employers. Make connections that will help shape your future career path.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION E: Sponsorship and Campus Ambassadors */}
+      <section className="py-20 bg-[var(--section-light)]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient-primary">Get Involved 🚀</h2>
+            <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto">
+              Become part of our community through sponsorship or as a campus ambassador
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Sponsorship Card */}
             <div className="card rounded-xl p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden">
               <div className="absolute -right-4 -top-4 bg-gradient-to-br from-orange-500 to-red-500 text-white text-xs font-bold px-8 py-1 transform rotate-45">
-                🔥 Popular
+                🔥 Partner
               </div>
               <div className="w-14 h-14 gradient-primary rounded-xl flex items-center justify-center mb-6 shadow-md">
                 <Award className="text-white" size={28} />
               </div>
-              <h3 className="text-xl font-bold text-[var(--text-primary)] mb-3">Competitions & Hackathons</h3>
+              <h3 className="text-xl font-bold text-[var(--text-primary)] mb-3">Sponsorship Opportunities</h3>
               <p className="text-[var(--text-secondary)] mb-4">
-                Show off your skills and crush it in challenges that'll boost your resume and make recruiters notice!
+                Sponsor events, hackathons or student initiatives. Get your brand in front of thousands of talented students and young professionals.
               </p>
-              <Link href="/events" className="link font-medium flex items-center group hover:text-[var(--link-hover)]">
-                Explore Events <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+              <Link href="/sponsorship" className="link font-medium flex items-center group hover:text-[var(--link-hover)]">
+                Become a Sponsor <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
             
+            {/* Campus Ambassador Card */}
             <div className="card rounded-xl p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
               <div className="w-14 h-14 gradient-primary rounded-xl flex items-center justify-center mb-6 shadow-md">
-                <Briefcase className="text-white" size={28} />
-              </div>
-              <h3 className="text-xl font-bold text-[var(--text-primary)] mb-3">Internships & Jobs</h3>
-              <p className="text-[var(--text-secondary)] mb-4">
-                Connect with top employers looking for fresh talent like you. Time to secure that bag! 💰
-              </p>
-              <Link href="/employer" className="link font-medium flex items-center group hover:text-[var(--link-hover)]">
-                Find Opportunities <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </div>
-            
-            <div className="card rounded-xl p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 relative overflow-hidden">
-              <div className="absolute -right-4 -top-4 bg-gradient-to-br from-orange-500 to-red-500 text-white text-xs font-bold px-8 py-1 transform rotate-45">
-                ✨ New
-              </div>
-              <div className="w-14 h-14 gradient-primary rounded-xl flex items-center justify-center mb-6 shadow-md">
-                <Calendar className="text-white" size={28} />
+                <Users className="text-white" size={28} />
               </div>
               <div className="float-right ml-4 mb-2">
                 <div className="w-16 h-16 relative rounded-full overflow-hidden">
                   <Image 
-                    src="/small-boy-colorful-background-funny-cartoon-character-school-kid-3d-generative-ai_58409-28549.avif" 
-                    alt="Workshop Participant" 
+                    src="/3d-cartoon-boy-studying-wearing-glasses_988987-175.avif" 
+                    alt="Campus Ambassador" 
                     fill 
                     className="object-cover"
                   />
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-[var(--text-primary)] mb-3">Workshops & Webinars</h3>
+              <h3 className="text-xl font-bold text-[var(--text-primary)] mb-3">Campus Ambassador Program</h3>
               <p className="text-[var(--text-secondary)] mb-4">
-                Learn from the pros in super cool interactive sessions. Major knowledge flex incoming!
+                Represent GradLyft on your campus, gain leadership experience, exclusive perks, and build your professional network.
               </p>
-              <Link href="/events" className="link font-medium flex items-center group hover:text-[var(--link-hover)]">
-                View Schedule <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+              <Link href="/ca-program" className="link font-medium flex items-center group hover:text-[var(--link-hover)]">
+                Join CA Program <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-20 bg-section-dark">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient-primary">What Our Users Say</h2>
-            <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto">
-              Hear from students and professionals who have transformed their careers with GradLyft.
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="card p-8 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 relative">
-              <div className="absolute -top-4 -left-4 bg-yellow-400 text-yellow-900 rounded-full w-8 h-8 flex items-center justify-center shadow-md">
-                <Trophy className="w-5 h-5" />
-              </div>
-              <div className="flex mb-4">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star key={star} size={20} className="text-yellow-400 fill-current" />
-                ))}
-              </div>
-              <p className="text-[var(--text-secondary)] mb-6">
-                "GradLyft helped me land my dream internship at a top tech company. The platform made it easy to connect with employers and showcase my skills."
-              </p>
-              <div className="flex items-center">
-                <div className="w-12 h-12 gradient-primary rounded-full flex items-center justify-center mr-4 shadow-md">
-                  <span className="text-white font-bold">AS</span>
-                </div>
-                <div>
-                  <h4 className="font-bold text-[var(--text-primary)]">Aisha Smith</h4>
-                  <p className="text-[var(--text-muted)]">Computer Science Student</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="card p-8 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-              <div className="flex mb-4">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star key={star} size={20} className="text-yellow-400 fill-current" />
-                ))}
-              </div>
-              <p className="text-[var(--text-secondary)] mb-6">
-                "The hackathons on GradLyft are incredible! I've built my portfolio, networked with industry professionals, and gained valuable skills."
-              </p>
-              <div className="flex items-center">
-                <div className="w-12 h-12 gradient-primary rounded-full flex items-center justify-center mr-4 shadow-md">
-                  <span className="text-white font-bold">RJ</span>
-                </div>
-                <div>
-                  <h4 className="font-bold text-[var(--text-primary)]">Raj Johnson</h4>
-                  <p className="text-[var(--text-muted)]">Engineering Graduate</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="card p-8 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-              <div className="flex mb-4">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star key={star} size={20} className="text-yellow-400 fill-current" />
-                ))}
-              </div>
-              <p className="text-[var(--text-secondary)] mb-6">
-                "As a university representative, GradLyft has transformed how we connect with talented students. The platform is intuitive and effective."
-              </p>
-              <div className="flex items-center">
-                <div className="w-12 h-12 gradient-primary rounded-full flex items-center justify-center mr-4 shadow-md">
-                  <span className="text-white font-bold">LP</span>
-                </div>
-                <div>
-                  <h4 className="font-bold text-[var(--text-primary)]">Lisa Parker</h4>
-                  <p className="text-[var(--text-muted)]">University Admissions</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      {/* CTA Section */}
-      <section className="gradient-primary py-20 text-white relative overflow-hidden">
-        {/* Animated particles */}
-        <div className="absolute inset-0">
-          <div className="absolute top-12 left-1/4 animate-ping">
-            <div className="w-2 h-2 rounded-full bg-white/40"></div>
-          </div>
-          <div className="absolute top-1/3 left-1/2 animate-ping delay-300">
-            <div className="w-3 h-3 rounded-full bg-white/30"></div>
-          </div>
-          <div className="absolute bottom-1/4 right-1/3 animate-ping delay-700">
-            <div className="w-2 h-2 rounded-full bg-white/50"></div>
-          </div>
-          <div className="absolute bottom-1/2 right-1/4 animate-ping delay-500">
-            <div className="w-4 h-4 rounded-full bg-white/20"></div>
-          </div>
-        </div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <div className="inline-block mb-6 relative">
-            <h2 className="text-3xl md:text-4xl font-bold">Ready to Get Started? 🚀</h2>
-            <div className="absolute -top-6 -right-6 animate-bounce">
-              <Sparkles className="w-6 h-6 text-yellow-300" />
-            </div>
-          </div>
-          <p className="text-xl mb-10 max-w-3xl mx-auto">
-            Join thousands of students who are already living their best career lives on GradLyft!
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link href="/register" className="bg-white text-[var(--primary-end)] px-8 py-4 rounded-md font-medium hover:bg-gray-100 transition-all duration-300 inline-block shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-              Create Your Account
-            </Link>
-            <Link href="/about" className="text-white bg-transparent border border-white px-8 py-4 rounded-md font-medium hover:bg-white/10 transition-all duration-300 inline-block">
-              Learn More About Us
-            </Link>
-          </div>
-          
-          {/* FOMO element */}
-          <div className="mt-8 inline-flex items-center bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm">
-            <div className="relative mr-3">
-              <div className="w-10 h-10 rounded-full overflow-hidden bg-green-400 flex items-center justify-center text-white">
-                <Image 
-                  src="/download (1).jpeg" 
-                  alt="Active users"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-blue-500 rounded-full animate-pulse flex items-center justify-center">
-                <Users className="w-2 h-2 text-white" />
-              </div>
-            </div>
-            <span>37 people registered in the last hour! Don't miss out!</span>
-          </div>
-        </div>
-      </section>
-
-      {/* Add this style block at the end of your component, right before the final return closing bracket */}
+      {/* Style block for animations */}
       <style jsx global>{`
         /* Perfect animation for university logos */
         @keyframes scroll {
@@ -692,7 +492,7 @@ export default function Home() {
           width: 250px;
           display: flex;
           align-items: center;
-          justify-content: center;
+          justify-center: center;
         }
       `}</style>
     </main>
