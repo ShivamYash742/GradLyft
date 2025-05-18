@@ -337,27 +337,29 @@ function ProfileContent() {
       if (section === 'personal') {
         updateData = {
           ...updateData,
-          name: profileData.name,
-          phoneNo: profileData.phoneNo,
-          dob: profileData.dob,
-          state: profileData.state
+          name: profileData.name || '',
+          phoneNo: profileData.phoneNo || '',
+          dob: profileData.dob || null,
+          state: profileData.state || ''
         };
       } else if (section === 'education') {
         updateData = {
           ...updateData,
-          college: profileData.college,
-          degree: profileData.degree,
-          branch: profileData.branch,
-          year: profileData.year
+          college: profileData.college || '',
+          degree: profileData.degree || '',
+          branch: profileData.branch || '',
+          year: profileData.year || ''
         };
       } else if (section === 'career') {
         updateData = {
           ...updateData,
-          workingStatus: profileData.workingStatus,
-          aspiration: profileData.aspiration,
-          interests: profileData.interests
+          workingStatus: profileData.workingStatus || 'FRESHER',
+          aspiration: profileData.aspiration || '',
+          interests: profileData.interests || ''
         };
       }
+
+      console.log('Sending profile update data:', updateData);
 
       const response = await fetch('/api/profile/update', {
         method: 'PUT',
@@ -366,17 +368,26 @@ function ProfileContent() {
       });
 
       const data = await response.json();
+      console.log('Profile update response:', data);
       
       if (response.ok && data.success) {
+        // Make sure we don't override existing profile data
+        const updatedStudentProfile = {
+          ...user.student
+        };
+        
+        // Only update the fields that were part of this section
+        Object.keys(updateData).forEach(key => {
+          // Skip the profileType key
+          if (key !== 'profileType') {
+            updatedStudentProfile[key] = updateData[key];
+          }
+        });
+        
         // Update user context with new profile data
         setUser({
           ...user,
-          student: {
-            ...user.student,
-            ...updateData,
-            id: user.student.id,
-            userId: user.student.userId
-          }
+          student: updatedStudentProfile
         });
         
         setSuccessMessage('Profile updated successfully');

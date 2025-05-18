@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ThemeProvider from '../components/ThemeProvider';
 import { AuthProvider } from './context/AuthContext';
+import ProfileCompletionAlert from './components/ProfileCompletionAlert';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
               {children}
             </main>
             <Footer />
+            <ProfileCompletionAlert />
           </AuthProvider>
         </ThemeProvider>
       </body>
