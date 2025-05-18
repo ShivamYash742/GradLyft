@@ -123,34 +123,34 @@ export default function Home() {
                 </div>
               </div>
               
-              {/* Events Card */}
-              <Link href="/events" className="group block focus:outline-none transform transition-all duration-300 hover:scale-105">
-                <div className="p-4 rounded-xl bg-gradient-to-br from-pink-100 to-pink-200 flex flex-col h-[130px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer border border-pink-200 relative overflow-hidden">
-                  <div className="absolute right-0 top-0 bottom-0 w-[45%] opacity-80 group-hover:opacity-90 transition-opacity">
-                    <div className="absolute inset-0 bg-gradient-to-br from-transparent to-pink-200/50 z-[1] rounded-lg"></div>
-                    <Image 
-                      src="/download (2).jpeg" 
-                      alt="Events" 
-                      fill 
-                      className="object-cover rounded-lg mix-blend-multiply"
-                    />
-                  </div>
-                  <div className="w-[55%] flex flex-col h-full pr-2">
+              {/* Events Card - First Column (Spans 2 rows) */}
+              <Link href="/events" className="group block focus:outline-none transform transition-all duration-300 hover:scale-105 row-span-2">
+                <div className="p-4 rounded-xl bg-gradient-to-br from-pink-100 to-pink-200 flex flex-col h-[276px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer border border-pink-200 relative overflow-hidden">
+                  <div className="flex flex-col h-full">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="font-semibold text-gray-800 text-xl">Events</span>
                       <div className="ml-auto bg-pink-500/20 p-1 rounded-full">
                         <Calendar size={16} className="text-pink-600" />
                       </div>
                     </div>
-                    <p className="text-sm text-gray-700 flex-1">Explore All Events</p>
-                    <div className="mt-auto">
+                    <p className="text-sm text-gray-700 mb-3">Explore All Events</p>
+                    <div className="mb-2">
                       <span className="text-xs bg-pink-500/20 rounded-full px-2 py-1 text-pink-700">🔥 Popular</span>
+                    </div>
+                    <div className="mt-auto relative h-36 w-full overflow-hidden rounded-lg">
+                      <div className="absolute inset-0 bg-gradient-to-t from-pink-200/50 to-transparent z-[1]"></div>
+                      <Image 
+                        src="/download (2).jpeg" 
+                        alt="Events" 
+                        fill 
+                        className="object-cover rounded-lg"
+                      />
                     </div>
                   </div>
                 </div>
               </Link>
               
-              {/* Webinars Card */}
+              {/* Webinars Card - Second Column, First Row */}
               <Link href="/webinars" className="group block focus:outline-none transform transition-all duration-300 hover:scale-105">
                 <div className="p-4 rounded-xl bg-gradient-to-br from-yellow-100 to-yellow-200 flex flex-col h-[130px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer border border-yellow-200 relative overflow-hidden">
                   <div className="absolute right-0 top-0 bottom-0 w-[45%] opacity-80 group-hover:opacity-90 transition-opacity">
@@ -177,34 +177,7 @@ export default function Home() {
                 </div>
               </Link>
               
-              {/* Hackathons Card */}
-              <Link href="/hackathons" className="group block focus:outline-none transform transition-all duration-300 hover:scale-105">
-                <div className="p-4 rounded-xl bg-gradient-to-br from-blue-100 to-blue-200 flex flex-col h-[130px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer border border-blue-200 relative overflow-hidden">
-                  <div className="absolute right-0 top-0 bottom-0 w-[45%] opacity-80 group-hover:opacity-90 transition-opacity">
-                    <div className="absolute inset-0 bg-gradient-to-br from-transparent to-blue-200/50 z-[1] rounded-lg"></div>
-                    <Image 
-                      src="/3d-cartoon-boy-studying-wearing-glasses_988987-175.avif" 
-                      alt="Hackathons" 
-                      fill 
-                      className="object-cover rounded-lg mix-blend-multiply"
-                    />
-                  </div>
-                  <div className="w-[55%] flex flex-col h-full pr-2">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="font-semibold text-gray-800 text-xl">Hackathons</span>
-                      <div className="ml-auto bg-blue-500/20 p-1 rounded-full">
-                        <Award size={16} className="text-blue-600" />
-                      </div>
-                    </div>
-                    <p className="text-sm text-gray-700 flex-1">Compete & Win</p>
-                    <div className="mt-auto">
-                      <span className="text-xs bg-blue-500/20 rounded-full px-2 py-1 text-blue-700">🏆 Win Prizes</span>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-              
-              {/* More Card */}
+              {/* More Card - Second Column, Second Row */}
               <Link href="/more" className="group block focus:outline-none transform transition-all duration-300 hover:scale-105">
                 <div className="p-4 rounded-xl bg-gradient-to-br from-sky-100 to-sky-200 flex flex-col h-[130px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer border border-sky-200 relative overflow-hidden">
                   <div className="absolute right-0 top-0 bottom-0 w-[45%] opacity-80 group-hover:opacity-90 transition-opacity">
