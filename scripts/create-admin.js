@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 async function main() {
   try {
     // Default admin credentials
-    const email = process.argv[2] || 'ADMIN@EXM.com';
+    const email = process.argv[2] || 'admin@gradlyft.com';
     const password = process.argv[3] || '12345678';
     
     console.log(`Creating/updating admin user with email: ${email}`);
