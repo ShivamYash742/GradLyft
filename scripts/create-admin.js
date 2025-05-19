@@ -24,7 +24,7 @@ async function main() {
           where: { id: existingUser.id },
           data: { role: 'ADMIN' }
         });
-        console.log(`Updated user ${email} to ADMIN role.`);
+        console.log(`Updated user ${email} to ADMIN Role..`);
       } else {
         console.log(`User ${email} is already an admin.`);
       }
