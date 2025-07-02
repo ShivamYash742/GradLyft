@@ -474,7 +474,7 @@ export default function ProfileDashboard() {
                   <div className="gradient-button text-white px-4 py-3 rounded-md transition-colors text-center font-medium relative">
                     <span className="flex items-center justify-center">
                       Browse Jobs
-                      <span className="ml-2 text-xs bg-orange-300 text-orange-800 px-2 py-0.5 rounded-full">Coming Soon</span>
+                      <span className="ml-2 text-xs text-[var(--text-secondary)] px-2 py-0.5 rounded-full">Coming Soon</span>
                     </span>
                   </div>
                   
@@ -495,7 +495,7 @@ export default function ProfileDashboard() {
                   <div className="border border-[var(--card-border)] text-[var(--text-primary)] px-4 py-3 rounded-md text-center font-medium relative">
                     <span className="flex items-center justify-center">
                       Upskilling Resources
-                      <span className="ml-2 text-xs bg-orange-300 text-orange-800 px-2 py-0.5 rounded-full">Coming Soon</span>
+                      <span className="ml-2 text-xs text-[var(--text-secondary)] px-2 py-0.5 rounded-full">Coming Soon</span>
                     </span>
                   </div>
                 </>

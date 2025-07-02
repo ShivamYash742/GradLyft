@@ -300,9 +300,9 @@ export default function EventsPage() {
                       {event.date}
                     </div>
                     {isActiveEventType(event.category) ? (
-                      <Link href={`/events/${event.id}`} className="text-[var(--primary-start)] hover:text-[var(--primary-end)] font-medium flex items-center">
-                        Join Now <ChevronRight className="w-4 h-4" />
-                      </Link>
+                    <Link href={`/events/${event.id}`} className="text-[var(--primary-start)] hover:text-[var(--primary-end)] font-medium flex items-center">
+                      Join Now <ChevronRight className="w-4 h-4" />
+                    </Link>
                     ) : (
                       <span className="text-gray-400 text-sm italic">Available Soon</span>
                     )}
