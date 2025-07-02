@@ -59,7 +59,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/ca-program" className="text-[var(--text-secondary)] hover:text-[var(--link-color)]">
+                <Link href="/campus-ambassador" className="text-[var(--text-secondary)] hover:text-[var(--link-color)]">
                   Join CA Program
                 </Link>
               </li>

@@ -342,10 +342,10 @@ function ProfileContent() {
                   `}>
                     <Icon className={`h-5 w-5 ${activeSection === key ? 'text-white' : 'text-blue-600 dark:text-blue-400'}`} />
                     <span className="font-semibold">{label}</span>
-                  </div>
+            </div>
                 </Link>
               ) : (
-                <button
+              <button 
                   className={`flex items-center justify-between px-4 py-2 rounded-lg w-full transition-all
                     ${activeSection === key 
                       ? `${themeClasses.primaryButton} text-white shadow-lg scale-105` 
@@ -357,13 +357,13 @@ function ProfileContent() {
                   <div className="flex items-center gap-2">
                     <Icon className={`h-5 w-5 ${activeSection === key ? 'text-white' : 'text-blue-600 dark:text-blue-400'}`} />
                     <span className="font-semibold">{label}</span>
-                  </div>
+            </div>
                   {comingSoon && (
                     <span className="text-xs px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400">
                       Coming Soon
-                    </span>
+                      </span>
                   )}
-                </button>
+            </button>
               )}
             </li>
           ))}
