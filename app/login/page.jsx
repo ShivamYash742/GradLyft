@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Mail, Lock, Eye, EyeOff, Sparkles, Stars } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -12,8 +12,23 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
   const { login } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    // Get message and redirect from URL parameters
+    const urlMessage = searchParams.get('message');
+    const redirect = searchParams.get('redirect');
+    if (urlMessage) {
+      setMessage(urlMessage);
+    }
+    // Store redirect in state or sessionStorage if needed
+    if (redirect) {
+      sessionStorage.setItem('loginRedirect', redirect);
+    }
+  }, [searchParams]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,7 +39,10 @@ export default function Login() {
       const result = await login(email, password);
       
       if (result.success) {
-        router.push('/profile/dashboard');
+        // Check for redirect URL in sessionStorage
+        const redirectUrl = sessionStorage.getItem('loginRedirect') || '/profile/dashboard';
+        sessionStorage.removeItem('loginRedirect'); // Clean up
+        router.push(redirectUrl);
       } else {
         setError(result.error || 'Invalid email or password');
       }
@@ -62,6 +80,12 @@ export default function Login() {
                 </div>
                 <h2 className="ml-4 text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[var(--primary-start)] to-[var(--primary-end)]">Welcome Back</h2>
               </div>
+              
+              {message && (
+                <div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-xl mb-6 animate-fade-in dark:bg-blue-900/20 dark:border-blue-800 dark:text-blue-400">
+                  {message}
+                </div>
+              )}
               
               {error && (
                 <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-6 animate-fade-in dark:bg-red-900/20 dark:border-red-800 dark:text-red-400">

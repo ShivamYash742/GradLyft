@@ -113,9 +113,7 @@ export default function Webinars() {
                 <p className="text-gray-600 mb-4">Master coding interviews with practical examples and expert tips. Covers algorithms, problem-solving approaches, and common interview questions.</p>
               </div>
               <div className="flex flex-wrap gap-2 mb-4">
-                <span className="text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full">Interview Prep</span>
-                <span className="text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full">Algorithms</span>
-                <span className="text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full">Coding</span>
+                <span className="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-full">Coming Soon</span>
               </div>
               <div className="flex items-center text-gray-600 text-sm space-x-4 mb-4">
                 <div className="flex items-center">
@@ -146,9 +144,9 @@ export default function Webinars() {
                   <Users className="h-4 w-4 mr-2" />
                   <span className="text-sm">456 people registered</span>
                 </div>
-                <Link href="/webinars/featured" className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-full text-sm font-medium transition-colors">
-                  Register Now
-                </Link>
+                <span className="text-gray-400 text-sm italic">
+                  Available Soon
+                </span>
               </div>
             </div>
           </div>
@@ -166,8 +164,8 @@ export default function Webinars() {
                   fill
                   className="object-cover"
                 />
-                <div className="absolute top-3 right-3 bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full">
-                  Live
+                <div className="absolute top-3 right-3 bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  Coming Soon
                 </div>
               </div>
               <div className="p-5 flex flex-col flex-grow">
@@ -198,31 +196,22 @@ export default function Webinars() {
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-1 mb-4">
-                  {webinar.tags.map((tag, index) => (
-                    <span key={index} className="text-xs bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-full">
-                      {tag}
-                    </span>
-                  ))}
+                  <span className="text-xs bg-orange-100 text-orange-600 px-2 py-0.5 rounded-full">
+                    Coming Soon
+                  </span>
                 </div>
                 <div className="flex items-center justify-between mt-auto">
                   <div className="flex items-center text-gray-500 text-xs">
                     <Users className="h-3 w-3 mr-1" />
                     <span>{webinar.attendees} registered</span>
                   </div>
-                  <Link href={`/webinars/${webinar.id}`} className="text-indigo-600 hover:text-indigo-800 font-medium text-sm flex items-center">
-                    Register <ChevronRight className="ml-1 w-4 h-4" />
-                  </Link>
+                  <span className="text-gray-400 text-sm italic">
+                    Available Soon
+                  </span>
                 </div>
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Load more button */}
-        <div className="mt-10 text-center">
-          <button className="bg-white border border-gray-300 text-gray-700 px-6 py-3 rounded-md font-medium hover:bg-gray-50 transition-colors">
-            Load More Webinars
-          </button>
         </div>
       </section>
     </main>

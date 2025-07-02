@@ -153,7 +153,8 @@ export default function EventsPage() {
 
   // Check if event type should be displayed normally or with coming soon badge
   const isActiveEventType = (category) => {
-    return category === 'webinar' || category === 'workshop' || category === 'contest';
+    return false; // Always return false to show "Coming Soon" for all events
+    // Original code: return category === 'webinar' || category === 'workshop' || category === 'contest';
   };
 
   return (
@@ -286,7 +287,7 @@ export default function EventsPage() {
                     <h3 className="text-xl font-bold text-[var(--text-primary)]">{event.title}</h3>
                     <span className={`text-xs font-medium px-2 py-1 rounded ${
                       isActiveEventType(event.category) 
-                      ? 'bg-[var(--youth-green)]/10 text-[var(--youth-green)]' 
+                      ? 'bg-youth-green-10 text-[var(--youth-green)]' 
                       : 'bg-orange-100 text-orange-600'
                     }`}>
                       {isActiveEventType(event.category) ? event.category : 'Coming Soon'}
@@ -298,9 +299,13 @@ export default function EventsPage() {
                       <Calendar className="w-4 h-4 mr-1" />
                       {event.date}
                     </div>
-                    <Link href={`/events/${event.id}`} className="text-[var(--primary-start)] hover:text-[var(--primary-end)] font-medium flex items-center">
-                      Join Now <ChevronRight className="w-4 h-4" />
-                    </Link>
+                    {isActiveEventType(event.category) ? (
+                      <Link href={`/events/${event.id}`} className="text-[var(--primary-start)] hover:text-[var(--primary-end)] font-medium flex items-center">
+                        Join Now <ChevronRight className="w-4 h-4" />
+                      </Link>
+                    ) : (
+                      <span className="text-gray-400 text-sm italic">Available Soon</span>
+                    )}
                   </div>
                 </div>
                 <button 

@@ -6,8 +6,9 @@ import { cookies } from "next/headers";
 // Helper function to get user session from JWT token
 export async function getSession() {
   try {
-    // Access cookies
-    const token = cookies().get('gradlyft_token')?.value;
+    // Access cookies - fixed to use await
+    const cookieStore = await cookies();
+    const token = cookieStore.get('gradlyft_token')?.value;
     
     if (!token) {
       return null;
@@ -20,8 +21,13 @@ export async function getSession() {
     const user = await prisma.user.findUnique({
       where: { id: decoded.userId },
       include: {
-        student: true,
-        employer: true
+        student: {
+          include: {
+            skills: true // Include skills relationship
+          }
+        },
+        employer: true,
+        professional: true
       }
     });
     
@@ -34,7 +40,10 @@ export async function getSession() {
       user: {
         id: user.id,
         email: user.email,
-        role: user.role
+        role: user.role,
+        student: user.student,
+        employer: user.employer,
+        professional: user.professional
       }
     };
   } catch (error) {

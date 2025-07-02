@@ -80,7 +80,8 @@ export default function Register() {
       const userData = {
         email: formData.email,
         password: formData.password,
-        role: formData.userType === 'student' ? 'STUDENT' : 'EMPLOYER'
+        role: formData.userType === 'student' ? 'STUDENT' : 
+              formData.userType === 'professional' ? 'PROFESSIONAL' : 'EMPLOYER'
       };
 
       // Add profile data
@@ -98,6 +99,16 @@ export default function Register() {
           aspiration: null,
           workingStatus: "FRESHER",
           interests: "Not specified"
+        };
+      } else if (formData.userType === 'professional') {
+        userData.professional = {
+          name: formData.name,
+          phoneNo: formData.phoneNo,
+          company: "Not specified",
+          designation: "Not specified",
+          experience: 0,
+          skills: [],
+          industry: "Not specified"
         };
       } else { // employer
         userData.employer = {
@@ -188,7 +199,7 @@ export default function Register() {
                 </h3>
                 <p className="text-center text-white/80 leading-relaxed drop-shadow-md">
                   {step === 1 
-                    ? "Whether you're a student looking for opportunities or an employer seeking talent, we've got you covered."
+                    ? "Whether you're a student, professional, or employer seeking opportunities, we've got you covered."
                     : "You're just one step away from connecting with your future path!"
                   }
                 </p>
@@ -226,40 +237,58 @@ export default function Register() {
                 <div className="animate-fade-in">
                   <h3 className="text-xl font-semibold text-[var(--form-text)] mb-8 text-center">I am a...</h3>
                   
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                     <button 
                       type="button"
                       onClick={() => handleUserTypeSelect('student')}
-                      className={`p-8 rounded-2xl flex flex-col items-center transition-all duration-300 shadow-md ${
+                      className={`p-6 rounded-2xl flex flex-col items-center transition-all duration-300 shadow-md ${
                         formData.userType === 'student' 
                           ? 'bg-gradient-to-br from-[var(--primary-start)] to-[var(--primary-end)] text-white shadow-lg transform -translate-y-1' 
                           : 'bg-[var(--input-bg)] border border-[var(--input-border)] hover:bg-opacity-100 hover:shadow-lg'
                       }`}
                     >
-                      <div className={`mb-4 p-3 rounded-full ${formData.userType === 'student' ? 'bg-white/20' : 'bg-[var(--badge-bg)]'}`}>
-                        <GraduationCap className={`h-10 w-10 ${formData.userType === 'student' ? 'text-white' : 'text-[var(--primary-start)]'}`} />
+                      <div className={`mb-3 p-2 rounded-full ${formData.userType === 'student' ? 'bg-white/20' : 'bg-[var(--badge-bg)]'}`}>
+                        <GraduationCap className={`h-8 w-8 ${formData.userType === 'student' ? 'text-white' : 'text-[var(--primary-start)]'}`} />
                       </div>
                       <span className={`font-bold text-lg ${formData.userType === 'student' ? 'text-white' : 'text-[var(--form-text)]'}`}>Student</span>
-                      <p className={`mt-2 text-center text-sm ${formData.userType === 'student' ? 'text-white/80' : 'text-[var(--form-text-muted)]'}`}>
-                        Looking for opportunities to grow your career
+                      <p className={`mt-1 text-center text-xs ${formData.userType === 'student' ? 'text-white/80' : 'text-[var(--form-text-muted)]'}`}>
+                        Looking to start your career
+                      </p>
+                    </button>
+                    
+                    <button 
+                      type="button"
+                      onClick={() => handleUserTypeSelect('professional')}
+                      className={`p-6 rounded-2xl flex flex-col items-center transition-all duration-300 shadow-md ${
+                        formData.userType === 'professional' 
+                          ? 'bg-gradient-to-br from-[var(--primary-start)] to-[var(--primary-end)] text-white shadow-lg transform -translate-y-1' 
+                          : 'bg-[var(--input-bg)] border border-[var(--input-border)] hover:bg-opacity-100 hover:shadow-lg'
+                      }`}
+                    >
+                      <div className={`mb-3 p-2 rounded-full ${formData.userType === 'professional' ? 'bg-white/20' : 'bg-[var(--badge-bg)]'}`}>
+                        <User className={`h-8 w-8 ${formData.userType === 'professional' ? 'text-white' : 'text-[var(--primary-start)]'}`} />
+                      </div>
+                      <span className={`font-bold text-lg ${formData.userType === 'professional' ? 'text-white' : 'text-[var(--form-text)]'}`}>Professional</span>
+                      <p className={`mt-1 text-center text-xs ${formData.userType === 'professional' ? 'text-white/80' : 'text-[var(--form-text-muted)]'}`}>
+                        Experienced worker seeking opportunities
                       </p>
                     </button>
                     
                     <button 
                       type="button"
                       onClick={() => handleUserTypeSelect('employer')}
-                      className={`p-8 rounded-2xl flex flex-col items-center transition-all duration-300 shadow-md ${
+                      className={`p-6 rounded-2xl flex flex-col items-center transition-all duration-300 shadow-md ${
                         formData.userType === 'employer' 
                           ? 'bg-gradient-to-br from-[var(--primary-start)] to-[var(--primary-end)] text-white shadow-lg transform -translate-y-1' 
                           : 'bg-[var(--input-bg)] border border-[var(--input-border)] hover:bg-opacity-100 hover:shadow-lg'
                       }`}
                     >
-                      <div className={`mb-4 p-3 rounded-full ${formData.userType === 'employer' ? 'bg-white/20' : 'bg-[var(--badge-bg)]'}`}>
-                        <Briefcase className={`h-10 w-10 ${formData.userType === 'employer' ? 'text-white' : 'text-[var(--primary-start)]'}`} />
+                      <div className={`mb-3 p-2 rounded-full ${formData.userType === 'employer' ? 'bg-white/20' : 'bg-[var(--badge-bg)]'}`}>
+                        <Briefcase className={`h-8 w-8 ${formData.userType === 'employer' ? 'text-white' : 'text-[var(--primary-start)]'}`} />
                       </div>
                       <span className={`font-bold text-lg ${formData.userType === 'employer' ? 'text-white' : 'text-[var(--form-text)]'}`}>Employer</span>
-                      <p className={`mt-2 text-center text-sm ${formData.userType === 'employer' ? 'text-white/80' : 'text-[var(--form-text-muted)]'}`}>
-                        Searching for talented candidates to join your team
+                      <p className={`mt-1 text-center text-xs ${formData.userType === 'employer' ? 'text-white/80' : 'text-[var(--form-text-muted)]'}`}>
+                        Looking to hire talent
                       </p>
                     </button>
                   </div>
@@ -274,156 +303,127 @@ export default function Register() {
                   </div>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-6 animate-fade-in">
-                  <div className="mb-4 flex items-center">
-                    <button 
-                      type="button" 
-                      onClick={() => setStep(1)} 
-                      className="text-[var(--form-text-muted)] hover:text-[var(--input-focus)] transition-colors"
-                    >
-                      ← Back
-                    </button>
-                    <div className="ml-4 flex-1 text-center">
-                      <span className="inline-flex items-center bg-[var(--badge-bg)] px-4 py-1.5 rounded-full text-sm font-medium text-[var(--primary-start)]">
-                        {formData.userType === 'student' ? (
-                          <><GraduationCap className="h-4 w-4 mr-2" /> Student</>
-                        ) : (
-                          <><Briefcase className="h-4 w-4 mr-2" /> Employer</>
-                        )}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label htmlFor="name" className="block text-sm font-medium text-[var(--form-text)] ml-1">
-                      Full Name
-                    </label>
-                    <div className="relative group">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <User className="h-5 w-5 text-[var(--form-text-muted)] group-hover:text-[var(--input-focus)] transition-colors duration-200" />
+                <form onSubmit={handleSubmit} className="animate-fade-in space-y-6">
+                  <div>
+                    <div className="mb-6">
+                      <label htmlFor="name" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Full Name</label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <User className="h-5 w-5 text-[var(--form-text-muted)]" />
+                        </div>
+                        <input
+                          type="text"
+                          id="name"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          className="pl-12 w-full p-3 rounded-xl bg-[var(--input-bg)] border border-[var(--input-border)] text-[var(--form-text)] focus:outline-none focus:ring-2 focus:ring-[var(--input-focus-ring)] focus:border-[var(--input-focus)] transition-all duration-200"
+                          placeholder="Your full name"
+                          required
+                        />
                       </div>
-                      <input
-                        id="name"
-                        name="name"
-                        type="text"
-                        autoComplete="name"
-                        required
-                        value={formData.name}
-                        onChange={handleChange}
-                        className="pl-10 w-full px-4 py-3 rounded-xl border border-[var(--input-border)] focus:border-[var(--input-focus)] focus:ring focus:ring-[var(--input-focus-ring)] focus:ring-opacity-50 bg-[var(--input-bg)] backdrop-blur-sm transition-all duration-200 text-[var(--form-text)]"
-                        placeholder="John Smith"
-                      />
                     </div>
-                  </div>
+                    
+                    <div className="mb-6">
+                      <label htmlFor="email" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Email Address</label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <Mail className="h-5 w-5 text-[var(--form-text-muted)]" />
+                        </div>
+                        <input
+                          type="email"
+                          id="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          className="pl-12 w-full p-3 rounded-xl bg-[var(--input-bg)] border border-[var(--input-border)] text-[var(--form-text)] focus:outline-none focus:ring-2 focus:ring-[var(--input-focus-ring)] focus:border-[var(--input-focus)] transition-all duration-200"
+                          placeholder="you@example.com"
+                          required
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="mb-6">
+                      <label htmlFor="phoneNo" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Phone Number</label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <Phone className="h-5 w-5 text-[var(--form-text-muted)]" />
+                        </div>
+                        <input
+                          type="tel"
+                          id="phoneNo"
+                          name="phoneNo"
+                          value={formData.phoneNo}
+                          onChange={handleChange}
+                          className="pl-12 w-full p-3 rounded-xl bg-[var(--input-bg)] border border-[var(--input-border)] text-[var(--form-text)] focus:outline-none focus:ring-2 focus:ring-[var(--input-focus-ring)] focus:border-[var(--input-focus)] transition-all duration-200"
+                          placeholder="Your phone number"
+                          required
+                        />
+                      </div>
+                    </div>
 
-                  <div className="space-y-2">
-                    <label htmlFor="email" className="block text-sm font-medium text-[var(--form-text)] ml-1">
-                      Email Address
-                    </label>
-                    <div className="relative group">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Mail className="h-5 w-5 text-[var(--form-text-muted)] group-hover:text-[var(--input-focus)] transition-colors duration-200" />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                      <div>
+                        <label htmlFor="password" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Password</label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <Lock className="h-5 w-5 text-[var(--form-text-muted)]" />
+                          </div>
+                          <input
+                            type={showPassword ? "text" : "password"}
+                            id="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            className="pl-12 w-full p-3 rounded-xl bg-[var(--input-bg)] border border-[var(--input-border)] text-[var(--form-text)] focus:outline-none focus:ring-2 focus:ring-[var(--input-focus-ring)] focus:border-[var(--input-focus)] transition-all duration-200"
+                            placeholder="At least 8 characters"
+                            required
+                          />
+                          <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
+                            <button 
+                              type="button" 
+                              onClick={() => setShowPassword(!showPassword)}
+                              className="focus:outline-none"
+                            >
+                              {showPassword ? 
+                                <EyeOff className="h-5 w-5 text-[var(--form-text-muted)] hover:text-[var(--link-color)]" /> : 
+                                <Eye className="h-5 w-5 text-[var(--form-text-muted)] hover:text-[var(--link-color)]" />
+                              }
+                            </button>
+                          </div>
+                        </div>
                       </div>
-                      <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        autoComplete="email"
-                        required
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="pl-10 w-full px-4 py-3 rounded-xl border border-[var(--input-border)] focus:border-[var(--input-focus)] focus:ring focus:ring-[var(--input-focus-ring)] focus:ring-opacity-50 bg-[var(--input-bg)] backdrop-blur-sm transition-all duration-200 text-[var(--form-text)]"
-                        placeholder="you@example.com"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label htmlFor="password" className="block text-sm font-medium text-[var(--form-text)] ml-1">
-                      Password
-                    </label>
-                    <div className="relative group">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Lock className="h-5 w-5 text-[var(--form-text-muted)] group-hover:text-[var(--input-focus)] transition-colors duration-200" />
+                      
+                      <div>
+                        <label htmlFor="confirmPassword" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Confirm Password</label>
+                        <div className="relative">
+                          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <Lock className="h-5 w-5 text-[var(--form-text-muted)]" />
+                          </div>
+                          <input
+                            type={showConfirmPassword ? "text" : "password"}
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            value={formData.confirmPassword}
+                            onChange={handleChange}
+                            className="pl-12 w-full p-3 rounded-xl bg-[var(--input-bg)] border border-[var(--input-border)] text-[var(--form-text)] focus:outline-none focus:ring-2 focus:ring-[var(--input-focus-ring)] focus:border-[var(--input-focus)] transition-all duration-200"
+                            placeholder="Confirm your password"
+                            required
+                          />
+                          <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
+                            <button 
+                              type="button" 
+                              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                              className="focus:outline-none"
+                            >
+                              {showConfirmPassword ? 
+                                <EyeOff className="h-5 w-5 text-[var(--form-text-muted)] hover:text-[var(--link-color)]" /> : 
+                                <Eye className="h-5 w-5 text-[var(--form-text-muted)] hover:text-[var(--link-color)]" />
+                              }
+                            </button>
+                          </div>
+                        </div>
                       </div>
-                      <input
-                        id="password"
-                        name="password"
-                        type={showPassword ? 'text' : 'password'}
-                        required
-                        value={formData.password}
-                        onChange={handleChange}
-                        className="pl-10 w-full px-4 py-3 rounded-xl border border-[var(--input-border)] focus:border-[var(--input-focus)] focus:ring focus:ring-[var(--input-focus-ring)] focus:ring-opacity-50 bg-[var(--input-bg)] backdrop-blur-sm transition-all duration-200 text-[var(--form-text)]"
-                        placeholder="••••••••"
-                      />
-                      <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                        <button
-                          type="button"
-                          onClick={() => setShowPassword(!showPassword)}
-                          className="text-[var(--form-text-muted)] hover:text-[var(--input-focus)] transition-colors focus:outline-none"
-                        >
-                          {showPassword ? (
-                            <EyeOff className="h-5 w-5" />
-                          ) : (
-                            <Eye className="h-5 w-5" />
-                          )}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-[var(--form-text)] ml-1">
-                      Confirm Password
-                    </label>
-                    <div className="relative group">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Lock className="h-5 w-5 text-[var(--form-text-muted)] group-hover:text-[var(--input-focus)] transition-colors duration-200" />
-                      </div>
-                      <input
-                        id="confirmPassword"
-                        name="confirmPassword"
-                        type={showConfirmPassword ? 'text' : 'password'}
-                        required
-                        value={formData.confirmPassword}
-                        onChange={handleChange}
-                        className="pl-10 w-full px-4 py-3 rounded-xl border border-[var(--input-border)] focus:border-[var(--input-focus)] focus:ring focus:ring-[var(--input-focus-ring)] focus:ring-opacity-50 bg-[var(--input-bg)] backdrop-blur-sm transition-all duration-200 text-[var(--form-text)]"
-                        placeholder="••••••••"
-                      />
-                      <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                        <button
-                          type="button"
-                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                          className="text-[var(--form-text-muted)] hover:text-[var(--input-focus)] transition-colors focus:outline-none"
-                        >
-                          {showConfirmPassword ? (
-                            <EyeOff className="h-5 w-5" />
-                          ) : (
-                            <Eye className="h-5 w-5" />
-                          )}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label htmlFor="phoneNo" className="block text-sm font-medium text-[var(--form-text)] ml-1">
-                      Phone Number
-                    </label>
-                    <div className="relative group">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Phone className="h-5 w-5 text-[var(--form-text-muted)] group-hover:text-[var(--input-focus)] transition-colors duration-200" />
-                      </div>
-                      <input
-                        id="phoneNo"
-                        name="phoneNo"
-                        type="tel"
-                        required
-                        value={formData.phoneNo}
-                        onChange={handleChange}
-                        className="pl-10 w-full px-4 py-3 rounded-xl border border-[var(--input-border)] focus:border-[var(--input-focus)] focus:ring focus:ring-[var(--input-focus-ring)] focus:ring-opacity-50 bg-[var(--input-bg)] backdrop-blur-sm transition-all duration-200 text-[var(--form-text)]"
-                        placeholder="1234567890"
-                      />
                     </div>
                   </div>
 

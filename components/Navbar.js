@@ -60,9 +60,11 @@ const Navbar = () => {
             <Link href="/student" className="text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] transition">
               For Students
             </Link>
+            {(!user || user.role !== 'STUDENT') && (
             <Link href="/universities" className="text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] transition">
               For Universities
             </Link>
+            )}
             <Link href="/events" className="text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] transition">
               Events
             </Link>
@@ -154,6 +156,7 @@ const Navbar = () => {
             >
               For Students
             </Link>
+            {(!user || user.role !== 'STUDENT') && (
             <Link 
               href="/universities" 
               className="block px-3 py-2 rounded-md text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] hover:bg-[var(--card-bg,#ffffff)]"
@@ -161,6 +164,7 @@ const Navbar = () => {
             >
               For Universities
             </Link>
+            )}
             <Link 
               href="/events" 
               className="block px-3 py-2 rounded-md text-[var(--text-primary,#171717)] hover:text-[var(--link-hover,#FF5A00)] hover:bg-[var(--card-bg,#ffffff)]"

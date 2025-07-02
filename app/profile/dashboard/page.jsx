@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { BarChart, Briefcase, Calendar, Bookmark, Clock, Users, Award, FileText } from 'lucide-react';
+import { BarChart, Briefcase, Calendar, Bookmark, Clock, Users, Award, FileText, ChevronRight } from 'lucide-react';
 
 export default function ProfileDashboard() {
   const { user, loading } = useAuth();
@@ -15,6 +15,7 @@ export default function ProfileDashboard() {
     events: 0,
     messages: 0
   });
+  const [events, setEvents] = useState([]);
 
   // Redirect if not logged in
   useEffect(() => {
@@ -33,6 +34,38 @@ export default function ProfileDashboard() {
         events: Math.floor(Math.random() * 5),
         messages: Math.floor(Math.random() * 8)
       });
+
+      // Mock event data
+      setEvents([
+        {
+          id: 1,
+          title: "Career Fair 2023",
+          date: "November 15, 2023",
+          location: "Online",
+          isRegistered: true
+        },
+        {
+          id: 2,
+          title: "Resume Building Workshop",
+          date: "November 22, 2023",
+          location: "Main Campus",
+          isRegistered: false
+        },
+        {
+          id: 3,
+          title: "Tech Industry Trends Webinar",
+          date: "December 5, 2023",
+          location: "Online",
+          isRegistered: true
+        },
+        {
+          id: 4,
+          title: "Student Pitch Competition",
+          date: "December 15, 2023",
+          location: "Innovation Center",
+          isRegistered: false
+        }
+      ]);
     }
   }, [user]);
 
@@ -438,12 +471,12 @@ export default function ProfileDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {user.role === 'STUDENT' && (
                 <>
-                  <Link 
-                    href="/jobs"
-                    className="gradient-button text-white px-4 py-3 rounded-md hover:gradient-button-hover transition-colors text-center font-medium"
-                  >
-                    Browse Jobs
-                  </Link>
+                  <div className="gradient-button text-white px-4 py-3 rounded-md transition-colors text-center font-medium relative">
+                    <span className="flex items-center justify-center">
+                      Browse Jobs
+                      <span className="ml-2 text-xs bg-orange-300 text-orange-800 px-2 py-0.5 rounded-full">Coming Soon</span>
+                    </span>
+                  </div>
                   
                   <Link 
                     href="/events"
@@ -459,12 +492,12 @@ export default function ProfileDashboard() {
                     Update Profile
                   </Link>
                   
-                  <Link 
-                    href="/soft-skills"
-                    className="border border-[var(--card-border)] text-[var(--text-primary)] hover:bg-[var(--section-light)] px-4 py-3 rounded-md transition-colors text-center font-medium"
-                  >
-                    Upskilling Resources
-                  </Link>
+                  <div className="border border-[var(--card-border)] text-[var(--text-primary)] px-4 py-3 rounded-md text-center font-medium relative">
+                    <span className="flex items-center justify-center">
+                      Upskilling Resources
+                      <span className="ml-2 text-xs bg-orange-300 text-orange-800 px-2 py-0.5 rounded-full">Coming Soon</span>
+                    </span>
+                  </div>
                 </>
               )}
               
@@ -533,6 +566,59 @@ export default function ProfileDashboard() {
               )}
             </div>
           </div>
+
+          {/* Add a new Registered Events section for students */}
+          {user.role === 'STUDENT' && (
+            <div className="card rounded-lg shadow-md p-6 bg-[var(--card-bg)] mt-8">
+              <h2 className="text-xl font-bold mb-4 text-[var(--text-primary)]">Events Registration Status</h2>
+              
+              {events.length > 0 ? (
+                <div className="overflow-x-auto">
+                  <table className="min-w-full divide-y divide-[var(--card-border)]">
+                    <thead>
+                      <tr>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider">Event</th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider">Date</th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider">Location</th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[var(--card-border)]">
+                      {events.map((event) => (
+                        <tr key={event.id}>
+                          <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-[var(--text-primary)]">{event.title}</td>
+                          <td className="px-4 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">{event.date}</td>
+                          <td className="px-4 py-4 whitespace-nowrap text-sm text-[var(--text-secondary)]">{event.location}</td>
+                          <td className="px-4 py-4 whitespace-nowrap text-sm">
+                            {event.isRegistered ? (
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Registered
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                Not Registered
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <p className="text-[var(--text-secondary)] text-center py-8">No events found</p>
+              )}
+              
+              <div className="mt-4 text-center">
+                <Link 
+                  href="/events"
+                  className="text-[var(--primary-start)] hover:text-[var(--link-hover)] font-medium inline-flex items-center"
+                >
+                  Browse More Events <ChevronRight className="ml-1 w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

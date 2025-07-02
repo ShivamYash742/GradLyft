@@ -3,10 +3,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Award, Users, Briefcase, Calendar, ChevronRight, Star, GraduationCap, MoreHorizontal, Video, Smile, Flame, Trophy, Bell, Sparkles } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useAuth } from './context/AuthContext';
 
 export default function Home() {
   const streakCount = 3;
   const [showStreakPopup, setShowStreakPopup] = useState(false);
+  const { user } = useAuth();
   
   // Universities carousel
   const universities = [
@@ -91,12 +93,20 @@ export default function Home() {
               Ready to crush it? Find the sickest opportunities, flex your skills, & get hired by your dream company!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 relative z-10">
+              {!user ? (
               <Link href="/register" className="bg-white text-[var(--primary-end)] px-6 py-3 rounded-full font-medium hover:bg-gray-100 transition-all duration-300 inline-flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-1 pulse-glow z-10">
                 Get Started <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
-              <Link href="/profile" className="bg-transparent border border-white text-white px-6 py-3 rounded-full font-medium hover:bg-white/10 transition-all duration-300 inline-flex items-center justify-center z-10">
+              ) : (
+                <>
+                  <Link href="/profile" className="bg-white text-[var(--primary-end)] px-6 py-3 rounded-full font-medium hover:bg-gray-100 transition-all duration-300 inline-flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-1 pulse-glow z-10">
                 Complete Your Profile <ChevronRight className="ml-2 w-4 h-4" />
               </Link>
+                  <div className="bg-transparent border border-white text-white px-6 py-3 rounded-full font-medium hover:bg-white/10 transition-all duration-300 inline-flex items-center justify-center z-10">
+                    <span className="flex items-center">Apply for Jobs <span className="ml-2 text-xs bg-orange-300 text-orange-800 px-2 py-0.5 rounded-full">Coming Soon</span></span>
+                  </div>
+                </>
+              )}
             </div>
           </div>
           {/* Right: Feature Grid */}
@@ -222,8 +232,8 @@ export default function Home() {
               <div className="p-6">
                 <div className="flex justify-between items-start mb-3">
                   <h3 className="text-xl font-bold text-[var(--text-primary)] group-hover:text-[var(--primary-start)] transition-colors">Resume Building Workshop</h3>
-                  <span className="bg-[var(--youth-green)]/10 text-[var(--youth-green)] text-xs font-medium px-2 py-1 rounded">
-                    workshop
+                  <span className="bg-orange-100 text-orange-600 text-xs font-medium px-2 py-1 rounded">
+                    Coming Soon
                   </span>
                 </div>
                 <p className="text-[var(--text-secondary)] mb-4 line-clamp-2">Learn how to craft a standout resume that highlights your skills and experiences effectively.</p>
@@ -232,8 +242,8 @@ export default function Home() {
                     <Calendar className="w-4 h-4 mr-1" />
                     May 28, 2024
                   </div>
-                  <span className="text-[var(--primary-start)] hover:text-[var(--primary-end)] font-medium flex items-center">
-                    Join Now <ChevronRight className="w-4 h-4" />
+                  <span className="text-gray-400 text-sm italic">
+                    Available Soon
                   </span>
                 </div>
               </div>
@@ -251,8 +261,8 @@ export default function Home() {
               <div className="p-6">
                 <div className="flex justify-between items-start mb-3">
                   <h3 className="text-xl font-bold text-[var(--text-primary)] group-hover:text-[var(--primary-start)] transition-colors">Tech Industry Trends Webinar</h3>
-                  <span className="bg-[var(--youth-green)]/10 text-[var(--youth-green)] text-xs font-medium px-2 py-1 rounded">
-                    webinar
+                  <span className="bg-orange-100 text-orange-600 text-xs font-medium px-2 py-1 rounded">
+                    Coming Soon
                   </span>
                 </div>
                 <p className="text-[var(--text-secondary)] mb-4 line-clamp-2">Join industry experts as they discuss emerging technology trends and career opportunities in the evolving tech landscape.</p>
@@ -261,8 +271,8 @@ export default function Home() {
                     <Calendar className="w-4 h-4 mr-1" />
                     June 18, 2024
                   </div>
-                  <span className="text-[var(--primary-start)] hover:text-[var(--primary-end)] font-medium flex items-center">
-                    Join Now <ChevronRight className="w-4 h-4" />
+                  <span className="text-gray-400 text-sm italic">
+                    Available Soon
                   </span>
                 </div>
               </div>
@@ -280,8 +290,8 @@ export default function Home() {
               <div className="p-6">
                 <div className="flex justify-between items-start mb-3">
                   <h3 className="text-xl font-bold text-[var(--text-primary)] group-hover:text-[var(--primary-start)] transition-colors">Student Pitch Competition</h3>
-                  <span className="bg-[var(--youth-green)]/10 text-[var(--youth-green)] text-xs font-medium px-2 py-1 rounded">
-                    contest
+                  <span className="bg-orange-100 text-orange-600 text-xs font-medium px-2 py-1 rounded">
+                    Coming Soon
                   </span>
                 </div>
                 <p className="text-[var(--text-secondary)] mb-4 line-clamp-2">Present your startup ideas to a panel of venture capitalists and industry experts for a chance to win seed funding.</p>
@@ -290,8 +300,114 @@ export default function Home() {
                     <Calendar className="w-4 h-4 mr-1" />
                     July 22, 2024
                   </div>
-                  <span className="text-[var(--primary-start)] hover:text-[var(--primary-end)] font-medium flex items-center">
-                    Join Now <ChevronRight className="w-4 h-4" />
+                  <span className="text-gray-400 text-sm italic">
+                    Available Soon
+                  </span>
+                </div>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION B2: Featured Webinars */}
+      <section className="py-12 bg-gradient-to-r from-blue-50 to-indigo-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-gradient-primary">Featured Webinars</h2>
+            <Link href="/webinars" className="text-[var(--primary-start)] hover:text-[var(--primary-end)] font-medium flex items-center">
+              View All <ChevronRight className="w-5 h-5" />
+            </Link>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <Link href="/webinars" className="card rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 relative float group">
+              <div className="absolute left-4 top-4 z-10">
+                <div className="fun-badge flex items-center gap-1 bg-yellow-400/90 text-yellow-900">
+                  <Video className="w-3 h-3" /> New
+                </div>
+              </div>
+              <div className="relative h-48">
+                <Image
+                  src="/OIP (1).jpeg"
+                  alt="Career Development Webinar"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                />
+              </div>
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-3">
+                  <h3 className="text-xl font-bold text-[var(--text-primary)] group-hover:text-[var(--primary-start)] transition-colors">Career Development Webinar</h3>
+                  <span className="bg-orange-100 text-orange-600 text-xs font-medium px-2 py-1 rounded">
+                    Coming Soon
+                  </span>
+                </div>
+                <p className="text-[var(--text-secondary)] mb-4 line-clamp-2">Expert insights on navigating the tech industry and building a successful career path.</p>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center text-sm text-[var(--text-muted)]">
+                    <Calendar className="w-4 h-4 mr-1" />
+                    Recently Added
+                  </div>
+                  <span className="text-gray-400 text-sm italic">
+                    Available Soon
+                  </span>
+                </div>
+              </div>
+            </Link>
+
+            <Link href="/webinars" className="card rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 relative float group">
+              <div className="relative h-48">
+                <Image
+                  src="/OIP (2).jpeg"
+                  alt="Interview Preparation Masterclass"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                />
+              </div>
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-3">
+                  <h3 className="text-xl font-bold text-[var(--text-primary)] group-hover:text-[var(--primary-start)] transition-colors">Interview Preparation Masterclass</h3>
+                  <span className="bg-orange-100 text-orange-600 text-xs font-medium px-2 py-1 rounded">
+                    Coming Soon
+                  </span>
+                </div>
+                <p className="text-[var(--text-secondary)] mb-4 line-clamp-2">Learn proven techniques to ace your interviews and stand out from other candidates.</p>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center text-sm text-[var(--text-muted)]">
+                    <Calendar className="w-4 h-4 mr-1" />
+                    Popular
+                  </div>
+                  <span className="text-gray-400 text-sm italic">
+                    Available Soon
+                  </span>
+                </div>
+              </div>
+            </Link>
+
+            <Link href="/webinars" className="card rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 relative float group">
+              <div className="relative h-48">
+                <Image
+                  src="/R (2).png"
+                  alt="Networking Strategies for Success"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                />
+              </div>
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-3">
+                  <h3 className="text-xl font-bold text-[var(--text-primary)] group-hover:text-[var(--primary-start)] transition-colors">Networking Strategies for Success</h3>
+                  <span className="bg-orange-100 text-orange-600 text-xs font-medium px-2 py-1 rounded">
+                    Coming Soon
+                  </span>
+                </div>
+                <p className="text-[var(--text-secondary)] mb-4 line-clamp-2">Discover effective networking techniques to build meaningful professional relationships.</p>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center text-sm text-[var(--text-muted)]">
+                    <Calendar className="w-4 h-4 mr-1" />
+                    Featured
+                  </div>
+                  <span className="text-gray-400 text-sm italic">
+                    Available Soon
                   </span>
                 </div>
               </div>
@@ -370,7 +486,7 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="card p-8 rounded-xl bg-white/10 backdrop-blur-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
               <div className="w-14 h-14 gradient-primary rounded-xl flex items-center justify-center mb-6 shadow-md">
                 <Calendar className="text-white" size={28} />
@@ -400,6 +516,20 @@ export default function Home() {
                 Join a thriving ecosystem of students, universities and employers. Make connections that will help shape your future career path.
               </p>
             </div>
+            
+            <Link href="/webinars" className="card p-8 rounded-xl bg-white/10 backdrop-blur-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+              <div className="w-14 h-14 gradient-primary rounded-xl flex items-center justify-center mb-6 shadow-md relative">
+                <Video className="text-white" size={28} />
+                <span className="absolute -top-2 -right-2 w-4 h-4 bg-yellow-400 rounded-full animate-pulse"></span>
+              </div>
+              <h3 className="text-xl font-bold text-[var(--text-primary)] mb-3">Webinars</h3>
+              <p className="text-[var(--text-secondary)] mb-4">
+                Access our exclusive library of webinars featuring industry experts and gain valuable insights to boost your career prospects.
+              </p>
+              <span className="inline-block bg-yellow-400/20 text-yellow-500 text-xs px-3 py-1 rounded-full font-medium">
+                ✨ Featured Content
+              </span>
+            </Link>
           </div>
         </div>
       </section>
