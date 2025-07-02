@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { 
@@ -8,8 +8,10 @@ import {
   ArrowRight, CheckCircle, Star, Zap, Target, Code, 
   Smile, Coffee, Rocket, ChevronDown, ArrowUpRight
 } from 'lucide-react';
+import { useTheme } from '../../components/ThemeProvider';
 
 export default function AboutPage() {
+  const { theme } = useTheme();
   const [activeTab, setActiveTab] = useState('mission');
   const [visibleSection, setVisibleSection] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -166,7 +168,7 @@ export default function AboutPage() {
   ];
 
   return (
-    <main className="bg-white">
+    <main className="min-h-screen bg-background text-text-primary">
       {/* Navigation dots */}
       <div className="fixed right-10 top-1/2 transform -translate-y-1/2 z-50 hidden lg:block">
         <div className="flex flex-col gap-4">
@@ -178,8 +180,8 @@ export default function AboutPage() {
               }}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
                 visibleSection === section 
-                  ? 'bg-indigo-600 scale-125' 
-                  : 'bg-gray-300 hover:bg-gray-400'
+                  ? 'bg-primary-start scale-125' 
+                  : 'bg-text-muted/30 hover:bg-text-muted/50'
               }`}
               aria-label={`Scroll to ${section} section`}
             />
@@ -190,39 +192,39 @@ export default function AboutPage() {
       {/* Hero Section */}
       <section 
         ref={sectionRefs.hero}
-        className="min-h-screen flex flex-col justify-center relative overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-purple-50"
+        className="min-h-screen flex flex-col justify-center relative overflow-hidden bg-gradient-to-br from-primary-start/5 via-background to-primary-end/5"
       >
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-full">
             {/* Abstract shapes */}
-            <div className="absolute top-1/4 -left-10 w-72 h-72 bg-indigo-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
-            <div className="absolute top-1/3 right-0 w-72 h-72 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
-            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 w-72 h-72 bg-pink-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
+            <div className="absolute top-1/4 -left-10 w-72 h-72 bg-primary-start/10 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
+            <div className="absolute top-1/3 right-0 w-72 h-72 bg-primary-end/10 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 w-72 h-72 bg-primary-start/10 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
           </div>
         </div>
 
         <div className="container mx-auto px-4 py-24 relative z-10">
           <div className="flex flex-col lg:flex-row items-center gap-12">
             <div className="lg:w-1/2 space-y-8">
-              <div className="inline-flex items-center px-4 py-2 bg-indigo-100 text-indigo-800 rounded-full text-sm font-medium">
+              <div className="inline-flex items-center px-4 py-2 bg-primary-start/10 text-primary-start rounded-full text-sm font-medium">
                 <Star className="w-4 h-4 mr-2" />
                 Transforming Career Connections
               </div>
               
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
-                We're <span className="text-indigo-600">GradLyft</span>
+                We're <span className="text-primary-start">GradLyft</span>
                 <br />
                 <span className="text-4xl md:text-5xl lg:text-6xl">Connecting Talent with Opportunity</span>
               </h1>
               
-              <p className="text-xl text-gray-600 max-w-lg">
+              <p className="text-xl text-text-secondary max-w-lg">
                 We're building the bridge between ambitious students and forward-thinking employers, creating meaningful connections that launch careers.
               </p>
               
               <div className="flex flex-wrap gap-4">
                 <Link 
                   href="/register" 
-                  className="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-all flex items-center group"
+                  className="px-8 py-4 bg-primary-start hover:bg-primary-start/90 text-white font-medium rounded-lg transition-all flex items-center group"
                 >
                   Join Our Community
                   <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -230,7 +232,7 @@ export default function AboutPage() {
                 
                 <a 
                   href="#mission" 
-                  className="px-8 py-4 border border-gray-300 hover:border-indigo-600 hover:text-indigo-600 font-medium rounded-lg transition-all"
+                  className="px-8 py-4 border border-card-border hover:border-primary-start hover:text-primary-start font-medium rounded-lg transition-all"
                   onClick={(e) => {
                     e.preventDefault();
                     sectionRefs.mission.current?.scrollIntoView({ behavior: 'smooth' });
@@ -242,33 +244,14 @@ export default function AboutPage() {
             </div>
             
             <div className="lg:w-1/2 relative">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-all duration-500 border-8 border-white">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-all duration-500 border-8 border-card-bg">
                 <div className="aspect-video relative">
                   <Image 
                     src="/R.png" 
                     alt="GradLyft Team" 
                     fill
-                    style={{ objectFit: 'cover' }}
-                    className="hover:scale-105 transition-transform duration-700"
+                    className="object-cover"
                   />
-                  
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 flex items-end">
-                    <div className="p-6">
-                      <button 
-                        onClick={toggleVideo}
-                        className="flex items-center gap-2 bg-white/90 hover:bg-white px-4 py-2 rounded-lg text-sm font-medium text-indigo-900 transition-all"
-                      >
-                        {isPlaying ? 'Pause Video' : 'Watch Our Story'}
-                        <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center">
-                          {isPlaying ? (
-                            <span className="w-3 h-3 bg-white rounded-sm"></span>
-                          ) : (
-                            <div className="w-0 h-0 border-t-4 border-b-4 border-l-8 border-transparent border-l-white ml-1"></div>
-                          )}
-                        </div>
-                      </button>
-                    </div>
-                  </div>
                 </div>
               </div>
               
@@ -299,104 +282,55 @@ export default function AboutPage() {
 
       {/* Mission Section */}
       <section 
-        id="mission"
         ref={sectionRefs.mission}
-        className="py-24 bg-white"
+        className="py-24 relative overflow-hidden bg-card-bg"
       >
         <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row gap-16 items-center">
-            <div className="lg:w-1/2">
-              <div className="relative">
-                <div className="absolute -left-4 -top-4 w-24 h-24 bg-indigo-100 rounded-full"></div>
-                <div className="absolute -right-4 -bottom-4 w-32 h-32 bg-purple-100 rounded-full"></div>
-                
-                <div className="relative z-10 bg-white rounded-2xl overflow-hidden shadow-xl border border-gray-100">
-                  <div className="grid grid-cols-2 gap-1">
-                    <div className="aspect-square relative">
-                      <Image 
-                        src="/download.jpeg" 
-                        alt="Student Success" 
-                        fill
-                        style={{ objectFit: 'cover' }}
-                      />
-                    </div>
-                    <div className="aspect-square relative">
-                      <Image 
-                        src="/download (1).jpeg" 
-                        alt="Employer Connection" 
-                        fill
-                        style={{ objectFit: 'cover' }}
-                      />
-                    </div>
-                    <div className="aspect-square relative">
-                      <Image 
-                        src="/download (2).jpeg" 
-                        alt="University Partnership" 
-                        fill
-                        style={{ objectFit: 'cover' }}
-                      />
-                    </div>
-                    <div className="aspect-square relative">
-                      <Image 
-                        src="/R.png" 
-                        alt="Career Growth" 
-                        fill
-                        style={{ objectFit: 'cover' }}
-                      />
-                    </div>
-                  </div>
-                </div>
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <h2 className="text-4xl font-bold mb-6">Our Mission</h2>
+            <p className="text-xl text-text-secondary">
+              We're on a mission to democratize access to meaningful career opportunities and transform how students connect with employers.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="p-8 rounded-2xl bg-background border border-card-border hover:border-primary-start/50 transition-all group">
+              <div className="w-12 h-12 rounded-lg bg-primary-start/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <GraduationCap className="w-6 h-6 text-primary-start" />
               </div>
+              <h3 className="text-xl font-semibold mb-4">For Students</h3>
+              <p className="text-text-secondary mb-6">
+                Access personalized career guidance, connect with industry mentors, and discover opportunities aligned with your aspirations.
+              </p>
+              <Link href="/register" className="inline-flex items-center text-primary-start hover:text-primary-end transition-colors">
+                Learn More <ArrowRight className="ml-2 w-4 h-4" />
+              </Link>
             </div>
-            
-            <div className="lg:w-1/2 space-y-8">
-              <div className="inline-flex items-center px-4 py-2 bg-indigo-100 text-indigo-800 rounded-full text-sm font-medium">
-                <Zap className="w-4 h-4 mr-2" />
-                Our Purpose
+
+            <div className="p-8 rounded-2xl bg-background border border-card-border hover:border-primary-start/50 transition-all group">
+              <div className="w-12 h-12 rounded-lg bg-primary-start/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <Briefcase className="w-6 h-6 text-primary-start" />
               </div>
-              
-              <h2 className="text-4xl font-bold text-gray-900">
-                Reimagining Career Development for the Digital Age
-              </h2>
-              
-              <div className="space-y-6 text-gray-600">
-                <p className="text-lg">
-                  GradLyft was born from a simple observation: despite the abundance of talented graduates and employers seeking fresh talent, making meaningful connections between them remained unnecessarily stressful.
-                </p>
-                
-                <p className="text-lg">
-                  Our mission is to create a more equitable, efficient, and enjoyable career development ecosystem where talent and opportunity meet seamlessly.
-                </p>
-                
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <div className="mt-1 flex-shrink-0">
-                      <CheckCircle className="w-5 h-5 text-indigo-600" />
-                    </div>
-                    <p>
-                      <strong className="font-medium text-gray-900">For Students:</strong> We provide the tools, resources, and connections to launch rewarding careers aligned with their skills and passions.
-                    </p>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <div className="mt-1 flex-shrink-0">
-                      <CheckCircle className="w-5 h-5 text-indigo-600" />
-                    </div>
-                    <p>
-                      <strong className="font-medium text-gray-900">For Employers:</strong> We offer access to diverse, qualified talent pools and streamlined recruitment processes that save time and resources.
-                    </p>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <div className="mt-1 flex-shrink-0">
-                      <CheckCircle className="w-5 h-5 text-indigo-600" />
-                    </div>
-                    <p>
-                      <strong className="font-medium text-gray-900">For Universities:</strong> We enhance career services capabilities and improve graduate outcomes through innovative technology and industry partnerships.
-                    </p>
-                  </div>
-                </div>
+              <h3 className="text-xl font-semibold mb-4">For Employers</h3>
+              <p className="text-text-secondary mb-6">
+                Connect with top talent, streamline your recruitment process, and build a diverse pipeline of qualified candidates.
+              </p>
+              <Link href="/employer/register" className="inline-flex items-center text-primary-start hover:text-primary-end transition-colors">
+                Learn More <ArrowRight className="ml-2 w-4 h-4" />
+              </Link>
+            </div>
+
+            <div className="p-8 rounded-2xl bg-background border border-card-border hover:border-primary-start/50 transition-all group md:col-span-2 lg:col-span-1">
+              <div className="w-12 h-12 rounded-lg bg-primary-start/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <Globe className="w-6 h-6 text-primary-start" />
               </div>
+              <h3 className="text-xl font-semibold mb-4">For Universities</h3>
+              <p className="text-text-secondary mb-6">
+                Enhance your career services, track student success, and strengthen employer partnerships through our platform.
+              </p>
+              <Link href="/universities/register" className="inline-flex items-center text-primary-start hover:text-primary-end transition-colors">
+                Learn More <ArrowRight className="ml-2 w-4 h-4" />
+              </Link>
             </div>
           </div>
         </div>
@@ -405,35 +339,29 @@ export default function AboutPage() {
       {/* Values Section */}
       <section 
         ref={sectionRefs.values}
-        className="py-24 bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-800 text-white"
+        className="py-24 relative overflow-hidden bg-background"
       >
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center px-4 py-2 bg-white/10 text-white rounded-full text-sm font-medium backdrop-blur-sm mb-4">
-              <Heart className="w-4 h-4 mr-2" />
-              What We Stand For
-            </div>
-            
-            <h2 className="text-4xl font-bold mb-6">Our Core Values</h2>
-            <p className="text-lg text-indigo-100">
-              These principles guide everything we do, from product development to customer service and beyond.
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <h2 className="text-4xl font-bold mb-6">Our Values</h2>
+            <p className="text-xl text-text-secondary">
+              The principles that guide us in building a better future for career development.
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {values.map((value, index) => (
               <div 
-                key={index} 
-                className="bg-white/10 backdrop-blur-sm rounded-xl p-8 hover:bg-white/20 transition-all duration-300 border border-white/10 group hover:border-white/30"
+                key={value.title}
+                className="p-8 rounded-2xl bg-card-bg border border-card-border hover:border-primary-start/50 transition-all group"
               >
-                <div className="bg-white/20 rounded-xl w-14 h-14 flex items-center justify-center mb-6 group-hover:bg-white/30 transition-all">
-                  <div className="text-white">
+                <div className="w-12 h-12 rounded-lg bg-primary-start/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <div className="text-primary-start">
                     {value.icon}
                   </div>
                 </div>
-                
-                <h3 className="text-xl font-bold mb-3">{value.title}</h3>
-                <p className="text-indigo-100">{value.description}</p>
+                <h3 className="text-xl font-semibold mb-4">{value.title}</h3>
+                <p className="text-text-secondary">{value.description}</p>
               </div>
             ))}
           </div>
@@ -443,52 +371,46 @@ export default function AboutPage() {
       {/* Team Section */}
       <section 
         ref={sectionRefs.team}
-        className="py-24 bg-white"
+        className="py-24 relative overflow-hidden bg-card-bg"
       >
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center px-4 py-2 bg-indigo-100 text-indigo-800 rounded-full text-sm font-medium mb-4">
-              <Users className="w-4 h-4 mr-2" />
-              The People Behind GradLyft
-            </div>
-            
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">Meet Our Leadership Team</h2>
-            <p className="text-lg text-gray-600">
-              Passionate experts committed to transforming how students and employers connect in the digital age.
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <h2 className="text-4xl font-bold mb-6">Our Team</h2>
+            <p className="text-xl text-text-secondary">
+              Meet the passionate individuals dedicated to transforming career development.
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {teamMembers.map((member, index) => (
+            {teamMembers.map((member) => (
               <div 
-                key={index} 
+                key={member.name}
                 className="group"
               >
-                <div className="relative rounded-2xl overflow-hidden aspect-[3/4] mb-6">
-                  <Image 
-                    src={member.image} 
-                    alt={member.name} 
+                <div className="relative rounded-2xl overflow-hidden mb-6 aspect-square">
+                  <Image
+                    src={member.image}
+                    alt={member.name}
                     fill
-                    style={{ objectFit: 'cover' }}
-                    className="group-hover:scale-110 transition-transform duration-500"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/0 to-black/0 flex items-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="p-6 w-full">
-                      <p className="text-white text-sm italic mb-4">"{member.quote}"</p>
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/0 to-background/0">
+                    <div className="absolute bottom-4 left-4">
                       <a 
-                        href={member.linkedin} 
-                        className="inline-flex items-center gap-2 bg-white/90 hover:bg-white px-4 py-2 rounded-lg text-sm font-medium text-indigo-900 transition-all w-full justify-center"
+                        href={member.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-10 h-10 rounded-full bg-white/90 hover:bg-white flex items-center justify-center transition-all"
                       >
-                        Connect on LinkedIn
-                        <ArrowUpRight className="w-4 h-4" />
+                        <ArrowUpRight className="w-5 h-5 text-primary-start" />
                       </a>
                     </div>
                   </div>
                 </div>
-                
-                <h3 className="text-xl font-bold text-gray-900">{member.name}</h3>
-                <p className="text-indigo-600 mb-2">{member.role}</p>
-                <p className="text-gray-500 text-sm">{member.background}</p>
+                <h3 className="text-xl font-semibold mb-2">{member.name}</h3>
+                <p className="text-text-secondary mb-4">{member.role}</p>
+                <p className="text-sm text-text-secondary italic mb-4">"{member.quote}"</p>
+                <p className="text-sm text-text-secondary">{member.background}</p>
               </div>
             ))}
           </div>
@@ -498,31 +420,19 @@ export default function AboutPage() {
       {/* Stats Section */}
       <section 
         ref={sectionRefs.stats}
-        className="py-24 bg-indigo-50"
+        className="py-24 relative overflow-hidden bg-background"
       >
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center px-4 py-2 bg-indigo-100 text-indigo-800 rounded-full text-sm font-medium mb-4">
-              <Briefcase className="w-4 h-4 mr-2" />
-              GradLyft by the Numbers
-            </div>
-            
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Impact</h2>
-            <p className="text-lg text-gray-600">
-              Since our founding in 2021, we've grown rapidly to become a leading force in career development.
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+            {stats.map((stat) => (
               <div 
-                key={index} 
-                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 text-center group hover:-translate-y-1"
+                key={stat.label}
+                className="text-center p-8 rounded-2xl bg-card-bg border border-card-border hover:border-primary-start/50 transition-all group"
               >
-                <p className="text-5xl font-bold text-indigo-600 mb-2 group-hover:scale-110 transition-transform duration-300">
+                <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary-start to-primary-end bg-clip-text text-transparent">
                   {stat.value}
-                </p>
-                <p className="text-gray-600">{stat.label}</p>
+                </div>
+                <p className="text-text-secondary">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -532,44 +442,31 @@ export default function AboutPage() {
       {/* Journey Section */}
       <section 
         ref={sectionRefs.journey}
-        className="py-24 bg-white"
+        className="py-24 relative overflow-hidden bg-card-bg"
       >
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center px-4 py-2 bg-indigo-100 text-indigo-800 rounded-full text-sm font-medium mb-4">
-              <Rocket className="w-4 h-4 mr-2" />
-              Our Story
-            </div>
-            
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">The GradLyft Journey</h2>
-            <p className="text-lg text-gray-600">
-              From a small startup to a global platform connecting talent with opportunity.
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <h2 className="text-4xl font-bold mb-6">Our Journey</h2>
+            <p className="text-xl text-text-secondary">
+              The milestones that have shaped our growth and impact.
             </p>
           </div>
-          
-          <div className="max-w-4xl mx-auto relative">
-            {/* Timeline line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-indigo-100"></div>
-            
+
+          <div className="max-w-4xl mx-auto">
             {milestones.map((milestone, index) => (
               <div 
-                key={index} 
-                className={`flex items-center mb-16 last:mb-0 ${
-                  index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
-                }`}
+                key={milestone.year}
+                className="flex gap-8 mb-12 last:mb-0"
               >
-                <div className={`w-1/2 ${index % 2 === 0 ? 'pr-12 text-right' : 'pl-12'}`}>
-                  <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">{milestone.title}</h3>
-                    <p className="text-gray-600">{milestone.description}</p>
+                <div className="w-32 flex-shrink-0">
+                  <div className="text-2xl font-bold text-primary-start">{milestone.year}</div>
+                </div>
+                <div className="flex-grow">
+                  <div className="p-8 rounded-2xl bg-background border border-card-border hover:border-primary-start/50 transition-all">
+                    <h3 className="text-xl font-semibold mb-4">{milestone.title}</h3>
+                    <p className="text-text-secondary">{milestone.description}</p>
                   </div>
                 </div>
-                
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm border-4 border-white shadow-lg">
-                  {milestone.year}
-                </div>
-                
-                <div className="w-1/2"></div>
               </div>
             ))}
           </div>
@@ -616,14 +513,17 @@ export default function AboutPage() {
           0%, 100% { transform: translate(0, 0) scale(1); }
           25% { transform: translate(20px, -30px) scale(1.1); }
           50% { transform: translate(-20px, 20px) scale(0.9); }
-          75% { transform: translate(30px, 30px) scale(1.05); }
+          75% { transform: translate(20px, 20px) scale(0.95); }
         }
+        
         .animate-blob {
-          animation: blob 20s infinite ease-in-out;
+          animation: blob 7s infinite;
         }
+        
         .animation-delay-2000 {
           animation-delay: 2s;
         }
+        
         .animation-delay-4000 {
           animation-delay: 4s;
         }
