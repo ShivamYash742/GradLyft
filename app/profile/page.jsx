@@ -569,24 +569,20 @@ function ProfileContent() {
               
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="skillName" className="block text-sm font-medium text-gray-700 mb-1">
-                    Skill Name
-                  </label>
+                  <label className="block mb-1 text-sm font-medium text-[var(--text-secondary)]">Skill Name</label>
                   <input
                     id="skillName"
                     name="name"
                     type="text"
                     value={newSkill.name}
                     onChange={handleSkillInputChange}
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                    className="w-full p-2 border rounded-md bg-[var(--input-bg)] border-[var(--input-border)] text-[var(--form-text)] focus:outline-none focus:ring-2 focus:ring-[var(--input-focus)]"
                     placeholder="e.g., JavaScript, Python, Photoshop"
                   />
                 </div>
                 
                 <div>
-                  <label htmlFor="skillProficiency" className="block text-sm font-medium text-gray-700 mb-1">
-                    Proficiency: {newSkill.proficiency}%
-                  </label>
+                  <label className="block mb-1 text-sm font-medium text-[var(--text-secondary)]">Proficiency: {newSkill.proficiency}%</label>
                   <input
                     id="skillProficiency"
                     name="proficiency"
@@ -595,7 +591,7 @@ function ProfileContent() {
                     max="100"
                     value={newSkill.proficiency}
                     onChange={handleSkillInputChange}
-                    className="block w-full"
+                    className="w-full"
                   />
                   <div className="flex justify-between text-xs text-gray-500 mt-1">
                     <span>Beginner</span>
@@ -768,92 +764,54 @@ function ProfileContent() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Full Name
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="h-4 w-4 text-gray-400" />
-                </div>
+              <label className="block mb-1 text-sm font-medium text-[var(--text-secondary)]">Full Name</label>
                 <input
                   type="text"
                   name="name"
                   value={profileData.name}
                   onChange={handleInputChange}
-                  className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                disabled={!editMode.personal}
+                className="w-full p-2 border rounded-md bg-[var(--input-bg)] border-[var(--input-border)] text-[var(--form-text)] focus:outline-none focus:ring-2 focus:ring-[var(--input-focus)]"
+                placeholder="Your full name"
                 />
-              </div>
             </div>
             
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Email Address (Not Editable)
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-4 w-4 text-gray-400" />
-                </div>
-                <input
-                  type="text"
-                  value={user?.email || ''}
-                  className="pl-10 block w-full rounded-md border-gray-300 shadow-sm bg-gray-50"
-                  disabled
-                />
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Phone Number
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Phone className="h-4 w-4 text-gray-400" />
-                </div>
+              <label className="block mb-1 text-sm font-medium text-[var(--text-secondary)]">Phone Number</label>
                 <input
                   type="tel"
                   name="phoneNo"
                   value={profileData.phoneNo}
                   onChange={handleInputChange}
-                  className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                disabled={!editMode.personal}
+                className="w-full p-2 border rounded-md bg-[var(--input-bg)] border-[var(--input-border)] text-[var(--form-text)] focus:outline-none focus:ring-2 focus:ring-[var(--input-focus)]"
+                placeholder="Your phone number"
                 />
-              </div>
             </div>
             
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Date of Birth
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Calendar className="h-4 w-4 text-gray-400" />
-                </div>
+              <label className="block mb-1 text-sm font-medium text-[var(--text-secondary)]">Date of Birth</label>
                 <input
                   type="date"
                   name="dob"
                   value={profileData.dob}
                   onChange={handleInputChange}
-                  className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                disabled={!editMode.personal}
+                className="w-full p-2 border rounded-md bg-[var(--input-bg)] border-[var(--input-border)] text-[var(--form-text)] focus:outline-none focus:ring-2 focus:ring-[var(--input-focus)]"
                 />
-              </div>
             </div>
             
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                State
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <MapPin className="h-4 w-4 text-gray-400" />
-                </div>
+              <label className="block mb-1 text-sm font-medium text-[var(--text-secondary)]">State/Region</label>
                 <input
                   type="text"
                   name="state"
                   value={profileData.state}
                   onChange={handleInputChange}
-                  className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                disabled={!editMode.personal}
+                className="w-full p-2 border rounded-md bg-[var(--input-bg)] border-[var(--input-border)] text-[var(--form-text)] focus:outline-none focus:ring-2 focus:ring-[var(--input-focus)]"
+                placeholder="Your state or region"
                 />
-              </div>
             </div>
           </div>
         )}
@@ -922,72 +880,56 @@ function ProfileContent() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                College/University
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <GraduationCap className="h-4 w-4 text-gray-400" />
-                </div>
+            <div>
+              <label className="block mb-1 text-sm font-medium text-[var(--text-secondary)]">College / University</label>
                 <input
                   type="text"
                   name="college"
                   value={profileData.college}
                   onChange={handleInputChange}
-                  className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                disabled={!editMode.education}
+                className="w-full p-2 border rounded-md bg-[var(--input-bg)] border-[var(--input-border)] text-[var(--form-text)] focus:outline-none focus:ring-2 focus:ring-[var(--input-focus)]"
+                placeholder="Your college or university"
                 />
-              </div>
             </div>
             
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Degree
-              </label>
-              <select
+            <div>
+              <label className="block mb-1 text-sm font-medium text-[var(--text-secondary)]">Degree</label>
+              <input
+                type="text"
                 name="degree"
                 value={profileData.degree}
                 onChange={handleInputChange}
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              >
-                <option value="">Select Degree</option>
-                <option value="Bachelor's">Bachelor's</option>
-                <option value="Master's">Master's</option>
-                <option value="Ph.D.">Ph.D.</option>
-                <option value="Diploma">Diploma</option>
-              </select>
+                disabled={!editMode.education}
+                className="w-full p-2 border rounded-md bg-[var(--input-bg)] border-[var(--input-border)] text-[var(--form-text)] focus:outline-none focus:ring-2 focus:ring-[var(--input-focus)]"
+                placeholder="e.g. B.Tech, BSc, MS"
+              />
             </div>
             
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Branch/Major
-              </label>
+            <div>
+              <label className="block mb-1 text-sm font-medium text-[var(--text-secondary)]">Field of Study / Branch</label>
               <input
                 type="text"
                 name="branch"
                 value={profileData.branch}
                 onChange={handleInputChange}
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                disabled={!editMode.education}
+                className="w-full p-2 border rounded-md bg-[var(--input-bg)] border-[var(--input-border)] text-[var(--form-text)] focus:outline-none focus:ring-2 focus:ring-[var(--input-focus)]"
+                placeholder="e.g. Computer Science, Economics"
               />
             </div>
             
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Year
-              </label>
-              <select
+            <div>
+              <label className="block mb-1 text-sm font-medium text-[var(--text-secondary)]">Graduation Year</label>
+              <input
+                type="text"
                 name="year"
                 value={profileData.year}
                 onChange={handleInputChange}
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              >
-                <option value="">Select Year</option>
-                <option value="1">1st Year</option>
-                <option value="2">2nd Year</option>
-                <option value="3">3rd Year</option>
-                <option value="4">4th Year</option>
-                <option value="5">5th Year</option>
-              </select>
+                disabled={!editMode.education}
+                className="w-full p-2 border rounded-md bg-[var(--input-bg)] border-[var(--input-border)] text-[var(--form-text)] focus:outline-none focus:ring-2 focus:ring-[var(--input-focus)]"
+                placeholder="e.g. 2025"
+              />
             </div>
           </div>
         )}
@@ -1061,73 +1003,46 @@ function ProfileContent() {
           </div>
         ) : (
           <div className="space-y-4">
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Professional Status
-              </label>
-              <div className="flex space-x-4">
-                <label className="inline-flex items-center">
-                  <input 
-                    type="radio" 
+            <div>
+              <label className="block mb-1 text-sm font-medium text-[var(--text-secondary)]">Working Status</label>
+              <select
                     name="workingStatus"
-                    value="FRESHER"
-                    checked={profileData.workingStatus === 'FRESHER'}
+                value={profileData.workingStatus}
                     onChange={handleInputChange}
-                    className="text-blue-600 focus:ring-blue-500 h-4 w-4"
-                  />
-                  <span className="ml-2 text-sm text-gray-700">Fresher</span>
-                </label>
-                <label className="inline-flex items-center">
-                  <input 
-                    type="radio" 
-                    name="workingStatus"
-                    value="PROFESSIONAL"
-                    checked={profileData.workingStatus === 'PROFESSIONAL'}
-                    onChange={handleInputChange}
-                    className="text-blue-600 focus:ring-blue-500 h-4 w-4"
-                  />
-                  <span className="ml-2 text-sm text-gray-700">Working Professional</span>
-                </label>
-              </div>
+                disabled={!editMode.career}
+                className="w-full p-2 border rounded-md bg-[var(--input-bg)] border-[var(--input-border)] text-[var(--form-text)] focus:outline-none focus:ring-2 focus:ring-[var(--input-focus)]"
+              >
+                <option value="FRESHER">Fresher (No work experience)</option>
+                <option value="INTERN">Currently an Intern</option>
+                <option value="EMPLOYED">Currently Employed</option>
+                <option value="BETWEEN_JOBS">Between Jobs</option>
+              </select>
             </div>
             
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Career Aspiration
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lightbulb className="h-4 w-4 text-gray-400" />
-                </div>
-                <input
-                  type="text"
+            <div>
+              <label className="block mb-1 text-sm font-medium text-[var(--text-secondary)]">Career Aspirations</label>
+              <textarea
                   name="aspiration"
                   value={profileData.aspiration}
                   onChange={handleInputChange}
-                  className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                  placeholder="e.g., Software Engineer, Data Scientist"
-                />
-              </div>
+                disabled={!editMode.career}
+                className="w-full p-2 border rounded-md bg-[var(--input-bg)] border-[var(--input-border)] text-[var(--form-text)] focus:outline-none focus:ring-2 focus:ring-[var(--input-focus)]"
+                rows="3"
+                placeholder="Describe your career goals and aspirations"
+              ></textarea>
             </div>
             
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Interests (comma-separated)
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Book className="h-4 w-4 text-gray-400" />
-                </div>
-                <input
-                  type="text"
+            <div>
+              <label className="block mb-1 text-sm font-medium text-[var(--text-secondary)]">Areas of Interest</label>
+              <textarea
                   name="interests"
                   value={profileData.interests}
                   onChange={handleInputChange}
-                  className="pl-10 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                  placeholder="e.g., AI, Web Development, Machine Learning"
-                />
-              </div>
-              <p className="text-xs text-gray-500 mt-1">Separate multiple interests with commas</p>
+                disabled={!editMode.career}
+                className="w-full p-2 border rounded-md bg-[var(--input-bg)] border-[var(--input-border)] text-[var(--form-text)] focus:outline-none focus:ring-2 focus:ring-[var(--input-focus)]"
+                rows="3"
+                placeholder="List your professional interests (e.g., Web Development, Data Science, UX Design)"
+              ></textarea>
             </div>
           </div>
         )}
@@ -1197,7 +1112,7 @@ function ProfileContent() {
               <input 
                 type="text" 
                 placeholder="Search events..."
-                className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
