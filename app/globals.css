@@ -57,6 +57,16 @@
   --floating-bg-1: #bae6fd; /* blue blob */
   --floating-bg-2: #99f6e4; /* teal blob */
   --floating-bg-3: #c7d2fe; /* indigo blob */
+  
+  /* Status colors for light mode */
+  --status-success-bg: #dcfce7; /* green-100 */
+  --status-success-text: #166534; /* green-800 */
+  --status-info-bg: #dbeafe; /* blue-100 */
+  --status-info-text: #1e40af; /* blue-800 */
+  --status-warning-bg: #fef9c3; /* yellow-100 */
+  --status-warning-text: #854d0e; /* yellow-800 */
+  --status-error-bg: #fee2e2; /* red-100 */
+  --status-error-text: #991b1b; /* red-800 */
 }
 
 [data-theme="dark"] {
@@ -114,6 +124,16 @@
   --floating-bg-1: #6B42D9;
   --floating-bg-2: #251333;
   --floating-bg-3: #A384FF;
+  
+  /* Status colors for dark mode */
+  --status-success-bg: rgba(0, 204, 170, 0.2); /* Dark mode green */
+  --status-success-text: #4ade80; /* green-400 */
+  --status-info-bg: rgba(155, 216, 255, 0.2); /* Dark mode blue */
+  --status-info-text: #60a5fa; /* blue-400 */
+  --status-warning-bg: rgba(255, 222, 89, 0.2); /* Dark mode yellow */
+  --status-warning-text: #fbbf24; /* amber-400 */
+  --status-error-bg: rgba(255, 87, 87, 0.2); /* Dark mode red */
+  --status-error-text: #f87171; /* red-400 */
 }
 
 body {
@@ -461,4 +481,141 @@ body {
   background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 10C18.96 10 10 18.96 10 30s8.96 20 20 20 20-8.96 20-20-8.96-20-20-20zm0 36c-8.84 0-16-7.16-16-16S21.16 14 30 14s16 7.16 16 16-7.16 16-16 16zm7.5-18c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-15 0c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm7.5 13c6.05 0 11.04-4.34 12.1-10h-24.2c1.06 5.66 6.05 10 12.1 10z' fill='%23FF7A00' fill-opacity='0.05'/%3E%3C/svg%3E") repeat;
   opacity: 0.3;
   z-index: 0;
+}
+
+/* Dark mode adaptive badges */
+.badge-success {
+  background-color: var(--status-success-bg);
+  color: var(--status-success-text);
+}
+
+.badge-info {
+  background-color: var(--status-info-bg);
+  color: var(--status-info-text);
+}
+
+.badge-warning {
+  background-color: var(--status-warning-bg);
+  color: var(--status-warning-text);
+}
+
+.badge-error {
+  background-color: var(--status-error-bg);
+  color: var(--status-error-text);
+}
+
+/* Form elements in dark mode */
+input, select, textarea {
+  background-color: var(--input-bg);
+  color: var(--form-text);
+  border-color: var(--input-border);
+}
+
+input::placeholder {
+  color: var(--form-text-muted);
+}
+
+/* Option elements are special cases */
+option {
+  background-color: var(--card-bg);
+  color: var(--form-text);
+}
+
+/* Fix for table elements */
+table {
+  color: var(--text-primary);
+}
+
+th {
+  color: var(--text-secondary);
+}
+
+td {
+  color: var(--text-primary);
+}
+
+/* Fix for border elements in dark mode */
+[data-theme="dark"] .border-white {
+  border-color: var(--card-border);
+}
+
+/* Status indicators with visual fixes */
+[data-theme="dark"] .bg-green-100 {
+  background-color: var(--status-success-bg);
+}
+
+[data-theme="dark"] .text-green-800 {
+  color: var(--status-success-text);
+}
+
+[data-theme="dark"] .bg-blue-100 {
+  background-color: var(--status-info-bg);
+}
+
+[data-theme="dark"] .text-blue-800 {
+  color: var(--status-info-text);
+}
+
+[data-theme="dark"] .bg-yellow-100 {
+  background-color: var(--status-warning-bg);
+}
+
+[data-theme="dark"] .text-yellow-800 {
+  color: var(--status-warning-text);
+}
+
+[data-theme="dark"] .bg-red-100 {
+  background-color: var(--status-error-bg);
+}
+
+[data-theme="dark"] .text-red-800 {
+  color: var(--status-error-text);
+}
+
+[data-theme="dark"] .bg-orange-100 {
+  background-color: rgba(255, 122, 0, 0.2);
+}
+
+[data-theme="dark"] .text-orange-600,
+[data-theme="dark"] .text-orange-800 {
+  color: #ff9f59;
+}
+
+/* Fix for ThemeToggleButton hover effect in dark mode */
+[data-theme="dark"] .text-gray-400 {
+  color: var(--text-muted);
+}
+
+/* Fix for event category badges */
+[data-theme="dark"] .bg-youth-green-10 {
+  background-color: rgba(0, 204, 170, 0.2);
+}
+
+/* Fix for text colors that may be hardcoded */
+[data-theme="dark"] .text-gray-700,
+[data-theme="dark"] .text-gray-800,
+[data-theme="dark"] .text-gray-900 {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .text-gray-500,
+[data-theme="dark"] .text-gray-600 {
+  color: var(--text-secondary);
+}
+
+/* Ensure inputs and form elements have proper colors in dark mode */
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  color-scheme: dark;
+}
+
+/* Make sure select dropdowns have proper background in dark mode */
+[data-theme="dark"] select option {
+  background-color: var(--card-bg);
+}
+
+/* Ensure borders have consistent colors in dark mode */
+[data-theme="dark"] .border {
+  border-color: var(--card-border);
 }
